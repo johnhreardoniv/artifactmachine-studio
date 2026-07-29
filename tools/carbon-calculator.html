@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Website Carbon Calculator - CO2 per Page Load — The Artifact Machine</title>
+<meta name="description" content="Estimate CO2 emissions per page load and get a carbon grade for any website. Useful for sustainability reporting and green web claims.">
+<link rel="canonical" href="https://artifactmachine.studio/tools/carbon-calculator.html">
+<meta property="og:site_name" content="The Artifact Machine">
+<meta property="og:title" content="Website Carbon Calculator - CO2 per Page Load — The Artifact Machine">
+<meta property="og:description" content="Estimate CO2 emissions per page load and get a carbon grade for any website. Useful for sustainability reporting and green web claims.">
+<meta property="og:url" content="https://artifactmachine.studio/tools/carbon-calculator.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23b4530a'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='19' font-weight='bold' fill='%23fff' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
+<style>
+:root {
+  --bg: #fbfaf8;
+  --panel: #ffffff;
+  --ink: #16150f;
+  --muted: #5d5a4e;
+  --line: #e2ded2;
+  --accent: #b4530a;
+  --accent-ink: #ffffff;
+  --code-bg: #f3f1ea;
+  --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14130f;
+    --panel: #1c1b16;
+    --ink: #f0ede3;
+    --muted: #a39f90;
+    --line: #302e26;
+    --accent: #f0913f;
+    --accent-ink: #14130f;
+    --code-bg: #100f0c;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #fbfaf8; --panel: #ffffff; --ink: #16150f; --muted: #5d5a4e;
+  --line: #e2ded2; --accent: #b4530a; --accent-ink: #ffffff; --code-bg: #f3f1ea;
+}
+:root[data-theme="dark"] {
+  --bg: #14130f; --panel: #1c1b16; --ink: #f0ede3; --muted: #a39f90;
+  --line: #302e26; --accent: #f0913f; --accent-ink: #14130f; --code-bg: #100f0c;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.65 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+.wrap { max-width: 60rem; margin: 0 auto; padding: 0 1.25rem; }
+a { color: var(--accent); }
+a:hover { text-decoration: none; }
+
+header.top { border-bottom: 1px solid var(--line); padding: 1.1rem 0; }
+header.top .wrap { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+.brand {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-weight: 600; letter-spacing: -0.02em; text-decoration: none; color: var(--ink);
+}
+.brand span { color: var(--accent); }
+header.top nav { margin-left: auto; font-size: 0.9rem; }
+header.top nav a { margin-left: 1rem; }
+
+.hero { padding: 3.5rem 0 2.5rem; }
+.hero h1 { font-size: clamp(1.9rem, 5vw, 3rem); line-height: 1.1; margin: 0 0 0.9rem; letter-spacing: -0.03em; }
+.hero p { font-size: 1.12rem; color: var(--muted); max-width: 40rem; margin: 0 0 0.6rem; }
+
+.grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); padding-bottom: 3rem; }
+.card {
+  background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 1.15rem; display: flex; flex-direction: column; text-decoration: none; color: inherit;
+}
+.card:hover { border-color: var(--accent); }
+.card h3 { margin: 0 0 0.4rem; font-size: 1.03rem; letter-spacing: -0.01em; }
+.card p { margin: 0 0 0.9rem; color: var(--muted); font-size: 0.92rem; flex: 1; }
+.price {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.8rem; color: var(--accent); font-weight: 600;
+}
+
+main { padding-bottom: 4rem; }
+h2 { font-size: 1.3rem; letter-spacing: -0.02em; margin: 2.5rem 0 0.75rem; }
+.lede { font-size: 1.1rem; color: var(--muted); }
+
+.tag {
+  display: inline-block; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.07em;
+  color: var(--muted); border: 1px solid var(--line); border-radius: 100px;
+  padding: 0.15rem 0.6rem; margin-right: 0.35rem;
+}
+
+.cta {
+  display: inline-block; background: var(--accent); color: var(--accent-ink);
+  padding: 0.65rem 1.2rem; border-radius: var(--radius); text-decoration: none;
+  font-weight: 600; margin: 0.4rem 0.4rem 0.4rem 0;
+}
+.cta.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+
+.scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-weight: 600; color: var(--muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; }
+td code, .mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.86rem;
+}
+pre {
+  background: var(--code-bg); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 0.9rem 1rem; overflow-x: auto; font-size: 0.82rem; line-height: 1.5;
+}
+pre code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+
+footer { border-top: 1px solid var(--line); padding: 2rem 0 3rem; color: var(--muted); font-size: 0.88rem; }
+footer a { color: var(--muted); }
+
+img, svg { max-width: 100%; height: auto; }
+@media (max-width: 34rem) { .hero { padding: 2.5rem 0 1.5rem; } }
+
+details.faq { border: 1px solid var(--line); border-radius: var(--radius); padding: 0.7rem 0.95rem; margin-bottom: 0.55rem; background: var(--panel); }
+details.faq summary { cursor: pointer; font-weight: 600; }
+details.faq[open] summary { margin-bottom: 0.4rem; }
+details.faq p { margin: 0; color: var(--muted); }
+main ul { padding-left: 1.15rem; }
+main li { margin-bottom: 0.35rem; }
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Website Carbon Calculator - CO2 per Page Load","applicationCategory":"DeveloperApplication","operatingSystem":"Any (web API)","url":"https://artifactmachine.studio/tools/carbon-calculator.html","description":"Estimate CO2 emissions per page load and get a carbon grade for any website. Useful for sustainability reporting and green web claims.","publisher":{"@type":"Organization","name":"The Artifact Machine","url":"https://artifactmachine.studio"},"offers":{"@type":"Offer","price":"1","priceCurrency":"USD","url":"https://apify.com/artifact-machine/artifact-machine-carbon-calculator","availability":"https://schema.org/InStock","description":"$1 per result, billed per dataset item through Apify."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Tools","item":"https://artifactmachine.studio/"},{"@type":"ListItem","position":2,"name":"Website Carbon Calculator - CO2 per Page Load","item":"https://artifactmachine.studio/tools/carbon-calculator.html"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How accurate is the estimate?","acceptedAnswer":{"@type":"Answer","text":"It is a model, not a measurement. It derives energy from transfer size and applies a grid carbon intensity, so it is useful for comparison between pages and for tracking change over time. Treat it as an estimate with a stated method rather than an audited figure."}},{"@type":"Question","name":"What traffic does the yearly figure assume?","acceptedAnswer":{"@type":"Answer","text":"Ten thousand pageviews per month, or 120,000 per year. The assumption is fixed so that figures are comparable between pages and between runs."}}]}</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="/">The Artifact <span>Machine</span></a>
+  <nav><a href="/">Tools</a><a href="/about.html">About</a><a href="https://apify.com/artifact-machine">Apify</a></nav>
+</div></header>
+<main><div class="wrap">
+  <section class="hero">
+    <p><span class="tag">$1 per result</span></p>
+    <h1>Website Carbon Calculator - CO2 per Page Load</h1>
+    <p>Estimate CO2 emissions per page load and get a carbon grade for any website. Useful for sustainability reporting and green web claims.</p>
+    <p>
+      <a class="cta" href="https://apify.com/artifact-machine/artifact-machine-carbon-calculator">Run it on Apify</a>
+      <a class="cta ghost" href="/">All tools</a>
+    </p>
+  </section>
+
+  <h2>Who it is for</h2>
+  <p class="lede">Sustainability reporting, green-hosting claims, and performance work that needs a number attached.</p>
+
+  <h2>What you would use it for</h2>
+  <ul>
+    <li>Estimate CO₂ per page load and get a carbon grade for any URL.</li>
+    <li>Support a sustainability claim with a figure and a stated method.</li>
+    <li>Compare page weight across a site to find the worst offenders.</li>
+    <li>Show the emissions effect of a performance improvement.</li>
+  </ul>
+
+  <h2>What you get back</h2>
+  <p>One JSON record per page checked. These are the actual fields returned by the most recent
+  successful run — read from the live catalogue, not a documented ideal.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Field</th><th>Sample shape</th></tr></thead>
+    <tbody>
+<tr><td><code>actor</code></td><td>string — artifact-machine-carbon-calculator</td></tr>
+<tr><td><code>actorVersion</code></td><td>string — 0.1.0</td></tr>
+<tr><td><code>estimatedAt</code></td><td>string — 2026-07-29T05:04:17.027Z</td></tr>
+<tr><td><code>url</code></td><td>string — https://neighbornest.kids/</td></tr>
+<tr><td><code>co2PerLoad</code></td><td>number — 0.017</td></tr>
+<tr><td><code>co2PerYear</code></td><td>number — 0</td></tr>
+<tr><td><code>energyPerLoad</code></td><td>number — 0.000037586549296975136</td></tr>
+<tr><td><code>greenHost</code></td><td>boolean — false</td></tr>
+<tr><td><code>pageSize</code></td><td>number — 49825</td></tr>
+<tr><td><code>pageWeight</code></td><td>object (4 keys)</td></tr>
+<tr><td><code>rating</code></td><td>string — A+</td></tr>
+<tr><td><code>ratingLabel</code></td><td>string — Excellent</td></tr>
+<tr><td><code>score</code></td><td>number — 100</td></tr>
+<tr><td><code>method</code></td><td>string — local-fallback</td></tr>
+<tr><td><code>issues</code></td><td>array (0)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Sample output</h2>
+  <p>Trimmed from a real run.</p>
+  <pre><code>{
+  &quot;actor&quot;: &quot;artifact-machine-carbon-calculator&quot;,
+  &quot;actorVersion&quot;: &quot;0.1.0&quot;,
+  &quot;estimatedAt&quot;: &quot;2026-07-29T05:04:17.027Z&quot;,
+  &quot;url&quot;: &quot;https://neighbornest.kids/&quot;,
+  &quot;co2PerLoad&quot;: 0.017,
+  &quot;co2PerYear&quot;: 0,
+  &quot;energyPerLoad&quot;: 0.000037586549296975136,
+  &quot;greenHost&quot;: false,
+  &quot;pageSize&quot;: 49825,
+  &quot;pageWeight&quot;: {
+    &quot;bytes&quot;: 49825,
+    &quot;kb&quot;: 49,
+    &quot;mb&quot;: 0.05,
+    &quot;isCompressed&quot;: true
+  },
+  &quot;rating&quot;: &quot;A+&quot;,
+  &quot;ratingLabel&quot;: &quot;Excellent&quot;,
+  &quot;score&quot;: 100,
+  &quot;method&quot;: &quot;local-fallback&quot;,
+  &quot;issues&quot;: []
+}</code></pre>
+
+  <h2>Pricing</h2>
+  <p><strong>$1 per result.</strong> Pay-per-event through Apify — no subscription, and a run
+  that returns nothing costs nothing.</p>
+
+  <h2>Calling it from code</h2>
+  <p>Any HTTP client works. Replace <code class="mono">&lt;TOKEN&gt;</code> with your Apify API token.</p>
+  <pre><code>curl -X POST "https://api.apify.com/v2/acts/artifact-machine~artifact-machine-carbon-calculator/run-sync-get-dataset-items?token=&lt;TOKEN&gt;" \
+  -H "Content-Type: application/json" \
+  -d '{"startUrls":[{"url":"https://example.com"}]}'</code></pre>
+
+  <h2>Questions</h2>
+  <details class="faq"><summary>How accurate is the estimate?</summary><p>It is a model, not a measurement. It derives energy from transfer size and applies a grid carbon intensity, so it is useful for comparison between pages and for tracking change over time. Treat it as an estimate with a stated method rather than an audited figure.</p></details>
+  <details class="faq"><summary>What traffic does the yearly figure assume?</summary><p>Ten thousand pageviews per month, or 120,000 per year. The assumption is fixed so that figures are comparable between pages and between runs.</p></details>
+
+  <h2>Other tools</h2>
+  <p><a href="/tools/schema-audit.html">Schema Audit - JSON-LD Structured Data Validator</a> · <a href="/tools/security-headers-checker.html">Security Headers Checker</a> · <a href="/tools/sitemap-health-audit.html">Sitemap Health Audit - XML Sitemap Validator</a> · <a href="/tools/tech-stack-analyzer.html">Tech Stack Analyzer - Detect Website Technologies</a></p>
+
+  <p style="color:var(--muted);font-size:0.85rem;margin-top:2.5rem">
+    Details read from the live Apify catalogue on 2026-07-29.
+  </p>
+</div></main>
+<footer><div class="wrap">
+  <p><strong>The Artifact Machine</strong> — Tiny useful things from the machine.</p>
+  <p>Every tool runs on <a href="https://apify.com/artifact-machine">Apify</a>. Pay per result, no subscription.</p>
+</div></footer>
+</body>
+</html>
