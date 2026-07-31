@@ -296,13 +296,28 @@
    weights we actually ship. */
 :root { font-synthesis: none; }
 
+/* This block must stay CORRECT STANDALONE — tokens.css can be loaded without
+   motion.css, and the usual copy-pasted reset is not sufficient on its own.
+
+   `animation-duration: 0.01ms !important` does NOT stop a scroll-driven
+   animation: when animation-timeline is a scroll or view timeline, progress
+   comes from scroll POSITION, not duration. Omit the timeline line and a page
+   passes a naive reduced-motion audit while still parallaxing someone into a
+   migraine. 0.01ms rather than 0s so transitionend/animationend still fire.
+
+   motion.css declares an equivalent block. Duplication is intentional here:
+   either file must be safe alone, and the two agree. */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
+    animation-timeline: none !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) { animation: none !important; }
 }
 
 @media (prefers-contrast: more) {
