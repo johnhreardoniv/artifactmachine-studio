@@ -1,0 +1,185 @@
+/* ==========================================================================
+   ARTIFACT MACHINE — PAGE STYLES
+   --------------------------------------------------------------------------
+   Shared by the tool pages and About. Depends on tokens.css and motion.css,
+   which must be linked first.
+
+   This replaces an inline <style> block that was byte-identical across all
+   eleven tool pages — so the same defect was shipped eleven times and any fix
+   had to be made eleven times. One file now.
+
+   Two things from the old block were deliberately NOT carried over:
+     border-radius: 10px on cards and buttons — the identity is hard-edged;
+       a rounded corner is the fastest way to make a tool look like a
+       consumer app. The chamfer is the only permitted softening.
+     border-radius: 100px on .tag — pill shapes are roundels, which the
+       system forbids. Tags are now square-cut.
+   ========================================================================== */
+
+*,*::before,*::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--am-bg);
+  color: var(--am-text);
+  font-family: var(--am-font-sans);
+  font-size: var(--am-text-md);
+  line-height: var(--am-leading-body);
+  -webkit-font-smoothing: antialiased;
+  hanging-punctuation: first last;
+}
+.wrap { max-width: 62rem; margin-inline: auto; padding-inline: var(--am-space-6); }
+a { color: var(--am-accent); text-underline-offset: 2px; }
+
+/* Skip link — first tab stop, visible only on focus. */
+.skip {
+  position: absolute; left: -9999px; top: 0; z-index: var(--am-z-top);
+  background: var(--am-accent); color: var(--am-on-accent);
+  padding: var(--am-space-3) var(--am-space-5); text-decoration: none;
+}
+.skip:focus { left: var(--am-space-4); top: var(--am-space-4); }
+
+/* ---------- header ------------------------------------------------------ */
+header.top, .site-header {
+  border-bottom: var(--am-rule);
+  position: sticky; top: 0; z-index: var(--am-z-sticky);
+  background: color-mix(in oklab, var(--am-bg) 86%, transparent);
+  backdrop-filter: blur(10px);          /* one fixed-area instance only */
+}
+header.top .wrap, .site-header .wrap {
+  display: flex; align-items: center; gap: var(--am-space-4);
+  padding-block: var(--am-space-4);
+}
+.brand {
+  display: inline-flex; align-items: center; gap: var(--am-space-3);
+  text-decoration: none; color: inherit;
+  font-size: var(--am-text-xs);
+  letter-spacing: var(--am-tracking-brand);
+  text-transform: uppercase;
+  font-weight: var(--am-weight-medium);
+  white-space: nowrap;
+}
+.brand svg, .mark { width: 24px; height: 24px; flex: none; display: block; }
+header.top nav, .site-header nav { margin-left: auto; display: flex; gap: var(--am-space-5); }
+header.top nav a, .site-header nav a {
+  color: var(--am-text-muted); text-decoration: none; font-size: var(--am-text-sm);
+}
+header.top nav a:hover, .site-header nav a:hover { color: var(--am-text); }
+
+/* ---------- hero -------------------------------------------------------- */
+.hero { padding-block: var(--am-space-20) var(--am-space-10); }
+h1, .hero h1 {
+  font-family: var(--am-font-display);
+  font-size: var(--am-text-3xl);
+  line-height: var(--am-leading-tight);
+  letter-spacing: var(--am-tracking-display);
+  margin: 0 0 var(--am-space-5);
+  max-width: 22ch;
+  text-wrap: balance;
+}
+.hero p, .lede {
+  font-size: var(--am-text-lg);
+  color: var(--am-text-muted);
+  max-width: 62ch;
+  margin: 0 0 var(--am-space-6);
+}
+
+/* ---------- body copy --------------------------------------------------- */
+main { padding-bottom: var(--am-space-20); }
+h2 {
+  font-size: var(--am-text-xl);
+  line-height: var(--am-leading-snug);
+  letter-spacing: var(--am-tracking-tight);
+  margin: var(--am-space-16) 0 var(--am-space-4);
+  padding-top: var(--am-space-6);
+  border-top: var(--am-rule);
+  text-wrap: balance;
+}
+h3 { font-size: var(--am-text-lg); letter-spacing: var(--am-tracking-tight); margin: var(--am-space-8) 0 var(--am-space-2); }
+p { max-width: var(--am-measure); }
+main ul { max-width: var(--am-measure); padding-left: 1.15rem; }
+main li { margin-bottom: var(--am-space-2); }
+
+/* ---------- tags: square-cut, never pills ------------------------------- */
+.tag {
+  display: inline-block;
+  font-family: var(--am-font-mono);
+  font-size: var(--am-text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--am-tracking-label);
+  color: var(--am-text-muted);
+  border: 1px solid var(--am-border-strong);
+  padding: 2px var(--am-space-2);
+  margin-right: var(--am-space-2);
+  margin-bottom: var(--am-space-2);
+}
+
+/* ---------- calls to action --------------------------------------------- */
+.cta {
+  display: inline-block;
+  background: var(--am-accent);
+  color: var(--am-on-accent);
+  padding: var(--am-space-3) var(--am-space-5);
+  border: var(--am-border-heavy) solid var(--am-accent);
+  border-radius: var(--am-radius-sm);
+  text-decoration: none;
+  font-weight: var(--am-weight-medium);
+  margin: var(--am-space-2) var(--am-space-2) var(--am-space-2) 0;
+  transition: background-color var(--mo-1) var(--mo-ease-out),
+              scale var(--mo-2) var(--mo-ease-out);
+  touch-action: manipulation;
+}
+.cta:hover { background: var(--am-accent-hover); border-color: var(--am-accent-hover); }
+.cta:active { scale: .97; transition-duration: 60ms; }
+.cta.ghost { background: transparent; color: var(--am-accent); }
+.cta.ghost:hover { background: var(--am-accent-quiet); }
+
+/* ---------- tables ------------------------------------------------------ */
+.scroll { overflow-x: auto; }        /* wide tables scroll in their own box */
+table { border-collapse: collapse; width: 100%; font-size: var(--am-text-sm); }
+th, td { text-align: left; padding: var(--am-space-2) var(--am-space-3); border-bottom: var(--am-rule); vertical-align: top; }
+th {
+  font-family: var(--am-font-mono);
+  font-size: var(--am-text-2xs);
+  text-transform: uppercase;
+  letter-spacing: var(--am-tracking-label);
+  color: var(--am-text-faint);
+  font-weight: var(--am-weight-medium);
+}
+td code, .mono { font-family: var(--am-font-mono); font-size: 0.92em; }
+td { font-variant-numeric: tabular-nums; }
+
+/* ---------- code -------------------------------------------------------- */
+pre {
+  background: var(--am-bg-sunk);
+  border: var(--am-rule);
+  border-left: 3px solid var(--am-border-strong);
+  padding: var(--am-space-4) var(--am-space-5);
+  overflow-x: auto;
+  font-size: var(--am-text-sm);
+  line-height: 1.5;
+}
+pre code { font-family: var(--am-font-mono); }
+
+/* ---------- FAQ --------------------------------------------------------- */
+details.faq { border-top: var(--am-rule); padding-block: var(--am-space-3); max-width: var(--am-measure); }
+details.faq summary {
+  cursor: pointer; font-weight: var(--am-weight-medium);
+  list-style-position: outside; padding-block: var(--am-space-1);
+}
+details.faq summary:hover { color: var(--am-accent); }
+details.faq[open] summary { color: var(--am-accent); }
+details.faq p { color: var(--am-text-muted); font-size: var(--am-text-sm); margin-bottom: 0; }
+
+/* ---------- footer ------------------------------------------------------ */
+footer {
+  border-top: var(--am-rule);
+  margin-top: var(--am-space-16);
+  padding-block: var(--am-space-10) var(--am-space-20);
+  font-size: var(--am-text-sm);
+  color: var(--am-text-muted);
+}
+footer a { color: var(--am-text-muted); }
+footer a:hover { color: var(--am-accent); }
+
+img, svg { max-width: 100%; height: auto; }
