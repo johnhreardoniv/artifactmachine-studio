@@ -15,7 +15,7 @@
 <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
 <link rel="stylesheet" href="/assets/tokens.css">
 <link rel="stylesheet" href="/assets/motion.css">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M3 5h20l6 6v6H3z' fill='%23a04a08'/%3E%3Cpath d='M6 17h20l-5 10H11z' fill='%23a04a08' opacity='.6'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z' fill='%23a04a08'/%3E%3Crect x='8' y='14.6' width='8' height='7.9' rx='1.7' fill='%23a04a08'/%3E%3C/svg%3E">
 <style>
   *,*::before,*::after { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
@@ -56,8 +56,15 @@
     font-weight: var(--am-weight-medium);
     white-space: nowrap;
   }
-  /* The mark is a hopper: wide mouth, chamfered corner, output at the base.
-     No circle, no gear, no mascot — and legible as a silhouette at 16px. */
+  /* The mark is a hopper — BRAND-IDENTITY.md §3.1, 24x24 grid. A wide intake
+     rakes to a flat mouth; one finished artifact sits below it, detached.
+     Two numbers are load-bearing and must not be edited casually:
+       mouth width >= 60% of intake (here 64%) — below that it reads
+         unmistakably as a sales funnel or a martini glass at every size;
+       the 2.5-unit detachment gap — the artifact is finished and SEPARATE,
+         which is the business model: pay per result, nothing runs for you.
+     It depicts the promise, not the process. Every competitor in this
+     category draws process — magnifiers, gauges, shields, checkmarks. */
   .mark { width: 24px; height: 24px; flex: none; display: block; }
   .site-header nav { margin-left: auto; display: flex; gap: var(--am-space-5); }
   .site-header nav a { color: var(--am-text-muted); text-decoration: none; font-size: var(--am-text-sm); }
@@ -170,11 +177,7 @@
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="/">
-      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
-        <path d="M3 5h20l6 6v6H3z" fill="var(--am-accent)"/>
-        <path d="M6 17h20l-5 10H11z" fill="var(--am-accent)" opacity=".55"/>
-        <rect x="14" y="28.5" width="4" height="3" fill="var(--am-accent)"/>
-      </svg>
+      <svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z" fill="var(--am-accent)"/><rect x="8" y="14.6" width="8" height="7.9" rx="1.7" fill="var(--am-accent)"/></svg>
       <span class="brand__name">Artifact Machine</span>
     </a>
     <nav>
