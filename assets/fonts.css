@@ -1,0 +1,105 @@
+/* ==========================================================================
+   ARTIFACT MACHINE — SELF-HOSTED FONTS
+   --------------------------------------------------------------------------
+   Load BEFORE tokens.css. Three families, 178 KB total, all SIL OFL 1.1.
+
+   SHIPPED UNMODIFIED, ON PURPOSE. Basteleur and Sligoil both carry Reserved
+   Font Names (they are trademarks of Keussel, and of Ariel Martin Perez /
+   Meaning Machine Games); Uncut Sans is a trademark of Kasper Nordkvist. The
+   OFL's RFN clause only restricts MODIFIED versions — so subsetting these
+   would force a rename. At 178 KB total that trade is not worth making.
+   Do not run pyftsubset on them without renaming the family.
+
+   Licences ship alongside the files in this directory, which the OFL requires:
+   public self-hosting is distribution.
+
+   EVERY NUMBER BELOW WAS READ OUT OF THE FONT BINARIES with fontTools, not
+   assumed. Two of them are non-standard and would have broken the site.
+   ========================================================================== */
+
+/* --- DISPLAY: Basteleur Bold -------------------------------------------
+   Static, single weight. usWeightClass reports 400 despite the name being
+   "Bold", so it is declared 400 — declaring 700 would make the browser
+   synthesise a bolder face on top of an already-bold design.
+   Metrics: upem 1000, hhea asc 950 / desc -250. */
+@font-face {
+  font-family: "Basteleur";
+  src: url("/assets/fonts/Basteleur-Bold.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  ascent-override: 95%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+}
+
+/* --- TEXT: Uncut Sans Variable -----------------------------------------
+   ⚠ The italic axis is `ital 0-11`, NOT the conventional 0-1. A plain
+   `font-style: italic` descriptor would resolve ital=1 — 9% of the way into
+   the axis — and render a barely-slanted face that looks like a rendering
+   bug. The italic face therefore pins ital=11 explicitly.
+   Metrics: upem 1000, asc 965 / desc -235. */
+@font-face {
+  font-family: "Uncut Sans";
+  src: url("/assets/fonts/UncutSans-Variable.woff2") format("woff2-variations");
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+  ascent-override: 96.5%;
+  descent-override: 23.5%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Uncut Sans";
+  src: url("/assets/fonts/UncutSans-Variable.woff2") format("woff2-variations");
+  font-weight: 300 700;
+  font-style: italic;
+  font-variation-settings: "ital" 11;
+  font-display: swap;
+  ascent-override: 96.5%;
+  descent-override: 23.5%;
+  line-gap-override: 0%;
+}
+
+/* --- MONO: Sligoil Micro Variable --------------------------------------
+   ⚠⚠ THE TRAP. Sligoil's weight axis runs `wght 90-120`, not 400-700.
+   Named instances: Micro 90, Micro Medium 110, Micro Bold 120.
+
+   CSS `font-weight` maps straight onto the wght axis, and every element
+   inherits the default of 400. 400 is above this axis's maximum, so the
+   browser CLAMPS IT TO 120 — the Bold instance. Left alone, every scrap of
+   mono on the site renders bold: the stat line, the eyebrows, the tool
+   metadata, table headers, code. It looks like a design choice rather than a
+   bug, which is exactly why it would have survived review.
+
+   Fixed below by resetting weight wherever mono is actually used. Anything
+   new that uses --am-font-mono must also set --am-mono-weight or inherit it.
+   Metrics: upem 1000, hhea asc 1000 / desc -200. */
+@font-face {
+  font-family: "Sligoil";
+  src: url("/assets/fonts/SligoilVF.woff2") format("woff2-variations");
+  font-weight: 90 120;
+  font-style: normal;
+  font-display: swap;
+  ascent-override: 100%;
+  descent-override: 20%;
+  line-gap-override: 0%;
+}
+
+:root {
+  --am-mono-regular: 90;
+  --am-mono-medium: 110;
+  --am-mono-bold: 120;
+}
+
+/* Every mono surface in the system, reset to the real regular weight.
+   :where() keeps specificity at zero so any component can still override. */
+:where(
+  code, pre, kbd, samp, tt,
+  .mono, .eyebrow, .facts, .facts span,
+  .tool__meta, .row__meta, .cadence__when,
+  .brand__name, .tag, th, td code
+) {
+  font-weight: var(--am-mono-regular);
+}
+:where(.cadence__when, .brand__name, th) { font-weight: var(--am-mono-medium); }
