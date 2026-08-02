@@ -148,6 +148,26 @@
     font-variant-numeric: tabular-nums;
   }
 
+  /* ---------------- start here ---------------- */
+  .starthere { padding-block: var(--am-space-12); }
+  .starthere .family__head h2 { font-size: var(--am-text-xl); line-height: var(--am-leading-snug);
+    letter-spacing: var(--am-tracking-tight); margin: 0 0 var(--am-space-2); }
+  .starthere .family__head p { margin: 0; color: var(--am-text-muted); font-size: var(--am-text-sm); }
+
+  /* ---------------- cadence ---------------- */
+  .cadence { padding-block: var(--am-space-12); border-top: var(--am-rule); }
+  .cadence h2 { font-size: var(--am-text-xl); letter-spacing: var(--am-tracking-tight);
+    margin: 0 0 var(--am-space-8); text-wrap: balance; }
+  .cadence__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px,100%), 1fr));
+    gap: var(--am-space-8); }
+  .cadence__when {
+    margin: 0 0 var(--am-space-2); font-family: var(--am-font-mono);
+    font-size: var(--am-text-2xs); text-transform: uppercase;
+    letter-spacing: var(--am-tracking-label); color: var(--am-accent);
+    padding-bottom: var(--am-space-2); border-bottom: var(--am-border-heavy) solid var(--am-accent);
+  }
+  .cadence__what { margin: 0; color: var(--am-text-muted); font-size: var(--am-text-sm); }
+
   /* ---------------- honest note ---------------- */
   .note {
     padding: var(--am-space-6); border: var(--am-rule);
@@ -206,7 +226,49 @@
     </div>
   </section>
 
-  <section class="wrap family" id="tools">
+  <!-- Start here. Nobody should face the whole catalogue first — a short,
+       obviously-curated list does more than any filter UI, and costs one
+       section. Three, not six, because there are eleven published rather than
+       thirty-eight; "6 of 11" would not read as a selection. -->
+  <section class="wrap starthere" id="tools">
+    <div class="family__head">
+      <span class="eyebrow">Start here — 3 of 11</span>
+      <h2>If you only run one of these.</h2>
+      <p>Picked because each answers a question the free tools stopped answering, not because they are the newest.</p>
+    </div>
+    <div class="index u-spotlight">
+
+      <a class="tool" href="/tools/ai-access-audit.html" style="--h:225">
+        <span class="tool__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h10M4 17h13"/></svg></span>
+        <span>
+          <h3 class="tool__name">AI Access</h3>
+          <p class="tool__what">The model-readability check.</p>
+          <p class="tool__meta">the one category still growing</p>
+        </span>
+      </a>
+
+      <a class="tool" href="/tools/accessibility-audit.html" style="--h:25">
+        <span class="tool__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v16M5 9h14M8 20l4-6 4 6"/></svg></span>
+        <span>
+          <h3 class="tool__name">Accessibility</h3>
+          <p class="tool__what">The WCAG check.</p>
+          <p class="tool__meta">says what it cannot see</p>
+        </span>
+      </a>
+
+      <a class="tool" href="/tools/brand-kit-extractor.html" style="--h:310">
+        <span class="tool__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v6H4zM4 15h7v4H4zM14 15h6v4h-6z"/></svg></span>
+        <span>
+          <h3 class="tool__name">Brand Kit</h3>
+          <p class="tool__what">The design-token extractor.</p>
+          <p class="tool__meta">output feeds your next job</p>
+        </span>
+      </a>
+
+    </div>
+  </section>
+
+  <section class="wrap family">
     <div class="family__head">
       <span class="eyebrow">Family 01</span>
       <h2>Can a machine read this page at all?</h2>
@@ -346,6 +408,30 @@
         </span>
       </a>
 
+    </div>
+  </section>
+
+  <!-- The cadence. A visible "what happens next" is what makes a set of
+       finished things read as a studio rather than a portfolio. Everything
+       stated here is a verifiable operating fact — no roadmap, no promised
+       products. What ships next genuinely depends on a decision that has not
+       been made, and saying so is more credible than inventing a quarter. -->
+  <section class="wrap cadence">
+    <span class="eyebrow">The rhythm</span>
+    <h2>How this keeps running.</h2>
+    <div class="cadence__grid">
+      <div>
+        <p class="cadence__when">Every morning</p>
+        <p class="cadence__what">Each published tool is run against a known target. Anything that stops answering correctly is disabled automatically, so a broken tool cannot quietly keep charging.</p>
+      </div>
+      <div>
+        <p class="cadence__when">Continuously</p>
+        <p class="cadence__what">A watcher tracks tools in this category being retired, acquired or abandoned. Ground somebody else has vacated is the only ground worth building on.</p>
+      </div>
+      <div>
+        <p class="cadence__when">Next</p>
+        <p class="cadence__what">Undecided, honestly. Twenty-seven tools are built and waiting, and which one earns a slot depends on a question not yet answered. When it is, it appears on the <a href="/lifecycle.html">lifecycle page</a> first.</p>
+      </div>
     </div>
   </section>
 
