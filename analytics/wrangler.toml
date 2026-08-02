@@ -1,0 +1,22 @@
+name = "artifact-machine-beacon"
+main = "src/index.js"
+compatibility_date = "2026-07-07"
+
+# artifactmachine.studio resolves straight to GitHub Pages, so the domain is not
+# on Cloudflare and there is no route to bind. The beacon is called cross-origin
+# at its workers.dev address instead, which is why the Worker enforces an origin
+# allow-list rather than relying on same-origin.
+workers_dev = true
+
+[observability]
+enabled = true
+
+# `wrangler dev --local` works with this placeholder as-is (local KV is simulated).
+# Before the first real deploy, run `npm run setup` and paste the printed id here.
+[[kv_namespaces]]
+binding = "BEACON"
+id = "local_dev_placeholder"
+
+# Secrets are NOT set here. Set them once, out of band:
+#   npx wrangler secret put STATS_TOKEN       # read auth for /stats
+#   npx wrangler secret put STATS_SALT_SEED   # stabilises the daily salt

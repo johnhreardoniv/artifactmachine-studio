@@ -479,11 +479,16 @@
       Set in Basteleur, Uncut Sans and Sligoil — all SIL Open Font License.
       Colour authored in OKLCH; every text pairing here is measured against WCAG AA
       rather than estimated, and that measurement runs live in your browser on the
-      design-system page. No analytics, no trackers, and no cookie banner, because
-      there are no cookies to consent to.
+      design-system page. No third-party analytics, no trackers, and no cookie
+      banner, because there are no cookies to consent to. Visits are counted by
+      the studio's own server, which stores the page, the referring site and a
+      daily-rotating hash that is discarded before it can become an identity —
+      and which sends nothing at all if your browser asks it not to.
     </p>
   </div>
 </footer>
+
+<script defer src="/assets/beacon.js"></script>
 
 </body>
 </html>

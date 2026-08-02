@@ -1,0 +1,17 @@
+{
+  "name": "artifact-machine-beacon",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "First-party cookieless visit counter for artifactmachine.studio",
+  "scripts": {
+    "setup": "wrangler kv namespace create BEACON",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "node --test \"test/*.test.js\"",
+    "tail": "wrangler tail"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
