@@ -67,11 +67,11 @@
   /* The Corner Cut — the brand's own corner. A 45° chamfer, never a curve. */
   .chamfer {
     background: var(--am-surface); border: var(--am-rule); padding: var(--am-space-5);
-    clip-path: polygon(0 0, calc(100% - var(--am-chamfer)) 0, 100% var(--am-chamfer), 100% 100%, 0 100%);
+    clip-path: polygon(var(--am-chamfer) 0, 100% 0, 100% 100%, 0 100%, 0 var(--am-chamfer));
   }
   .tile {
     background: var(--am-surface); border: var(--am-rule); padding: var(--am-space-5);
-    clip-path: polygon(0 0, calc(100% - var(--am-chamfer)) 0, 100% var(--am-chamfer), 100% 100%, 0 100%);
+    clip-path: polygon(var(--am-chamfer) 0, 100% 0, 100% 100%, 0 100%, 0 var(--am-chamfer));
     transition: border-color var(--am-dur-fast) var(--am-ease), transform var(--am-dur-fast) var(--am-ease);
   }
   .tile:hover { border-color: var(--am-accent); transform: translateY(-2px); }

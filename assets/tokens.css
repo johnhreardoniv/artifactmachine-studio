@@ -181,7 +181,19 @@
   --am-radius-none: 0;
   --am-radius-sm:   2px;
   --am-radius-md:   3px;
-  --am-chamfer:     10px;   /* the Corner Cut motif — 45° cut, not a curve  */
+  /* The Corner Cut — a 45° cut, never a curve. Binding constraints from the
+     collision check (BRAND-IDENTITY.md §11):
+       TOP-LEFT ALWAYS. A top-right chamfer with a contrasting corner is the
+         universal document/file icon — verified against the raw geometry of
+         Material insert_drive_file, Bootstrap file-earmark and Feather file,
+         all cutting top-right. This shipped on the wrong corner and was moved.
+       NEVER varies per product. An earlier tile spec rotated the corner by
+         hash(slug) % 4, which puts one tile in four on the file-icon corner
+         and breaks the invariant-silhouette rule at the same time.
+       22-30% of the short edge. One corner only. Never standalone, never a
+         full-bleed panel, no fold or curl cues — those read as paper, and the
+         motif is a machined chamfer, not a dog-eared page. */
+  --am-chamfer:     10px;
 
   --am-border-width: 1px;
   --am-border-heavy: 2px;
