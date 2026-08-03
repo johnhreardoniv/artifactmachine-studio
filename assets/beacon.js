@@ -15,10 +15,10 @@
 (function () {
   'use strict';
 
-  // Set once, after `npm run deploy` prints the workers.dev address.
-  var ENDPOINT = 'https://artifact-machine-beacon.REPLACE_ME.workers.dev/hit';
-
-  if (ENDPOINT.indexOf('REPLACE_ME') !== -1) return;
+  // Same origin. The site and the counter are one Worker on one hostname, so
+  // there is no cross-origin request, no second domain, and nothing to
+  // configure per environment.
+  var ENDPOINT = '/beacon/hit';
 
   var nav = window.navigator || {};
   var optedOut =

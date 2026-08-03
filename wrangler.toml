@@ -1,0 +1,39 @@
+name = "artifact-machine"
+main = "worker/index.js"
+compatibility_date = "2026-07-07"
+
+# Top-level, and BEFORE any [table] header — a key placed after one is parsed as
+# part of that table, which silently leaves the Worker with no route at all.
+routes = [
+  { pattern = "artifactmachine.studio", custom_domain = true },
+  { pattern = "staging.artifactmachine.studio", custom_domain = true }
+]
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+
+# html_handling = "none" is the reason this is a Worker and not a Pages project.
+# Cloudflare Pages 308-redirects /about.html to /about, which would have
+# silently changed every URL on the site — 12 sitemap entries and 21 internal
+# links on the homepage alone. "none" serves the paths exactly as written, so
+# moving off GitHub Pages changes no URL at all.
+html_handling = "none"
+
+# Serve 404.html with a real 404 status. Without this, an unknown path returns
+# the homepage with HTTP 200 — a soft 404, which invites search engines to
+# index unlimited garbage URLs as duplicates of the front page.
+not_found_handling = "404-page"
+
+[observability]
+enabled = true
+
+# Created 2026-08-02 via `wrangler kv namespace create BEACON`.
+[[kv_namespaces]]
+binding = "BEACON"
+id = "04733e02de9841cb937733ecb494e694"
+
+# Secrets are NOT here. Set out of band, and recorded in
+# ~/agent-credentials/artifact-machine/.env:
+#   wrangler secret put STATS_TOKEN       # read auth for /beacon/stats
+#   wrangler secret put STATS_SALT_SEED   # stabilises the daily visitor salt

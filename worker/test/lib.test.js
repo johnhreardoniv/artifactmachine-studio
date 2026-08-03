@@ -8,7 +8,7 @@ import {
   recentDays,
   referrerHost,
   visitorHash,
-} from '../src/lib.js';
+} from '../lib.js';
 
 const SELF = 'artifactmachine.studio';
 
