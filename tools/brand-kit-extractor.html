@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brand Kit Extractor — Artifact Machine</title>
+<meta name="description" content="Extract brand colors, fonts, logos, and metadata from any website.">
+<link rel="canonical" href="https://artifactmachine.studio/tools/brand-kit-extractor.html">
+<meta property="og:site_name" content="Artifact Machine">
+<meta property="og:title" content="Brand Kit Extractor — Artifact Machine">
+<meta property="og:description" content="Extract brand colors, fonts, logos, and metadata from any website.">
+<meta property="og:url" content="https://artifactmachine.studio/tools/brand-kit-extractor.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z' fill='%23a04a08'/%3E%3Crect x='8' y='14.6' width='8' height='7.9' rx='1.7' fill='%23a04a08'/%3E%3C/svg%3E">
+<link rel="preload" href="/assets/fonts/UncutSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts.css">
+<link rel="stylesheet" href="/assets/tokens.css">
+<link rel="stylesheet" href="/assets/motion.css">
+<link rel="stylesheet" href="/assets/page.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Brand Kit Extractor","applicationCategory":"DeveloperApplication","operatingSystem":"Any (web API)","url":"https://artifactmachine.studio/tools/brand-kit-extractor.html","description":"Extract brand colors, fonts, logos, and metadata from any website.","publisher":{"@type":"Organization","name":"Artifact Machine","url":"https://artifactmachine.studio"},"offers":{"@type":"Offer","price":"3","priceCurrency":"USD","url":"https://apify.com/artifact-machine/artifact-machine-brand-kit-extractor","availability":"https://schema.org/InStock","description":"$3 per result, billed per dataset item through Apify."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Tools","item":"https://artifactmachine.studio/"},{"@type":"ListItem","position":2,"name":"Brand Kit Extractor","item":"https://artifactmachine.studio/tools/brand-kit-extractor.html"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does it get the official brand colours?","acceptedAnswer":{"@type":"Answer","text":"It gets the colours the site actually renders, which is often not the same thing — and that gap is usually the useful part. It reads the live CSS and markup, so it reflects what visitors really see rather than what a brand document says they should."}}]}</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="/"><svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z" fill="var(--am-accent)"/><rect x="8" y="14.6" width="8" height="7.9" rx="1.7" fill="var(--am-accent)"/></svg><span>Artifact Machine</span></a>
+  <nav><a href="/#tools">Tools</a><a href="/lifecycle.html">Lifecycle</a><a href="/about.html">About</a></nav>
+</div></header>
+<main><div class="wrap">
+  <section class="hero">
+    <p><span class="tag">$3 per result</span></p>
+    <h1>Brand Kit Extractor</h1>
+    <p>Extract brand colors, fonts, logos, and metadata from any website.</p>
+    <p>
+      <a class="cta" href="https://apify.com/artifact-machine/artifact-machine-brand-kit-extractor">Run it on Apify</a>
+      <a class="cta ghost" href="/">All tools</a>
+    </p>
+  </section>
+
+  <h2>Who it is for</h2>
+  <p class="lede">Designers and agencies starting work on a site they did not build.</p>
+
+  <h2>What you would use it for</h2>
+  <ul>
+    <li>Pull colours, typography, logos and favicon from any live site.</li>
+    <li>Rebuild a brand sheet for a client who has lost theirs.</li>
+    <li>Capture the current state before a redesign so the change is documented.</li>
+    <li>Check that a live site matches the brand guidelines it is meant to follow.</li>
+  </ul>
+
+  <h2>What you get back</h2>
+  <p>One JSON record per page checked. These are the actual fields returned by the most recent
+  successful run — read from the live catalogue, not a documented ideal.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Field</th><th>Sample shape</th></tr></thead>
+    <tbody>
+<tr><td><code>actor</code></td><td>string — artifact-machine-brand-kit-extractor</td></tr>
+<tr><td><code>actorVersion</code></td><td>string — 0.1.0</td></tr>
+<tr><td><code>scrapedAt</code></td><td>string — 2026-07-29T05:04:46.353Z</td></tr>
+<tr><td><code>url</code></td><td>string — https://neighbornest.kids/</td></tr>
+<tr><td><code>brand</code></td><td>object (1 keys)</td></tr>
+<tr><td><code>colors</code></td><td>object (6 keys)</td></tr>
+<tr><td><code>typography</code></td><td>object (2 keys)</td></tr>
+<tr><td><code>logos</code></td><td>array (0)</td></tr>
+<tr><td><code>favicon</code></td><td>object (2 keys)</td></tr>
+<tr><td><code>buttons</code></td><td>null</td></tr>
+<tr><td><code>_source</code></td><td>string — fallback</td></tr>
+<tr><td><code>_fallback</code></td><td>object (3 keys)</td></tr>
+<tr><td><code>notes</code></td><td>array (1)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Sample output</h2>
+  <p>Trimmed from a real run.</p>
+  <pre><code>{
+  &quot;actor&quot;: &quot;artifact-machine-brand-kit-extractor&quot;,
+  &quot;actorVersion&quot;: &quot;0.1.0&quot;,
+  &quot;scrapedAt&quot;: &quot;2026-07-29T05:04:46.353Z&quot;,
+  &quot;url&quot;: &quot;https://neighbornest.kids/&quot;,
+  &quot;brand&quot;: {
+    &quot;name&quot;: &quot;NeighborNest&quot;
+  },
+  &quot;colors&quot;: {
+    &quot;primary&quot;: null,
+    &quot;secondary&quot;: null,
+    &quot;accent&quot;: null,
+    &quot;background&quot;: null,
+    &quot;text&quot;: null,
+    &quot;header&quot;: null
+  },
+  &quot;typography&quot;: {
+    &quot;heading&quot;: null,
+    &quot;body&quot;: null
+  },
+  &quot;logos&quot;: [],
+  &quot;favicon&quot;: {
+    &quot;url&quot;: &quot;https://neighbornest.kids/favicon.ico?favicon.2vob68tjqpejf.ico&quot;,
+    &quot;type&quot;: &quot;favicon&quot;
+  },
+  &quot;buttons&quot;: null,</code></pre>
+
+  <h2>Pricing</h2>
+  <p><strong>$3 per result.</strong> Pay-per-event through Apify — no subscription, and a run
+  that returns nothing costs nothing.</p>
+
+  <h2>Calling it from code</h2>
+  <p>Any HTTP client works. Replace <code class="mono">&lt;TOKEN&gt;</code> with your Apify API token.</p>
+  <pre><code>curl -X POST "https://api.apify.com/v2/acts/artifact-machine~artifact-machine-brand-kit-extractor/run-sync-get-dataset-items?token=&lt;TOKEN&gt;" \
+  -H "Content-Type: application/json" \
+  -d '{"startUrls":[{"url":"https://example.com"}]}'</code></pre>
+
+  <h2>Questions</h2>
+  <details class="faq"><summary>Does it get the official brand colours?</summary><p>It gets the colours the site actually renders, which is often not the same thing — and that gap is usually the useful part. It reads the live CSS and markup, so it reflects what visitors really see rather than what a brand document says they should.</p></details>
+
+  <h2>Other tools</h2>
+  <p><a href="/tools/schema-audit.html">Schema Audit - JSON-LD Structured Data Validator</a> · <a href="/tools/security-headers-checker.html">Security Headers Checker</a> · <a href="/tools/sitemap-health-audit.html">Sitemap Health Audit - XML Sitemap Validator</a> · <a href="/tools/tech-stack-analyzer.html">Tech Stack Analyzer - Detect Website Technologies</a></p>
+
+  <p style="color:var(--muted);font-size:0.85rem;margin-top:2.5rem">
+    Details read from the live Apify catalogue on 2026-07-29.
+  </p>
+</div></main>
+<footer><div class="wrap">
+  <p><strong>Artifact Machine</strong> — Tiny useful things from the machine.</p>
+  <p>Every tool runs on <a href="https://apify.com/artifact-machine">Apify</a>. Pay per result, no subscription.</p>
+</div></footer>
+</body>
+</html>

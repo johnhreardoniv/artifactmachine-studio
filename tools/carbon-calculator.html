@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Website Carbon Calculator - CO2 per Page Load — Artifact Machine</title>
+<meta name="description" content="Estimate CO2 emissions per page load and get a carbon grade for any website. Useful for sustainability reporting and green web claims.">
+<link rel="canonical" href="https://artifactmachine.studio/tools/carbon-calculator.html">
+<meta property="og:site_name" content="Artifact Machine">
+<meta property="og:title" content="Website Carbon Calculator - CO2 per Page Load — Artifact Machine">
+<meta property="og:description" content="Estimate CO2 emissions per page load and get a carbon grade for any website. Useful for sustainability reporting and green web claims.">
+<meta property="og:url" content="https://artifactmachine.studio/tools/carbon-calculator.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z' fill='%23a04a08'/%3E%3Crect x='8' y='14.6' width='8' height='7.9' rx='1.7' fill='%23a04a08'/%3E%3C/svg%3E">
+<link rel="preload" href="/assets/fonts/UncutSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts.css">
+<link rel="stylesheet" href="/assets/tokens.css">
+<link rel="stylesheet" href="/assets/motion.css">
+<link rel="stylesheet" href="/assets/page.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Website Carbon Calculator - CO2 per Page Load","applicationCategory":"DeveloperApplication","operatingSystem":"Any (web API)","url":"https://artifactmachine.studio/tools/carbon-calculator.html","description":"Estimate CO2 emissions per page load and get a carbon grade for any website. Useful for sustainability reporting and green web claims.","publisher":{"@type":"Organization","name":"Artifact Machine","url":"https://artifactmachine.studio"},"offers":{"@type":"Offer","price":"1","priceCurrency":"USD","url":"https://apify.com/artifact-machine/artifact-machine-carbon-calculator","availability":"https://schema.org/InStock","description":"$1 per result, billed per dataset item through Apify."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Tools","item":"https://artifactmachine.studio/"},{"@type":"ListItem","position":2,"name":"Website Carbon Calculator - CO2 per Page Load","item":"https://artifactmachine.studio/tools/carbon-calculator.html"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How accurate is the estimate?","acceptedAnswer":{"@type":"Answer","text":"It is a model, not a measurement. It derives energy from transfer size and applies a grid carbon intensity, so it is useful for comparison between pages and for tracking change over time. Treat it as an estimate with a stated method rather than an audited figure."}},{"@type":"Question","name":"What traffic does the yearly figure assume?","acceptedAnswer":{"@type":"Answer","text":"Ten thousand pageviews per month, or 120,000 per year. The assumption is fixed so that figures are comparable between pages and between runs."}}]}</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="/"><svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z" fill="var(--am-accent)"/><rect x="8" y="14.6" width="8" height="7.9" rx="1.7" fill="var(--am-accent)"/></svg><span>Artifact Machine</span></a>
+  <nav><a href="/#tools">Tools</a><a href="/lifecycle.html">Lifecycle</a><a href="/about.html">About</a></nav>
+</div></header>
+<main><div class="wrap">
+  <section class="hero">
+    <p><span class="tag">$1 per result</span></p>
+    <h1>Website Carbon Calculator - CO2 per Page Load</h1>
+    <p>Estimate CO2 emissions per page load and get a carbon grade for any website. Useful for sustainability reporting and green web claims.</p>
+    <p>
+      <a class="cta" href="https://apify.com/artifact-machine/artifact-machine-carbon-calculator">Run it on Apify</a>
+      <a class="cta ghost" href="/">All tools</a>
+    </p>
+  </section>
+
+  <h2>Who it is for</h2>
+  <p class="lede">Sustainability reporting, green-hosting claims, and performance work that needs a number attached.</p>
+
+  <h2>What you would use it for</h2>
+  <ul>
+    <li>Estimate CO₂ per page load and get a carbon grade for any URL.</li>
+    <li>Support a sustainability claim with a figure and a stated method.</li>
+    <li>Compare page weight across a site to find the worst offenders.</li>
+    <li>Show the emissions effect of a performance improvement.</li>
+  </ul>
+
+  <h2>What you get back</h2>
+  <p>One JSON record per page checked. These are the actual fields returned by the most recent
+  successful run — read from the live catalogue, not a documented ideal.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Field</th><th>Sample shape</th></tr></thead>
+    <tbody>
+<tr><td><code>actor</code></td><td>string — artifact-machine-carbon-calculator</td></tr>
+<tr><td><code>actorVersion</code></td><td>string — 0.1.0</td></tr>
+<tr><td><code>estimatedAt</code></td><td>string — 2026-07-29T05:04:17.027Z</td></tr>
+<tr><td><code>url</code></td><td>string — https://neighbornest.kids/</td></tr>
+<tr><td><code>co2PerLoad</code></td><td>number — 0.017</td></tr>
+<tr><td><code>co2PerYear</code></td><td>number — 0</td></tr>
+<tr><td><code>energyPerLoad</code></td><td>number — 0.000037586549296975136</td></tr>
+<tr><td><code>greenHost</code></td><td>boolean — false</td></tr>
+<tr><td><code>pageSize</code></td><td>number — 49825</td></tr>
+<tr><td><code>pageWeight</code></td><td>object (4 keys)</td></tr>
+<tr><td><code>rating</code></td><td>string — A+</td></tr>
+<tr><td><code>ratingLabel</code></td><td>string — Excellent</td></tr>
+<tr><td><code>score</code></td><td>number — 100</td></tr>
+<tr><td><code>method</code></td><td>string — local-fallback</td></tr>
+<tr><td><code>issues</code></td><td>array (0)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Sample output</h2>
+  <p>Trimmed from a real run.</p>
+  <pre><code>{
+  &quot;actor&quot;: &quot;artifact-machine-carbon-calculator&quot;,
+  &quot;actorVersion&quot;: &quot;0.1.0&quot;,
+  &quot;estimatedAt&quot;: &quot;2026-07-29T05:04:17.027Z&quot;,
+  &quot;url&quot;: &quot;https://neighbornest.kids/&quot;,
+  &quot;co2PerLoad&quot;: 0.017,
+  &quot;co2PerYear&quot;: 0,
+  &quot;energyPerLoad&quot;: 0.000037586549296975136,
+  &quot;greenHost&quot;: false,
+  &quot;pageSize&quot;: 49825,
+  &quot;pageWeight&quot;: {
+    &quot;bytes&quot;: 49825,
+    &quot;kb&quot;: 49,
+    &quot;mb&quot;: 0.05,
+    &quot;isCompressed&quot;: true
+  },
+  &quot;rating&quot;: &quot;A+&quot;,
+  &quot;ratingLabel&quot;: &quot;Excellent&quot;,
+  &quot;score&quot;: 100,
+  &quot;method&quot;: &quot;local-fallback&quot;,
+  &quot;issues&quot;: []
+}</code></pre>
+
+  <h2>Pricing</h2>
+  <p><strong>$1 per result.</strong> Pay-per-event through Apify — no subscription, and a run
+  that returns nothing costs nothing.</p>
+
+  <h2>Calling it from code</h2>
+  <p>Any HTTP client works. Replace <code class="mono">&lt;TOKEN&gt;</code> with your Apify API token.</p>
+  <pre><code>curl -X POST "https://api.apify.com/v2/acts/artifact-machine~artifact-machine-carbon-calculator/run-sync-get-dataset-items?token=&lt;TOKEN&gt;" \
+  -H "Content-Type: application/json" \
+  -d '{"startUrls":[{"url":"https://example.com"}]}'</code></pre>
+
+  <h2>Questions</h2>
+  <details class="faq"><summary>How accurate is the estimate?</summary><p>It is a model, not a measurement. It derives energy from transfer size and applies a grid carbon intensity, so it is useful for comparison between pages and for tracking change over time. Treat it as an estimate with a stated method rather than an audited figure.</p></details>
+  <details class="faq"><summary>What traffic does the yearly figure assume?</summary><p>Ten thousand pageviews per month, or 120,000 per year. The assumption is fixed so that figures are comparable between pages and between runs.</p></details>
+
+  <h2>Other tools</h2>
+  <p><a href="/tools/schema-audit.html">Schema Audit - JSON-LD Structured Data Validator</a> · <a href="/tools/security-headers-checker.html">Security Headers Checker</a> · <a href="/tools/sitemap-health-audit.html">Sitemap Health Audit - XML Sitemap Validator</a> · <a href="/tools/tech-stack-analyzer.html">Tech Stack Analyzer - Detect Website Technologies</a></p>
+
+  <p style="color:var(--muted);font-size:0.85rem;margin-top:2.5rem">
+    Details read from the live Apify catalogue on 2026-07-29.
+  </p>
+</div></main>
+<footer><div class="wrap">
+  <p><strong>Artifact Machine</strong> — Tiny useful things from the machine.</p>
+  <p>Every tool runs on <a href="https://apify.com/artifact-machine">Apify</a>. Pay per result, no subscription.</p>
+</div></footer>
+</body>
+</html>

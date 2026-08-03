@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Artifact Machine — small tools that check one thing well</title>
+<meta name="description" content="A one-person studio making single-purpose website checks. Each answers one question about a page and returns structured data. Run them across a list of domains.">
+<link rel="canonical" href="https://artifactmachine.studio/">
+<meta property="og:site_name" content="Artifact Machine">
+<meta property="og:title" content="Artifact Machine — small tools that check one thing well">
+<meta property="og:description" content="Each tool answers one question about a web page and hands back structured data. No score, no dashboard, no login.">
+<meta property="og:url" content="https://artifactmachine.studio/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
+<link rel="preload" href="/assets/fonts/UncutSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts.css">
+<link rel="stylesheet" href="/assets/tokens.css">
+<link rel="stylesheet" href="/assets/motion.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z' fill='%23a04a08'/%3E%3Crect x='8' y='14.6' width='8' height='7.9' rx='1.7' fill='%23a04a08'/%3E%3C/svg%3E">
+<style>
+  *,*::before,*::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--am-bg);
+    color: var(--am-text);
+    font-family: var(--am-font-sans);
+    font-size: var(--am-text-md);
+    line-height: var(--am-leading-body);
+    -webkit-font-smoothing: antialiased;
+    hanging-punctuation: first last;
+  }
+  .wrap { max-width: var(--am-container); margin-inline: auto; padding-inline: var(--am-space-6); }
+  a { color: var(--am-accent); text-underline-offset: 2px; }
+
+  /* Skip link — first tab stop, visible only on focus. */
+  .skip {
+    position: absolute; left: -9999px; top: 0; z-index: var(--am-z-top);
+    background: var(--am-accent); color: var(--am-on-accent);
+    padding: var(--am-space-3) var(--am-space-5); text-decoration: none;
+  }
+  .skip:focus { left: var(--am-space-4); top: var(--am-space-4); }
+
+  /* ---------------- header ---------------- */
+  .site-header {
+    border-bottom: var(--am-rule);
+    background: color-mix(in oklab, var(--am-bg) 86%, transparent);
+    backdrop-filter: blur(10px);        /* one instance, fixed area — never per card */
+    position: sticky; top: 0; z-index: var(--am-z-sticky);
+  }
+  .site-header .wrap { display: flex; align-items: center; gap: var(--am-space-4); padding-block: var(--am-space-4); }
+  .brand { display: inline-flex; align-items: center; gap: var(--am-space-3); text-decoration: none; color: inherit; }
+  .brand__name {
+    font-size: var(--am-text-xs);
+    letter-spacing: var(--am-tracking-brand);
+    text-transform: uppercase;
+    font-weight: var(--am-weight-medium);
+    white-space: nowrap;
+  }
+  /* The mark is a hopper — BRAND-IDENTITY.md §3.1, 24x24 grid. A wide intake
+     rakes to a flat mouth; one finished artifact sits below it, detached.
+     Two numbers are load-bearing and must not be edited casually:
+       mouth width >= 60% of intake (here 64%) — below that it reads
+         unmistakably as a sales funnel or a martini glass at every size;
+       the 2.5-unit detachment gap — the artifact is finished and SEPARATE,
+         which is the business model: pay per result, nothing runs for you.
+     It depicts the promise, not the process. Every competitor in this
+     category draws process — magnifiers, gauges, shields, checkmarks. */
+  .mark { width: 24px; height: 24px; flex: none; display: block; }
+  .site-header nav { margin-left: auto; display: flex; gap: var(--am-space-5); }
+  .site-header nav a { color: var(--am-text-muted); text-decoration: none; font-size: var(--am-text-sm); }
+  .site-header nav a:hover { color: var(--am-text); }
+
+  /* ---------------- masthead ---------------- */
+  .masthead { padding-block: var(--am-space-24) var(--am-space-12); }
+  h1 {
+    font-family: var(--am-font-display);
+    font-size: var(--am-text-4xl);
+    line-height: var(--am-leading-tight);
+    letter-spacing: var(--am-tracking-display);
+    margin: 0 0 var(--am-space-6);
+    max-width: 17ch;
+    text-wrap: balance;
+  }
+  .masthead .lede { font-size: var(--am-text-lg); color: var(--am-text-muted); max-width: 56ch; margin: 0 0 var(--am-space-10); }
+  /* The stat line does more positioning work than a hero image, and costs
+     nothing. Every number is measured — none is rounded up. */
+  .facts {
+    display: flex; flex-wrap: wrap; gap: var(--am-space-2) var(--am-space-6);
+    font-family: var(--am-font-mono); font-size: var(--am-text-xs);
+    color: var(--am-text-faint); font-variant-numeric: tabular-nums;
+    padding-top: var(--am-space-5); border-top: var(--am-rule);
+  }
+  .facts span { white-space: nowrap; }
+
+  /* ---------------- sections ---------------- */
+  .eyebrow {
+    display: block; margin-bottom: var(--am-space-3);
+    font-family: var(--am-font-mono); font-size: var(--am-text-2xs);
+    letter-spacing: var(--am-tracking-label); text-transform: uppercase;
+    color: var(--am-text-faint);
+  }
+  .family { padding-block: var(--am-space-12); }
+  .family + .family { border-top: var(--am-rule); }
+  .family__head { max-width: 60ch; margin-bottom: var(--am-space-8); }
+  .family h2 {
+    font-size: var(--am-text-xl); line-height: var(--am-leading-snug);
+    letter-spacing: var(--am-tracking-tight); margin: 0 0 var(--am-space-2);
+    text-wrap: balance;
+  }
+  .family__head p { margin: 0; color: var(--am-text-muted); font-size: var(--am-text-sm); }
+
+  /* ---------------- the index ----------------
+     Icon + text rows, two-up — not a five-across card grid. Identical
+     treatment communicates identical importance, which communicates that
+     none of them matter. Rules sit on each row's top edge with the container
+     closing the bottom, so borders never double up. */
+  .index { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(330px,100%), 1fr)); column-gap: var(--am-space-10); border-bottom: var(--am-rule); }
+  .tool {
+    display: grid; grid-template-columns: auto 1fr; gap: var(--am-space-4);
+    align-items: first baseline;                  /* not center — baselines line up */
+    padding: var(--am-space-4) var(--am-space-3);
+    margin-inline: calc(var(--am-space-3) * -1);
+    text-decoration: none; color: inherit;
+    border-top: var(--am-rule);
+    transition: background-color var(--mo-1) var(--mo-ease-out);
+  }
+  .tool:hover, .tool:focus-visible { background: var(--am-bg-sunk); }
+
+  /* One hue per tool — a single custom property. Lightness and chroma are
+     locked, so every mark carries identical perceived weight across the whole
+     hue circle. That is impossible to hand-tune in hex and free in OKLCH.
+     Chroma caps at cyan's ceiling because cyan is always the gamut limit. */
+  .tool__mark {
+    width: 30px; height: 30px; flex: none; align-self: start; margin-top: 4px;
+    background: oklch(0.515 0.088 var(--h));
+    display: grid; place-items: center; color: #fff;
+    clip-path: polygon(7px 0, 100% 0, 100% 100%, 0 100%, 0 7px);
+  }
+  @media (color-gamut: p3) { .tool__mark { background: oklch(0.515 0.117 var(--h)); } }
+  .tool__mark svg { width: 16px; height: 16px; }
+
+  .tool__name { margin: 0; font-size: var(--am-text-md); font-weight: var(--am-weight-medium); letter-spacing: var(--am-tracking-tight); }
+  .tool__what { margin: 2px 0 0; color: var(--am-text-muted); font-size: var(--am-text-sm); }
+  /* One metadata string, one format. Seven fields per card is a directory. */
+  .tool__meta {
+    margin: var(--am-space-2) 0 0; font-family: var(--am-font-mono);
+    font-size: var(--am-text-2xs); color: var(--am-text-faint);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---------------- start here ---------------- */
+  .starthere { padding-block: var(--am-space-12); }
+  .starthere .family__head h2 { font-size: var(--am-text-xl); line-height: var(--am-leading-snug);
+    letter-spacing: var(--am-tracking-tight); margin: 0 0 var(--am-space-2); }
+  .starthere .family__head p { margin: 0; color: var(--am-text-muted); font-size: var(--am-text-sm); }
+
+  /* ---------------- cadence ---------------- */
+  .cadence { padding-block: var(--am-space-12); border-top: var(--am-rule); }
+  .cadence h2 { font-size: var(--am-text-xl); letter-spacing: var(--am-tracking-tight);
+    margin: 0 0 var(--am-space-8); text-wrap: balance; }
+  .cadence__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px,100%), 1fr));
+    gap: var(--am-space-8); }
+  .cadence__when {
+    margin: 0 0 var(--am-space-2); font-family: var(--am-font-mono);
+    font-size: var(--am-text-2xs); text-transform: uppercase;
+    letter-spacing: var(--am-tracking-label); color: var(--am-accent);
+    padding-bottom: var(--am-space-2); border-bottom: var(--am-border-heavy) solid var(--am-accent);
+  }
+  .cadence__what { margin: 0; color: var(--am-text-muted); font-size: var(--am-text-sm); }
+
+  /* ---------------- honest note ---------------- */
+  .note {
+    padding: var(--am-space-6); border: var(--am-rule);
+    border-left: 3px solid var(--am-accent); background: var(--am-surface);
+    max-width: 68ch; margin-block: var(--am-space-16);
+  }
+  .note p { margin: 0 0 var(--am-space-3); color: var(--am-text-muted); font-size: var(--am-text-sm); }
+  .note p:last-child { margin-bottom: 0; }
+  .note strong { color: var(--am-text); }
+
+  /* ---------------- footer ---------------- */
+  footer { border-top: var(--am-rule); margin-top: var(--am-space-12); padding-block: var(--am-space-12) var(--am-space-20); font-size: var(--am-text-sm); color: var(--am-text-muted); }
+  footer .cols { display: flex; flex-wrap: wrap; gap: var(--am-space-12); }
+  footer a { color: var(--am-text-muted); }
+  footer a:hover { color: var(--am-accent); }
+  footer .colophon {
+    margin-top: var(--am-space-10); padding-top: var(--am-space-5);
+    border-top: var(--am-rule); font-family: var(--am-font-mono);
+    font-size: var(--am-text-2xs); color: var(--am-text-faint); max-width: 76ch;
+  }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#tools">Skip to the tools</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z" fill="var(--am-accent)"/><rect x="8" y="14.6" width="8" height="7.9" rx="1.7" fill="var(--am-accent)"/></svg>
+      <span class="brand__name">Artifact Machine</span>
+    </a>
+    <nav>
+      <a href="#tools">Tools</a>
+      <a href="/lifecycle.html">Lifecycle</a>
+      <a href="/about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="wrap masthead">
+    <h1>Small tools that check one thing well.</h1>
+    <p class="lede">
+      Each one answers a single question about a web page and hands back structured
+      data — not a score, not a dashboard, not a login. Point one at a list of
+      domains and it returns one row per domain.
+    </p>
+    <div class="facts">
+      <span>11 published</span>
+      <span>38 built</span>
+      <span>1 person</span>
+      <span>$0.50–$3.00 per result</span>
+      <span>no account needed</span>
+    </div>
+  </section>
+
+  <!-- Start here. Nobody should face the whole catalogue first — a short,
+       obviously-curated list does more than any filter UI, and costs one
+       section. Three, not six, because there are eleven published rather than
+       thirty-eight; "6 of 11" would not read as a selection. -->
+  <section class="wrap starthere" id="tools">
+    <div class="family__head">
+      <span class="eyebrow">Start here — 3 of 11</span>
+      <h2>If you only run one of these.</h2>
+      <p>Picked because each answers a question the free tools stopped answering, not because they are the newest.</p>
+    </div>
+    <div class="index u-spotlight">
+
+      <a class="tool" href="/tools/ai-access-audit.html" style="--h:225">
+        <span class="tool__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h10M4 17h13"/></svg></span>
+        <span>
+          <h3 class="tool__name">AI Access</h3>
+          <p class="tool__what">The model-readability check.</p>
+          <p class="tool__meta">the one category still growing</p>
+        </span>
+      </a>
+
+      <a class="tool" href="/tools/accessibility-audit.html" style="--h:25">
+        <span class="tool__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v16M5 9h14M8 20l4-6 4 6"/></svg></span>
+        <span>
+          <h3 class="tool__name">Accessibility</h3>
+          <p class="tool__what">The WCAG check.</p>
+          <p class="tool__meta">says what it cannot see</p>
+        </span>
+      </a>
+
+      <a class="tool" href="/tools/brand-kit-extractor.html" style="--h:310">
+        <span class="tool__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v6H4zM4 15h7v4H4zM14 15h6v4h-6z"/></svg></span>
+        <span>
+          <h3 class="tool__name">Brand Kit</h3>
+          <p class="tool__what">The design-token extractor.</p>
+          <p class="tool__meta">output feeds your next job</p>
+        </span>
+      </a>
+
+    </div>
+  </section>
+
+  <section class="wrap family">
+    <div class="family__head">
+      <span class="eyebrow">Family 01</span>
+      <h2>Can a machine read this page at all?</h2>
+      <p>Crawlers and models arrive before people do. These three check what those visitors can actually see.</p>
+    </div>
+    <div class="index u-spotlight">
+
+      <a class="tool" href="/tools/ai-access-audit.html" style="--h:225">
+        <span class="tool__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h10M4 17h13"/></svg></span>
+        <span>
+          <h3 class="tool__name">AI Access</h3>
+          <p class="tool__what">The model-readability check.</p>
+          <p class="tool__meta">robots · llms.txt · agent rules</p>
+        </span>
+      </a>
+
+      <a class="tool" href="/tools/schema-audit.html" style="--h:250">
+        <span class="tool__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12v9"/></svg></span>
+        <span>
+          <h3 class="tool__name">Schema</h3>
+          <p class="tool__what">The structured-data check.</p>
+          <p class="tool__meta">JSON-LD · types · validity</p>
+        </span>
+      </a>
+
+      <a class="tool" href="/tools/sitemap-health-audit.html" style="--h:200">
+        <span class="tool__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v5M6 20v-5M18 20v-5M6 15h12M12 9v6"/></svg></span>
+        <span>
+          <h3 class="tool__name">Sitemap Health</h3>
+          <p class="tool__what">The sitemap check.</p>
+          <p class="tool__meta">reachability · staleness · size</p>
+        </span>
+      </a>
+
+    </div>
+  </section>
+
+  <section class="wrap family">
+    <div class="family__head">
+      <span class="eyebrow">Family 02</span>
+      <h2>What would fail an audit?</h2>
+      <p>The questions that get asked in a procurement review, a legal letter, or a security questionnaire — and the ones where being wrong is expensive.</p>
+    </div>
+    <div class="index u-spotlight">
+
+      <a class="tool" href="/tools/accessibility-audit.html" style="--h:25">
+        <span class="tool__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v16M5 9h14M8 20l4-6 4 6"/></svg></span>
+        <span>
+          <h3 class="tool__name">Accessibility</h3>
+          <p class="tool__what">The WCAG check.</p>
+          <p class="tool__meta">machine-checkable rules only</p>
+        </span>
+      </a>
+
+      <a class="tool" href="/tools/privacy-consent-scanner.html" style="--h:5">
+        <span class="tool__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v6c0 5-3 8-7 9-4-1-7-4-7-9V6z"/></svg></span>
+        <span>
+          <h3 class="tool__name">Privacy &amp; Consent</h3>
+          <p class="tool__what">The cookie-and-consent check.</p>
+          <p class="tool__meta">what fires before you agree</p>
+        </span>
+      </a>
+
+      <a class="tool" href="/tools/security-headers-checker.html" style="--h:48">
+        <span class="tool__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10"/><path d="M8 10V7a4 4 0 018 0v3"/></svg></span>
+        <span>
+          <h3 class="tool__name">Security Headers</h3>
+          <p class="tool__what">The response-header check.</p>
+          <p class="tool__meta">17 headers · one row per domain</p>
+        </span>
+      </a>
+
+    </div>
+  </section>
+
+  <section class="wrap family">
+    <div class="family__head">
+      <span class="eyebrow">Family 03</span>
+      <h2>What does this site look like to someone else?</h2>
+      <p>Two tools about surface rather than correctness. Their output is an input to your next job, not a verdict on your last one.</p>
+    </div>
+    <div class="index u-spotlight">
+
+      <a class="tool" href="/tools/brand-kit-extractor.html" style="--h:310">
+        <span class="tool__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v6H4zM4 15h7v4H4zM14 15h6v4h-6z"/></svg></span>
+        <span>
+          <h3 class="tool__name">Brand Kit</h3>
+          <p class="tool__what">The design-token extractor.</p>
+          <p class="tool__meta">computed colour · type · spacing</p>
+        </span>
+      </a>
+
+      <a class="tool" href="/tools/mobile-ux-auditor.html" style="--h:285">
+        <span class="tool__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="7" y="3" width="10" height="18" rx="1"/><path d="M11 18h2"/></svg></span>
+        <span>
+          <h3 class="tool__name">Mobile UX</h3>
+          <p class="tool__what">The small-screen check.</p>
+          <p class="tool__meta">tap targets · viewport · overflow</p>
+        </span>
+      </a>
+
+    </div>
+  </section>
+
+  <section class="wrap family">
+    <div class="family__head">
+      <span class="eyebrow">Family 04</span>
+      <h2>What is this page actually loading?</h2>
+      <p>Everything a page pulls in that nobody chose deliberately, and what it costs to pull it.</p>
+    </div>
+    <div class="index u-spotlight">
+
+      <a class="tool" href="/tools/third-party-script-auditor.html" style="--h:105">
+        <span class="tool__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 7l-5 5 5 5M15 7l5 5-5 5"/></svg></span>
+        <span>
+          <h3 class="tool__name">Third-Party Scripts</h3>
+          <p class="tool__what">The third-party inventory.</p>
+          <p class="tool__meta">origin · weight · blocking</p>
+        </span>
+      </a>
+
+      <a class="tool" href="/tools/tech-stack-analyzer.html" style="--h:140">
+        <span class="tool__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg></span>
+        <span>
+          <h3 class="tool__name">Tech Stack</h3>
+          <p class="tool__what">The technology detector.</p>
+          <p class="tool__meta">CMS · framework · pixels</p>
+        </span>
+      </a>
+
+      <a class="tool" href="/tools/carbon-calculator.html" style="--h:75">
+        <span class="tool__mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20c0-8 6-12 16-12 0 9-5 13-12 13"/><path d="M7 20c2-4 5-6 8-7"/></svg></span>
+        <span>
+          <h3 class="tool__name">Carbon</h3>
+          <p class="tool__what">The page-weight footprint.</p>
+          <p class="tool__meta">transfer bytes · grid intensity</p>
+        </span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- The cadence. A visible "what happens next" is what makes a set of
+       finished things read as a studio rather than a portfolio. Everything
+       stated here is a verifiable operating fact — no roadmap, no promised
+       products. What ships next genuinely depends on a decision that has not
+       been made, and saying so is more credible than inventing a quarter. -->
+  <section class="wrap cadence">
+    <span class="eyebrow">The rhythm</span>
+    <h2>How this keeps running.</h2>
+    <div class="cadence__grid">
+      <div>
+        <p class="cadence__when">Every morning</p>
+        <p class="cadence__what">Each published tool is run against a known target. Anything that stops answering correctly is disabled automatically, so a broken tool cannot quietly keep charging.</p>
+      </div>
+      <div>
+        <p class="cadence__when">Continuously</p>
+        <p class="cadence__what">A watcher tracks tools in this category being retired, acquired or abandoned. Ground somebody else has vacated is the only ground worth building on.</p>
+      </div>
+      <div>
+        <p class="cadence__when">Next</p>
+        <p class="cadence__what">Undecided, honestly. Twenty-seven tools are built and waiting, and which one earns a slot depends on a question not yet answered. When it is, it appears on the <a href="/lifecycle.html">lifecycle page</a> first.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Honesty as positioning. This is the only thing on the page a competitor
+       cannot copy without it becoming false for them. -->
+  <section class="wrap">
+    <div class="note">
+      <p><strong>Where this actually stands.</strong></p>
+      <p>
+        Eleven tools are published and eleven work — checked automatically every
+        morning. Twenty-seven more are built and unreleased, because publishing a
+        tool is a promise to keep it running, and that promise gets harder to keep
+        with every one added.
+      </p>
+      <p>
+        None of them has a meaningful number of users yet. If you came looking for
+        social proof, there isn't any — and a studio willing to invent it is a
+        studio willing to invent a passing grade in an audit report.
+      </p>
+      <p>
+        What gets retired, and why, is recorded on the
+        <a href="/lifecycle.html">lifecycle page</a>. It stays recorded after it is gone.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <p><strong>Artifact Machine</strong><br>
+        A one-person studio making single-purpose website checks.</p>
+      </div>
+      <div>
+        <p><a href="/about.html">About</a><br>
+        <a href="/lifecycle.html">Lifecycle</a><br>
+        <a href="/design-system.html">Design system</a></p>
+      </div>
+    </div>
+    <p class="colophon">
+      Set in Basteleur, Uncut Sans and Sligoil — all SIL Open Font License.
+      Colour authored in OKLCH; every text pairing here is measured against WCAG AA
+      rather than estimated, and that measurement runs live in your browser on the
+      design-system page. No analytics, no trackers, and no cookie banner, because
+      there are no cookies to consent to.
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Access Audit — Artifact Machine</title>
+<meta name="description" content="Check whether AI crawlers such as GPTBot, ClaudeBot and PerplexityBot can access your site. Audits robots.txt rules, llms.txt and AI access policy.">
+<link rel="canonical" href="https://artifactmachine.studio/tools/ai-access-audit.html">
+<meta property="og:site_name" content="Artifact Machine">
+<meta property="og:title" content="AI Access Audit — Artifact Machine">
+<meta property="og:description" content="Check whether AI crawlers such as GPTBot, ClaudeBot and PerplexityBot can access your site. Audits robots.txt rules, llms.txt and AI access policy.">
+<meta property="og:url" content="https://artifactmachine.studio/tools/ai-access-audit.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z' fill='%23a04a08'/%3E%3Crect x='8' y='14.6' width='8' height='7.9' rx='1.7' fill='%23a04a08'/%3E%3C/svg%3E">
+<link rel="preload" href="/assets/fonts/UncutSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts.css">
+<link rel="stylesheet" href="/assets/tokens.css">
+<link rel="stylesheet" href="/assets/motion.css">
+<link rel="stylesheet" href="/assets/page.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"AI Access Audit","applicationCategory":"DeveloperApplication","operatingSystem":"Any (web API)","url":"https://artifactmachine.studio/tools/ai-access-audit.html","description":"Check whether AI crawlers such as GPTBot, ClaudeBot and PerplexityBot can access your site. Audits robots.txt rules, llms.txt and AI access policy.","publisher":{"@type":"Organization","name":"Artifact Machine","url":"https://artifactmachine.studio"},"offers":{"@type":"Offer","price":"0.5","priceCurrency":"USD","url":"https://apify.com/artifact-machine/artifact-machine-ai-access-audit","availability":"https://schema.org/InStock","description":"$0.50 per result, billed per dataset item through Apify."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Tools","item":"https://artifactmachine.studio/"},{"@type":"ListItem","position":2,"name":"AI Access Audit","item":"https://artifactmachine.studio/tools/ai-access-audit.html"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does blocking AI crawlers affect normal search rankings?","acceptedAnswer":{"@type":"Answer","text":"No. GPTBot, ClaudeBot and PerplexityBot are separate user agents from Googlebot and Bingbot. Blocking the AI crawlers does not change classic search indexing — but it does mean AI assistants cannot read or cite the page."}},{"@type":"Question","name":"What is llms.txt?","acceptedAnswer":{"@type":"Answer","text":"A proposed plain-text file at the root of a site that tells large language models which pages matter and how to read them. It is a convention rather than a standard, and it is not required — this audit reports whether one exists rather than treating its absence as a failure."}}]}</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="/"><svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z" fill="var(--am-accent)"/><rect x="8" y="14.6" width="8" height="7.9" rx="1.7" fill="var(--am-accent)"/></svg><span>Artifact Machine</span></a>
+  <nav><a href="/#tools">Tools</a><a href="/lifecycle.html">Lifecycle</a><a href="/about.html">About</a></nav>
+</div></header>
+<main><div class="wrap">
+  <section class="hero">
+    <p><span class="tag">$0.50 per result</span></p>
+    <h1>AI Access Audit</h1>
+    <p>Check whether AI crawlers such as GPTBot, ClaudeBot and PerplexityBot can access your site. Audits robots.txt rules, llms.txt and AI access policy.</p>
+    <p>
+      <a class="cta" href="https://apify.com/artifact-machine/artifact-machine-ai-access-audit">Run it on Apify</a>
+      <a class="cta ghost" href="/">All tools</a>
+    </p>
+  </section>
+
+  <h2>Who it is for</h2>
+  <p class="lede">Anyone who wants their content quoted by AI assistants rather than skipped by them.</p>
+
+  <h2>What you would use it for</h2>
+  <ul>
+    <li>Find out whether GPTBot, ClaudeBot and PerplexityBot are allowed to read the site at all.</li>
+    <li>Catch a robots.txt rule that blocks AI crawlers by accident — a common side effect of copy-pasted boilerplate.</li>
+    <li>Check for an llms.txt file and whether the page carries the metadata an assistant needs to cite it.</li>
+    <li>Audit a portfolio of client sites in one run and rank them by score.</li>
+  </ul>
+
+  <h2>What you get back</h2>
+  <p>One JSON record per page checked. These are the actual fields returned by the most recent
+  successful run — read from the live catalogue, not a documented ideal.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Field</th><th>Sample shape</th></tr></thead>
+    <tbody>
+<tr><td><code>actor</code></td><td>string — artifact-machine-ai-access-audit</td></tr>
+<tr><td><code>actorVersion</code></td><td>string — 0.1.0</td></tr>
+<tr><td><code>auditedAt</code></td><td>string — 2026-07-29T05:03:21.813Z</td></tr>
+<tr><td><code>url</code></td><td>string — https://neighbornest.kids/</td></tr>
+<tr><td><code>origin</code></td><td>string — https://neighbornest.kids</td></tr>
+<tr><td><code>score</code></td><td>number — 20</td></tr>
+<tr><td><code>grade</code></td><td>string — F</td></tr>
+<tr><td><code>issueCounts</code></td><td>object (5 keys)</td></tr>
+<tr><td><code>checks</code></td><td>object (4 keys)</td></tr>
+<tr><td><code>issues</code></td><td>array (4)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Sample output</h2>
+  <p>Trimmed from a real run.</p>
+  <pre><code>{
+  &quot;actor&quot;: &quot;artifact-machine-ai-access-audit&quot;,
+  &quot;actorVersion&quot;: &quot;0.1.0&quot;,
+  &quot;auditedAt&quot;: &quot;2026-07-29T05:03:21.813Z&quot;,
+  &quot;url&quot;: &quot;https://neighbornest.kids/&quot;,
+  &quot;origin&quot;: &quot;https://neighbornest.kids&quot;,
+  &quot;score&quot;: 20,
+  &quot;grade&quot;: &quot;F&quot;,
+  &quot;issueCounts&quot;: {
+    &quot;critical&quot;: 0,
+    &quot;high&quot;: 2,
+    &quot;medium&quot;: 2,
+    &quot;low&quot;: 0,
+    &quot;total&quot;: 4
+  },
+  &quot;checks&quot;: {
+    &quot;robotsTxt&quot;: {
+      &quot;exists&quot;: false,
+      &quot;score&quot;: 0,
+      &quot;blockedSearchBots&quot;: 0,
+      &quot;blockedUserAgentBots&quot;: 0,
+      &quot;trainingBotsWithPolicy&quot;: 0,
+      &quot;wildcardDisallow&quot;: false
+    },
+    &quot;llmsTxt&quot;: {
+      &quot;exists&quot;: false,</code></pre>
+
+  <h2>Pricing</h2>
+  <p><strong>$0.50 per result.</strong> Pay-per-event through Apify — no subscription, and a run
+  that returns nothing costs nothing.</p>
+
+  <h2>Calling it from code</h2>
+  <p>Any HTTP client works. Replace <code class="mono">&lt;TOKEN&gt;</code> with your Apify API token.</p>
+  <pre><code>curl -X POST "https://api.apify.com/v2/acts/artifact-machine~artifact-machine-ai-access-audit/run-sync-get-dataset-items?token=&lt;TOKEN&gt;" \
+  -H "Content-Type: application/json" \
+  -d '{"startUrls":[{"url":"https://example.com"}]}'</code></pre>
+
+  <h2>Questions</h2>
+  <details class="faq"><summary>Does blocking AI crawlers affect normal search rankings?</summary><p>No. GPTBot, ClaudeBot and PerplexityBot are separate user agents from Googlebot and Bingbot. Blocking the AI crawlers does not change classic search indexing — but it does mean AI assistants cannot read or cite the page.</p></details>
+  <details class="faq"><summary>What is llms.txt?</summary><p>A proposed plain-text file at the root of a site that tells large language models which pages matter and how to read them. It is a convention rather than a standard, and it is not required — this audit reports whether one exists rather than treating its absence as a failure.</p></details>
+
+  <h2>Other tools</h2>
+  <p><a href="/tools/schema-audit.html">Schema Audit - JSON-LD Structured Data Validator</a> · <a href="/tools/security-headers-checker.html">Security Headers Checker</a> · <a href="/tools/sitemap-health-audit.html">Sitemap Health Audit - XML Sitemap Validator</a> · <a href="/tools/tech-stack-analyzer.html">Tech Stack Analyzer - Detect Website Technologies</a></p>
+
+  <p style="color:var(--muted);font-size:0.85rem;margin-top:2.5rem">
+    Details read from the live Apify catalogue on 2026-07-29.
+  </p>
+</div></main>
+<footer><div class="wrap">
+  <p><strong>Artifact Machine</strong> — Tiny useful things from the machine.</p>
+  <p>Every tool runs on <a href="https://apify.com/artifact-machine">Apify</a>. Pay per result, no subscription.</p>
+</div></footer>
+</body>
+</html>

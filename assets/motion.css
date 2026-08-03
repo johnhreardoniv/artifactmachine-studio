@@ -1,0 +1,215 @@
+/* ==========================================================================
+   ARTIFACT MACHINE — MOTION SYSTEM
+   --------------------------------------------------------------------------
+   CSS-first. Zero dependencies. Progressive enhancement throughout.
+
+   THE GOVERNING RULE: animate the first-visit narrative, never the navigation.
+   Frequency decides everything — an interaction seen a hundred times a day
+   must not be animated at all. Motion has to pay for itself in comprehension.
+
+   Deliberately absent, each for a sourced reason:
+     will-change anywhere         — MDN: "last resort"; 38 cards x will-change
+                                    is a layer explosion that costs memory and
+                                    makes the page slower, not faster
+     transform: translateZ(0)     — 2013 advice, now actively harmful
+     transition: all              — animates properties you never intended
+     animated box-shadow          — repaints every frame; use pseudo opacity
+     scroll-jacking / smooth-scroll libs — NN/g measured "the majority of our
+                                    study participants were at least mildly
+                                    disoriented"; task-oriented users (i.e.
+                                    anyone evaluating whether to buy) are the
+                                    least tolerant of it
+     split-text / per-letter reveals — screen readers read character by
+                                    character; GSAP's own accessible mode
+                                    worked in 2 of 8 tested SR/browser pairs
+     custom cursors               — removing the system cursor can make the
+                                    pointer effectively disappear for low
+                                    vision users running enlarged cursors
+     large parallax               — WCAG 2.3.3: triggers nausea and migraine;
+                                    ~35% of US adults 40+ report some
+                                    vestibular dysfunction
+   ========================================================================== */
+
+:root {
+  /* Durations. UI motion stays under 300ms; past that it reads as the site
+     performing for you rather than responding to you. */
+  --mo-0: 0ms;      /* repeat + keyboard-initiated actions: never animate    */
+  --mo-1: 120ms;    /* micro — colour, opacity, tint                         */
+  --mo-2: 180ms;    /* small move — icon shift, card lift                    */
+  --mo-3: 240ms;    /* component — popover, dropdown                         */
+  --mo-4: 320ms;    /* entrance — card, panel, section                       */
+  --mo-5: 420ms;    /* page-level — view transitions                         */
+
+  /* Easings. Strong deceleration is what reads as expensive: fast start,
+     long glide. Symmetric ease-in-out is what reads as cheap. */
+  --mo-ease-out:      cubic-bezier(0, 0, .3, 1);
+  --mo-ease-expo:     cubic-bezier(.19, 1, .22, 1);
+  --mo-ease-max:      cubic-bezier(0, 0, 0, 1);
+  --mo-ease-in:       cubic-bezier(.7, 0, 1, 1);      /* exits only          */
+  --mo-ease-emphasis: cubic-bezier(.2, 0, 0, 1);
+  --mo-ease-entrance: cubic-bezier(.05, .7, .1, 1);
+
+  /* One gentle overshoot to ~1.07, settled by ~60%. A bigger spring reads as
+     playful, which this brand is not. */
+  --mo-spring: linear(0,0.007,0.029 2.2%,0.118 4.7%,0.625 14.4%,0.826 19%,0.902,0.962,1.008 26.1%,1.041 28.7%,1.064 32.1%,1.07 36%,1.061 40.5%,1.015 53.4%,0.999 61.6%,0.995 71.2%,1);
+
+  --mo-rise: 12px;  --mo-lift: 6px;  --mo-nudge: 4px;
+  --mo-stagger-step: 45ms;
+  --mo-stagger-max: 6;   /* cap, so a 38-card grid has no 1.7s tail */
+}
+
+/* --- REDUCED MOTION ------------------------------------------------------
+   Replace MOVEMENT with FADE; do not delete transitions outright.
+
+   Two traps, the second of which almost nobody catches:
+     1. Use 0.01ms, not 0s — at exactly 0 the transitionend/animationend
+        events may never fire, silently breaking anything that waits on them.
+     2. `animation-duration: 0.01ms !important` DOES NOT STOP a scroll-driven
+        animation. When animation-timeline is a scroll or view timeline,
+        progress is driven by scroll POSITION, not by duration. A site can
+        pass a naive reduced-motion audit and still parallax someone into
+        nausea. `animation-timeline: none` is the actual off switch. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --mo-1: .01ms; --mo-2: .01ms; --mo-3: .01ms; --mo-4: .01ms; --mo-5: .01ms;
+    --mo-rise: 0px; --mo-lift: 0px; --mo-nudge: 0px;
+    --mo-stagger-step: 0ms;
+  }
+  *, ::before, ::after {
+    animation-timeline: none !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) { animation: none !important; }
+}
+
+/* The only smooth scroll worth shipping: native, compositor-driven, and it
+   already respects reduced-motion. A JS library buys nothing over this and
+   costs you scroll-snap and scroll-driven animations. */
+html { scroll-behavior: smooth; }
+
+
+/* --- 1 · SCROLL REVEAL ---------------------------------------------------
+   Runs off the main thread, so it stays smooth on a low-end phone even while
+   JS is busy. Gate the HIDING, not the showing — the classic failure is
+   writing the animation unconditionally so browsers without support sit at
+   opacity:0 forever with the content permanently invisible. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .u-reveal {
+      animation: mo-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 15% cover 35%;
+    }
+  }
+}
+@keyframes mo-reveal {
+  from { opacity: 0; transform: translateY(var(--mo-rise)); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* --- 2 · STAGGER, no JS -------------------------------------------------- */
+.u-stagger > * {
+  --i: 0;
+  animation: mo-reveal var(--mo-4) var(--mo-ease-entrance) both;
+  animation-delay: calc(min(var(--i), var(--mo-stagger-max)) * var(--mo-stagger-step));
+}
+@supports (width: calc(sibling-index() * 1px)) {
+  .u-stagger > * { --i: calc(sibling-index() - 1); }
+}
+
+/* --- 3 · PHYSICALITY -----------------------------------------------------
+   Enter fast, relax slow. A dismissal should be quicker than its entrance;
+   a hover relaxing back should be slower. Shadow rides on a pseudo-element's
+   opacity because animating box-shadow repaints on every single frame. */
+.u-press {
+  transition: scale var(--mo-2) var(--mo-ease-out),
+              background-color var(--mo-1) var(--mo-ease-out);
+  touch-action: manipulation;          /* removes the legacy 300ms tap delay */
+}
+.u-press:active { scale: .97; transition-duration: 60ms; }
+
+.u-lift { position: relative; transition: translate var(--mo-3) var(--mo-ease-out); }
+.u-lift::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit;
+  box-shadow: 0 12px 32px -8px oklch(17.5% 0.008 75 / .28);
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--mo-3) var(--mo-ease-out);
+}
+.u-lift:hover, .u-lift:focus-within {
+  translate: 0 calc(-1 * var(--mo-lift));
+  transition-duration: var(--mo-2);
+}
+.u-lift:hover::after, .u-lift:focus-within::after { opacity: 1; }
+
+/* --- 4 · OVERLAYS, in AND out, no JS -------------------------------------
+   @starting-style must come AFTER the open state or the cascade eats it.
+   allow-discrete on display+overlay is what makes the EXIT animate at all. */
+.u-overlay {
+  opacity: 0; scale: .96;
+  transition: opacity var(--mo-3) var(--mo-ease-out),
+              scale   var(--mo-3) var(--mo-spring),
+              display var(--mo-3) allow-discrete,
+              overlay var(--mo-3) allow-discrete;
+}
+.u-overlay:popover-open,
+dialog.u-overlay[open] { opacity: 1; scale: 1; }
+@starting-style {
+  .u-overlay:popover-open,
+  dialog.u-overlay[open] { opacity: 0; scale: .96; }
+}
+
+/* --- 5 · REVEAL ON HOVER, keyboard-inclusive by construction -------------
+   :focus-within is the whole difference between craft and decoration here.
+   A hover-only reveal is simply unavailable to keyboard users. */
+.u-disclose {
+  opacity: 0; translate: 0 var(--mo-nudge);
+  transition: opacity var(--mo-1) var(--mo-ease-out),
+              translate var(--mo-2) var(--mo-ease-out);
+}
+:is(:hover, :focus-within) > .u-disclose,
+:is(:hover, :focus-within) .u-disclose { opacity: 1; translate: 0 0; }
+
+/* Spotlight — hovering one card recedes its siblings. Reveals hierarchy
+   rather than decorating, and is impossible without :has(). */
+.u-spotlight:has(> :hover) > *      { opacity: .55; transition: opacity var(--mo-1) var(--mo-ease-out); }
+.u-spotlight:has(> :hover) > :hover { opacity: 1; }
+
+/* --- 6 · DIRECTIONAL HINT ------------------------------------------------ */
+.u-go__arrow { transition: translate var(--mo-2) var(--mo-ease-out); }
+.u-go:hover .u-go__arrow, .u-go:focus-visible .u-go__arrow { translate: 4px 0; }
+
+/* --- 7 · TICKER (WCAG 2.2.2) ---------------------------------------------
+   Anything that starts automatically, runs over five seconds and sits beside
+   other content needs a way to pause. Hover AND focus, plus reduced-motion.
+   Duplicate the track in markup with aria-hidden="true". */
+.u-ticker { overflow: hidden; display: flex; }
+.u-ticker__track { display: flex; flex: none; gap: 3rem; animation: mo-ticker 40s linear infinite; }
+@keyframes mo-ticker { to { transform: translateX(-100%); } }
+.u-ticker:hover .u-ticker__track,
+.u-ticker:focus-within .u-ticker__track { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .u-ticker__track { animation-play-state: paused; } }
+
+/* --- 8 · CROSS-DOCUMENT PAGE TRANSITIONS --------------------------------
+   The highest craft-per-byte move available to a static multi-page site:
+   roughly six lines, no JS, and it degrades to an ordinary navigation where
+   unsupported. Both pages must opt in and be same-origin. */
+@view-transition { navigation: auto; }
+.site-header { view-transition-name: header; }
+
+::view-transition-old(root) { animation: 90ms var(--mo-ease-in) both mo-vt-out; }
+::view-transition-new(root) { animation: 240ms var(--mo-ease-emphasis) 60ms both mo-vt-in; }
+@keyframes mo-vt-out { to   { opacity: 0; } }
+@keyframes mo-vt-in  { from { opacity: 0; transform: translateY(8px); } }
+
+/* --- 9 · LONG CATALOGUE PAGES -------------------------------------------
+   The single biggest rendering lever for a 38-tool grid. `auto` as the first
+   value makes the browser remember the real size after first paint, which
+   avoids the scrollbar jump. Never apply above the fold — it delays LCP. */
+.u-defer { content-visibility: auto; contain-intrinsic-size: auto 320px; }
+
+/* --- 10 · TYPOGRAPHIC POLISH -------------------------------------------- */
+h1, h2, h3, .card-title, blockquote { text-wrap: balance; }
+p, li { text-wrap: pretty; }

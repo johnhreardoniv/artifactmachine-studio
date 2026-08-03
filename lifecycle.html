@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lifecycle — Artifact Machine</title>
+<meta name="description" content="What is published, what is held back, and what has been retired — with dates and reasons. Retired tools stay listed.">
+<link rel="canonical" href="https://artifactmachine.studio/lifecycle.html">
+<meta name="robots" content="index,follow">
+<link rel="preload" href="/assets/fonts/UncutSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts.css">
+<link rel="stylesheet" href="/assets/tokens.css">
+<link rel="stylesheet" href="/assets/motion.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z' fill='%23a04a08'/%3E%3Crect x='8' y='14.6' width='8' height='7.9' rx='1.7' fill='%23a04a08'/%3E%3C/svg%3E">
+<style>
+  *,*::before,*::after { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--am-bg); color: var(--am-text);
+    font-family: var(--am-font-sans); font-size: var(--am-text-md);
+    line-height: var(--am-leading-body); -webkit-font-smoothing: antialiased;
+    hanging-punctuation: first last;
+  }
+  .wrap { max-width: 62rem; margin-inline: auto; padding-inline: var(--am-space-6); }
+  a { color: var(--am-accent); text-underline-offset: 2px; }
+
+  .skip { position:absolute; left:-9999px; top:0; z-index:var(--am-z-top); background:var(--am-accent); color:var(--am-on-accent); padding:var(--am-space-3) var(--am-space-5); text-decoration:none; }
+  .skip:focus { left: var(--am-space-4); top: var(--am-space-4); }
+
+  .site-header { border-bottom: var(--am-rule); position: sticky; top:0; z-index: var(--am-z-sticky);
+    background: color-mix(in oklab, var(--am-bg) 86%, transparent); backdrop-filter: blur(10px); }
+  .site-header .wrap { display:flex; align-items:center; gap:var(--am-space-4); padding-block:var(--am-space-4); }
+  .brand { display:inline-flex; align-items:center; gap:var(--am-space-3); text-decoration:none; color:inherit; }
+  .brand__name { font-size:var(--am-text-xs); letter-spacing:var(--am-tracking-brand); text-transform:uppercase; font-weight:var(--am-weight-medium); white-space:nowrap; }
+  .mark { width:24px; height:24px; flex:none; display:block; }
+  .site-header nav { margin-left:auto; display:flex; gap:var(--am-space-5); }
+  .site-header nav a { color:var(--am-text-muted); text-decoration:none; font-size:var(--am-text-sm); }
+  .site-header nav a:hover { color: var(--am-text); }
+
+  h1 { font-family: var(--am-font-display); font-size: var(--am-text-3xl);
+       line-height: var(--am-leading-tight); letter-spacing: var(--am-tracking-display);
+       margin: 0 0 var(--am-space-5); max-width: 20ch; text-wrap: balance; }
+  .lede { font-size: var(--am-text-lg); color: var(--am-text-muted); max-width: 60ch; margin: 0; }
+  header.page { padding-block: var(--am-space-20) var(--am-space-12); }
+
+  h2 { font-size: var(--am-text-xl); letter-spacing: var(--am-tracking-tight);
+       margin: 0 0 var(--am-space-2); text-wrap: balance; }
+  section.block { padding-block: var(--am-space-12); border-top: var(--am-rule); }
+  section.block > p { color: var(--am-text-muted); max-width: 64ch; margin: 0 0 var(--am-space-8); font-size: var(--am-text-sm); }
+  .eyebrow { display:block; margin-bottom:var(--am-space-3); font-family:var(--am-font-mono);
+             font-size:var(--am-text-2xs); letter-spacing:var(--am-tracking-label);
+             text-transform:uppercase; color:var(--am-text-faint); }
+
+  /* ---- LIVE rows ---- */
+  .rows { border-bottom: var(--am-rule); }
+  .row {
+    display: grid; grid-template-columns: 1fr auto; gap: var(--am-space-4);
+    align-items: first baseline;
+    padding: var(--am-space-3) 0; border-top: var(--am-rule);
+    text-decoration: none; color: inherit;
+  }
+  .row:hover .row__name { color: var(--am-accent); }
+  .row__name { font-weight: var(--am-weight-medium); }
+  .row__sub { display:block; color: var(--am-text-muted); font-size: var(--am-text-sm); }
+  .row__meta { font-family: var(--am-font-mono); font-size: var(--am-text-2xs);
+               color: var(--am-text-faint); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  /* ---- RETIRED rows: deliberately a DIFFERENT SHAPE, not a greyed-out
+     version of a live one. The price is deleted and a date takes its place;
+     the descriptive line is promoted above the name. A retired tool becomes a
+     dated entry in a body of work rather than a failed transaction. No
+     strikethrough, no red pill, no tombstone styling. ---- */
+  .row--retired .row__sub { order: -1; font-style: italic; }
+  .row--retired .row__name { font-weight: var(--am-weight-regular); }
+  .row--retired .row__meta { color: var(--am-retired); }
+
+  .empty {
+    padding: var(--am-space-8); border: 1px dashed var(--am-border-strong);
+    color: var(--am-text-muted); font-size: var(--am-text-sm); max-width: 64ch;
+  }
+  .empty strong { color: var(--am-text); }
+
+  .promise { padding: var(--am-space-6); border: var(--am-rule);
+             border-left: 3px solid var(--am-accent); background: var(--am-surface);
+             max-width: 68ch; }
+  .promise p { margin: 0 0 var(--am-space-3); color: var(--am-text-muted); font-size: var(--am-text-sm); }
+  .promise p:last-child { margin-bottom: 0; }
+  .promise strong { color: var(--am-text); }
+
+  footer { border-top: var(--am-rule); margin-top: var(--am-space-16);
+           padding-block: var(--am-space-10) var(--am-space-20);
+           font-size: var(--am-text-sm); color: var(--am-text-muted); }
+  footer a { color: var(--am-text-muted); }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#live">Skip to the list</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z" fill="var(--am-accent)"/><rect x="8" y="14.6" width="8" height="7.9" rx="1.7" fill="var(--am-accent)"/></svg>
+      <span class="brand__name">Artifact Machine</span>
+    </a>
+    <nav>
+      <a href="/#tools">Tools</a>
+      <a href="/lifecycle.html">Lifecycle</a>
+      <a href="/about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <header class="page">
+    <h1>What is running, and what stopped.</h1>
+    <p class="lede">
+      Every tool here will eventually be retired or replaced. When that happens it
+      does not disappear — it moves down this page with a date and a reason, and
+      stays there.
+    </p>
+  </header>
+
+  <section class="block">
+    <span class="eyebrow">The commitment</span>
+    <h2>Why this page exists before it is needed</h2>
+    <p>
+      This category is full of tools that were quietly switched off. The free
+      website grader that built somebody's mailing list, the checker that was
+      acquired and shut down, the audit API that stopped answering. Nothing warns
+      you; the URL simply stops working.
+    </p>
+    <div class="promise">
+      <p><strong>Three things, stated plainly.</strong></p>
+      <p>
+        <strong>1.</strong> No tool is removed without appearing here first, with the
+        date it stopped and the reason it stopped.
+      </p>
+      <p>
+        <strong>2.</strong> A retired tool keeps its page. Links to it keep resolving.
+        The page says what it did, when it ran, and what to use instead if anything.
+      </p>
+      <p>
+        <strong>3.</strong> If a tool is retired because it stopped being worth
+        running, this page says that, in those words. Not "sunset", not "graduated",
+        not "evolved".
+      </p>
+    </div>
+  </section>
+
+  <section class="block" id="live">
+    <span class="eyebrow">Running now — 11</span>
+    <h2>Published and checked every morning</h2>
+    <p>
+      An automated check runs against each of these daily and disables anything that
+      stops responding correctly, so a broken tool cannot quietly keep taking money.
+      The date is when it was first published.
+    </p>
+    <div class="rows">
+
+      <a class="row" href="/tools/ai-access-audit.html">
+        <span><span class="row__name">AI Access</span>
+          <span class="row__sub">The model-readability check.</span></span>
+        <span class="row__meta">Jul 2026 · $0.50</span>
+      </a>
+
+      <a class="row" href="/tools/schema-audit.html">
+        <span><span class="row__name">Schema</span>
+          <span class="row__sub">The structured-data check.</span></span>
+        <span class="row__meta">Jul 2026 · $1.00</span>
+      </a>
+
+      <a class="row" href="/tools/sitemap-health-audit.html">
+        <span><span class="row__name">Sitemap Health</span>
+          <span class="row__sub">The sitemap check.</span></span>
+        <span class="row__meta">Jul 2026 · $1.00</span>
+      </a>
+
+      <a class="row" href="/tools/accessibility-audit.html">
+        <span><span class="row__name">Accessibility</span>
+          <span class="row__sub">The WCAG check.</span></span>
+        <span class="row__meta">Jul 2026 · $2.00</span>
+      </a>
+
+      <a class="row" href="/tools/privacy-consent-scanner.html">
+        <span><span class="row__name">Privacy &amp; Consent</span>
+          <span class="row__sub">The cookie-and-consent check.</span></span>
+        <span class="row__meta">Jul 2026 · $2.00</span>
+      </a>
+
+      <a class="row" href="/tools/security-headers-checker.html">
+        <span><span class="row__name">Security Headers</span>
+          <span class="row__sub">The response-header check.</span></span>
+        <span class="row__meta">Jul 2026 · $1.00</span>
+      </a>
+
+      <a class="row" href="/tools/brand-kit-extractor.html">
+        <span><span class="row__name">Brand Kit</span>
+          <span class="row__sub">The design-token extractor.</span></span>
+        <span class="row__meta">Jul 2026 · $3.00</span>
+      </a>
+
+      <a class="row" href="/tools/mobile-ux-auditor.html">
+        <span><span class="row__name">Mobile UX</span>
+          <span class="row__sub">The small-screen check.</span></span>
+        <span class="row__meta">Jul 2026 · $2.00</span>
+      </a>
+
+      <a class="row" href="/tools/third-party-script-auditor.html">
+        <span><span class="row__name">Third-Party Scripts</span>
+          <span class="row__sub">The third-party inventory.</span></span>
+        <span class="row__meta">Jul 2026 · $1.00</span>
+      </a>
+
+      <a class="row" href="/tools/tech-stack-analyzer.html">
+        <span><span class="row__name">Tech Stack</span>
+          <span class="row__sub">The technology detector.</span></span>
+        <span class="row__meta">Jul 2026 · $0.50</span>
+      </a>
+
+      <a class="row" href="/tools/carbon-calculator.html">
+        <span><span class="row__name">Carbon</span>
+          <span class="row__sub">The page-weight footprint.</span></span>
+        <span class="row__meta">Jul 2026 · $1.00</span>
+      </a>
+
+    </div>
+  </section>
+
+  <section class="block">
+    <span class="eyebrow">Built, not published — 27</span>
+    <h2>Why twenty-seven finished tools are being held back</h2>
+    <p>
+      They exist, they run, and they are not listed. Publishing a tool is a promise
+      to keep it working, and eleven promises is roughly what one person can keep
+      while also building. Shipping all thirty-eight would produce a catalogue where
+      most entries slowly rot — which is the exact failure this page exists to avoid.
+    </p>
+    <p>
+      Some of them will never be published, because on inspection they duplicate a
+      free tool that is better maintained than anything a one-person studio can offer.
+      That is a reason to stop, not a reason to ship and hope.
+    </p>
+  </section>
+
+  <section class="block">
+    <span class="eyebrow">Retired — 0</span>
+    <h2>Nothing has been retired yet</h2>
+    <div class="empty">
+      <p style="margin:0 0 var(--am-space-3)">
+        <strong>This section is empty, and that is not an achievement.</strong>
+        The catalogue is new. Nothing has been running long enough to have earned
+        the right to be called durable.
+      </p>
+      <p style="margin:0">
+        When the first entry appears here it will keep its own page, and it will read
+        the way the live entries above read — a description, a date, a reason — not a
+        greyed-out tombstone.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><a href="/">← Artifact Machine</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

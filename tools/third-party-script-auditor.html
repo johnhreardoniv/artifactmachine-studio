@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Third-Party Script Auditor — Artifact Machine</title>
+<meta name="description" content="Categorize external scripts by purpose and measure their impact.">
+<link rel="canonical" href="https://artifactmachine.studio/tools/third-party-script-auditor.html">
+<meta property="og:site_name" content="Artifact Machine">
+<meta property="og:title" content="Third-Party Script Auditor — Artifact Machine">
+<meta property="og:description" content="Categorize external scripts by purpose and measure their impact.">
+<meta property="og:url" content="https://artifactmachine.studio/tools/third-party-script-auditor.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z' fill='%23a04a08'/%3E%3Crect x='8' y='14.6' width='8' height='7.9' rx='1.7' fill='%23a04a08'/%3E%3C/svg%3E">
+<link rel="preload" href="/assets/fonts/UncutSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts.css">
+<link rel="stylesheet" href="/assets/tokens.css">
+<link rel="stylesheet" href="/assets/motion.css">
+<link rel="stylesheet" href="/assets/page.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Third-Party Script Auditor","applicationCategory":"DeveloperApplication","operatingSystem":"Any (web API)","url":"https://artifactmachine.studio/tools/third-party-script-auditor.html","description":"Categorize external scripts by purpose and measure their impact.","publisher":{"@type":"Organization","name":"Artifact Machine","url":"https://artifactmachine.studio"},"offers":{"@type":"Offer","price":"1","priceCurrency":"USD","url":"https://apify.com/artifact-machine/artifact-machine-third-party-script-auditor","availability":"https://schema.org/InStock","description":"$1 per result, billed per dataset item through Apify."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Tools","item":"https://artifactmachine.studio/"},{"@type":"ListItem","position":2,"name":"Third-Party Script Auditor","item":"https://artifactmachine.studio/tools/third-party-script-auditor.html"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why does the third-party count matter?","acceptedAnswer":{"@type":"Answer","text":"Each external origin is a DNS lookup, a connection, a performance cost and a party that can execute code on your page. Most sites accumulate them and remove none. An inventory is the first step of both a performance budget and a Content-Security-Policy."}}]}</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="/"><svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z" fill="var(--am-accent)"/><rect x="8" y="14.6" width="8" height="7.9" rx="1.7" fill="var(--am-accent)"/></svg><span>Artifact Machine</span></a>
+  <nav><a href="/#tools">Tools</a><a href="/lifecycle.html">Lifecycle</a><a href="/about.html">About</a></nav>
+</div></header>
+<main><div class="wrap">
+  <section class="hero">
+    <p><span class="tag">$1 per result</span></p>
+    <h1>Third-Party Script Auditor</h1>
+    <p>Categorize external scripts by purpose and measure their impact.</p>
+    <p>
+      <a class="cta" href="https://apify.com/artifact-machine/artifact-machine-third-party-script-auditor">Run it on Apify</a>
+      <a class="cta ghost" href="/">All tools</a>
+    </p>
+  </section>
+
+  <h2>Who it is for</h2>
+  <p class="lede">Performance and security work that needs to know exactly what else is loading on the page.</p>
+
+  <h2>What you would use it for</h2>
+  <ul>
+    <li>List every external script, stylesheet and iframe, grouped by the domain serving it.</li>
+    <li>Categorise third parties by purpose so the page-weight conversation has evidence behind it.</li>
+    <li>Find tags nobody remembers adding — the usual outcome of a long-lived marketing site.</li>
+    <li>Build the third-party inventory a CSP or a vendor review needs.</li>
+  </ul>
+
+  <h2>What you get back</h2>
+  <p>One JSON record per page checked. These are the actual fields returned by the most recent
+  successful run — read from the live catalogue, not a documented ideal.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Field</th><th>Sample shape</th></tr></thead>
+    <tbody>
+<tr><td><code>actor</code></td><td>string</td></tr>
+<tr><td><code>actorVersion</code></td><td>string — 0.1.0</td></tr>
+<tr><td><code>auditedAt</code></td><td>string — 2026-07-29T05:05:25.712Z</td></tr>
+<tr><td><code>targetUrl</code></td><td>string — https://neighbornest.kids/</td></tr>
+<tr><td><code>score</code></td><td>number — 100</td></tr>
+<tr><td><code>summary</code></td><td>object (12 keys)</td></tr>
+<tr><td><code>scripts</code></td><td>object (6 keys)</td></tr>
+<tr><td><code>stylesheets</code></td><td>object (3 keys)</td></tr>
+<tr><td><code>iframes</code></td><td>object (2 keys)</td></tr>
+<tr><td><code>domains</code></td><td>object (4 keys)</td></tr>
+<tr><td><code>resourceHints</code></td><td>object (3 keys)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Sample output</h2>
+  <p>Trimmed from a real run.</p>
+  <pre><code>{
+  &quot;actor&quot;: &quot;artifact-machine-third-party-script-auditor&quot;,
+  &quot;actorVersion&quot;: &quot;0.1.0&quot;,
+  &quot;auditedAt&quot;: &quot;2026-07-29T05:05:25.712Z&quot;,
+  &quot;targetUrl&quot;: &quot;https://neighbornest.kids/&quot;,
+  &quot;score&quot;: 100,
+  &quot;summary&quot;: {
+    &quot;thirdPartyTotal&quot;: 0,
+    &quot;renderBlockingScripts&quot;: 0,
+    &quot;asyncScripts&quot;: 0,
+    &quot;deferScripts&quot;: 0,
+    &quot;thirdPartyStylesheets&quot;: 0,
+    &quot;renderBlockingStylesheets&quot;: 0,
+    &quot;thirdPartyIframes&quot;: 0,
+    &quot;domainCount&quot;: 0,
+    &quot;preconnectHints&quot;: 0,
+    &quot;dnsPrefetchHints&quot;: 0,
+    &quot;preloads&quot;: 2,
+    &quot;internalScripts&quot;: 11
+  },
+  &quot;scripts&quot;: {
+    &quot;score&quot;: 100,
+    &quot;total&quot;: 0,
+    &quot;renderBlocking&quot;: 0,
+    &quot;async&quot;: 0,
+    &quot;defer&quot;: 0,</code></pre>
+
+  <h2>Pricing</h2>
+  <p><strong>$1 per result.</strong> Pay-per-event through Apify — no subscription, and a run
+  that returns nothing costs nothing.</p>
+
+  <h2>Calling it from code</h2>
+  <p>Any HTTP client works. Replace <code class="mono">&lt;TOKEN&gt;</code> with your Apify API token.</p>
+  <pre><code>curl -X POST "https://api.apify.com/v2/acts/artifact-machine~artifact-machine-third-party-script-auditor/run-sync-get-dataset-items?token=&lt;TOKEN&gt;" \
+  -H "Content-Type: application/json" \
+  -d '{"startUrls":[{"url":"https://example.com"}]}'</code></pre>
+
+  <h2>Questions</h2>
+  <details class="faq"><summary>Why does the third-party count matter?</summary><p>Each external origin is a DNS lookup, a connection, a performance cost and a party that can execute code on your page. Most sites accumulate them and remove none. An inventory is the first step of both a performance budget and a Content-Security-Policy.</p></details>
+
+  <h2>Other tools</h2>
+  <p><a href="/tools/schema-audit.html">Schema Audit - JSON-LD Structured Data Validator</a> · <a href="/tools/security-headers-checker.html">Security Headers Checker</a> · <a href="/tools/sitemap-health-audit.html">Sitemap Health Audit - XML Sitemap Validator</a> · <a href="/tools/tech-stack-analyzer.html">Tech Stack Analyzer - Detect Website Technologies</a></p>
+
+  <p style="color:var(--muted);font-size:0.85rem;margin-top:2.5rem">
+    Details read from the live Apify catalogue on 2026-07-29.
+  </p>
+</div></main>
+<footer><div class="wrap">
+  <p><strong>Artifact Machine</strong> — Tiny useful things from the machine.</p>
+  <p>Every tool runs on <a href="https://apify.com/artifact-machine">Apify</a>. Pay per result, no subscription.</p>
+</div></footer>
+</body>
+</html>

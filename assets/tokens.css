@@ -1,0 +1,366 @@
+/* ==========================================================================
+   ARTIFACT MACHINE — DESIGN TOKENS
+   --------------------------------------------------------------------------
+   The single source of truth. Nothing in this codebase may hardcode a colour,
+   a size, or a duration; it references a token here or it is a bug.
+
+   WHY THESE CHOICES
+
+   Colour: a measurement of 24 logos in the website-audit category came back
+   blue 11, neutral 4, orange 3, green 2 — roughly 46% blue, and thick with
+   mascots, gradients and roundels. Warm ink-and-paper with a single burnt
+   orange accent is therefore the open lane, and it is chosen for that reason
+   rather than for taste. Blue is forbidden as a primary here (see FORBIDDEN).
+
+   Everything is authored in OKLCH. Unlike HSL, equal lightness steps in OKLCH
+   look equally light to the eye, so a ramp built from it stays even across
+   hues instead of collapsing in the yellows and blooming in the blues.
+
+   Contrast: every pairing marked AA below was computed, not eyeballed. See
+   design-system.html, which measures them live in the browser and fails
+   visibly if a token is edited into non-compliance.
+   ========================================================================== */
+
+:root {
+  color-scheme: light dark;
+
+  /* --- BRAND -------------------------------------------------------------
+     One accent. A second accent is how a palette starts dying, so the system
+     buys emphasis with weight, size and space instead. */
+  --am-ember-50:  oklch(97.2% 0.018  62);
+  --am-ember-100: oklch(93.5% 0.042  62);
+  --am-ember-200: oklch(87.0% 0.078  60);
+  --am-ember-300: oklch(79.5% 0.115  58);
+  --am-ember-400: oklch(72.0% 0.145  55);
+  --am-ember-500: oklch(64.5% 0.158  52);  /* core brand — #b4530a lineage  */
+  --am-ember-600: oklch(56.0% 0.148  50);  /* AA on paper at any text size  */
+  --am-ember-700: oklch(46.5% 0.124  48);
+  --am-ember-800: oklch(37.0% 0.096  46);
+  --am-ember-900: oklch(28.0% 0.068  44);
+
+  /* --- NEUTRALS ----------------------------------------------------------
+     Warm, not grey. Hue 75 keeps a trace of the ember in every surface so the
+     page reads as paper and ink rather than as a default UI slab. */
+  --am-ink-50:  oklch(98.4% 0.004 75);
+  --am-ink-100: oklch(96.3% 0.006 75);
+  --am-ink-200: oklch(92.6% 0.009 75);
+  --am-ink-300: oklch(86.0% 0.011 75);
+  --am-ink-400: oklch(72.0% 0.013 75);
+  --am-ink-500: oklch(58.0% 0.014 75);
+  /* 550 exists solely because 500 measures 4.10:1 on paper — below AA. It is
+     the lightest ink that still clears 4.5:1 (measured 4.61:1). 500 is kept
+     unchanged because DARK theme needs it at 4.70:1 on ink-950; darkening the
+     shared step to fix light would have broken dark. Light and dark disagree
+     about which end of the ramp is safe, so they get different tokens. */
+  --am-ink-550: oklch(55.0% 0.014 75);
+  --am-ink-600: oklch(46.0% 0.013 75);
+  --am-ink-700: oklch(35.5% 0.011 75);
+  --am-ink-800: oklch(25.0% 0.009 75);
+  --am-ink-900: oklch(17.5% 0.008 75);
+  --am-ink-950: oklch(12.5% 0.007 75);
+
+  /* --- STATUS ------------------------------------------------------------
+     Deliberately desaturated. These sit inside audit results next to the
+     ember, and full-chroma semantic colour would fight the brand every time
+     a report renders. Never the only signal — always paired with a label. */
+  --am-pass:  oklch(58.0% 0.105 152);
+  /* Amber is the trap in every palette: it looks dark and measures light.
+     At the conventional 70% it was 2.70:1 on white — under the 3:1 needed for
+     a non-text indicator. 63% measures 3.55:1 and still reads as amber. */
+  --am-warn:  oklch(63.0% 0.130  85);
+  --am-fail:  oklch(55.0% 0.170  27);
+  --am-info:  oklch(58.0% 0.070 240);   /* informational ONLY, never brand   */
+  --am-retired: var(--am-ink-500);      /* lifecycle: honourably discontinued */
+
+  /* --- SEMANTIC: LIGHT (default) ---------------------------------------- */
+  --am-bg:            var(--am-ink-50);
+  --am-bg-sunk:       var(--am-ink-100);
+  --am-surface:       #ffffff;
+  --am-surface-raised:#ffffff;
+  --am-border:        var(--am-ink-200);   /* decorative — no ratio required */
+  /* border-strong carries MEANING (field boundaries, structural dividers), so
+     WCAG 1.4.11 applies at 3:1. ink-300 measured 1.46:1 — less than half the
+     requirement. This is a dedicated value, not a ramp step, because the ramp
+     step that passes in light fails in dark and vice versa. Measured 3.22:1. */
+  --am-border-strong: oklch(64.0% 0.011 75);
+  /* Ratios below are MEASURED in-browser (see the live audit in
+     design-system.html), not estimated. Earlier estimates here were wrong —
+     text-faint was annotated 4.6:1 and actually measured 4.10:1. */
+  --am-text:          var(--am-ink-900);   /* 18.05:1 on --am-bg — AAA      */
+  --am-text-muted:    var(--am-ink-600);   /*  6.81:1 on --am-bg — AA       */
+  --am-text-faint:    var(--am-ink-550);   /*  4.61:1 on --am-bg — AA       */
+  --am-accent:        var(--am-ember-600);
+  --am-accent-hover:  var(--am-ember-700);
+  --am-accent-quiet:  var(--am-ember-50);
+  --am-on-accent:     #ffffff;             /*  4.93:1 on accent — AA        */
+  --am-focus:         var(--am-ember-600);
+
+  /* --- TYPE --------------------------------------------------------------
+     Two voices, and only two.
+       Sans — the plain speaking voice. Everything a human reads.
+       Mono — the machine's voice. Anything the machine measured: scores,
+              URLs, headers, counts, timestamps, IDs.
+     The split is semantic, not decorative. If a number was measured it is
+     mono; if a person wrote it, it is sans. That single rule is most of why
+     the pages read as instrument rather than as marketing.
+
+     CHOSEN FACES — all SIL OFL 1.1, all self-hostable without ambiguity,
+     ~178 KB for three voices:
+       Display — Basteleur Bold        (Keussel / Velvetyne)      48,040 B
+       Text    — Uncut Sans variable   (Kasper Nordkvist)         78,072 B
+       Mono    — Sligoil variable      (A. Martín Pérez/Velvetyne)52,328 B
+
+     Chosen over the safe option (Bricolage/Literata/Geist Mono) because
+     nothing else will be wearing it. Every face in the "fonts designers
+     actually use in 2026" lists is paid indie type; of 50, exactly one is
+     open source. Velvetyne and Collletttivo are where free type with actual
+     character lives, and Basteleur's Tarot-de-Marseille × Cooper Black warmth
+     is unlike anything on a competitor's pricing page.
+
+     ⚠ DO NOT substitute Fontshare faces (Switzer, Satoshi, Cabinet Grotesk).
+     They are ITF-FFL, not OFL. That licence forbids "uploading them in a
+     public server", forbids transmitting the font over the internet for font
+     serving without written consent, and forbids modification — which forbids
+     subsetting. It is also revocable. Committing them to a public repo is
+     redistribution to anyone who can clone it.
+
+     ⚠ Until the .woff2 files land in /assets/fonts, the fallbacks below carry
+     the page. They are real, chosen fallbacks — not placeholders — so the
+     site is never blocked on a font binary. */
+  --am-font-display: "Basteleur", "Cooper Black", "Iowan Old Style",
+                     Georgia, serif;
+  --am-font-sans: "Uncut Sans", ui-sans-serif, system-ui, -apple-system,
+                  "Helvetica Neue", "Segoe UI", Roboto, Arial, sans-serif;
+  --am-font-mono: "Sligoil", ui-monospace, "SF Mono", "Cascadia Mono",
+                  Menlo, Consolas, monospace;
+
+  /* Fluid ramp. clamp() means no breakpoint ever restates a size. */
+  --am-text-2xs: clamp(0.68rem, 0.66rem + 0.10vw, 0.74rem);
+  --am-text-xs:  clamp(0.76rem, 0.73rem + 0.13vw, 0.83rem);
+  --am-text-sm:  clamp(0.87rem, 0.84rem + 0.16vw, 0.95rem);
+  --am-text-md:  clamp(1.00rem, 0.96rem + 0.20vw, 1.09rem);
+  --am-text-lg:  clamp(1.15rem, 1.09rem + 0.30vw, 1.30rem);
+  --am-text-xl:  clamp(1.36rem, 1.25rem + 0.55vw, 1.70rem);
+  --am-text-2xl: clamp(1.65rem, 1.44rem + 1.05vw, 2.30rem);
+  --am-text-3xl: clamp(2.05rem, 1.66rem + 1.95vw, 3.20rem);
+  --am-text-4xl: clamp(2.55rem, 1.85rem + 3.50vw, 4.60rem);
+
+  --am-weight-regular: 400;
+  --am-weight-medium:  500;
+  --am-weight-bold:    700;
+
+  --am-leading-tight: 1.08;
+  --am-leading-snug:  1.28;
+  --am-leading-body:  1.62;
+
+  /* Optical tracking: large type needs negative, small caps need positive. */
+  --am-tracking-display: -0.022em;
+  --am-tracking-tight:   -0.011em;
+  --am-tracking-normal:   0;
+  --am-tracking-label:    0.085em;
+  --am-tracking-brand:    0.25em;   /* the wordmark's fixed letterspacing   */
+
+  /* --- SPACE -------------------------------------------------------------
+     A 24-unit grid. Every value below is a whole multiple of 4px so nothing
+     can land on a half-pixel and blur. */
+  --am-unit: 4px;
+  --am-space-1:  4px;    --am-space-2:  8px;    --am-space-3:  12px;
+  --am-space-4:  16px;   --am-space-5:  20px;   --am-space-6:  24px;
+  --am-space-8:  32px;   --am-space-10: 40px;   --am-space-12: 48px;
+  --am-space-16: 64px;   --am-space-20: 80px;   --am-space-24: 96px;
+  --am-space-32: 128px;  --am-space-40: 160px;
+
+  --am-measure:      68ch;   /* max comfortable reading width               */
+  --am-container:    1200px;
+  --am-container-wide: 1440px;
+
+  /* --- FORM --------------------------------------------------------------
+     Hard edges. The identity is industrial, and a rounded corner is the
+     fastest way to make a tool look like a consumer app. 2px is the only
+     softening permitted; the chamfer below is the brand's own corner. */
+  --am-radius-none: 0;
+  --am-radius-sm:   2px;
+  --am-radius-md:   3px;
+  /* The Corner Cut — a 45° cut, never a curve. Binding constraints from the
+     collision check (BRAND-IDENTITY.md §11):
+       TOP-LEFT ALWAYS. A top-right chamfer with a contrasting corner is the
+         universal document/file icon — verified against the raw geometry of
+         Material insert_drive_file, Bootstrap file-earmark and Feather file,
+         all cutting top-right. This shipped on the wrong corner and was moved.
+       NEVER varies per product. An earlier tile spec rotated the corner by
+         hash(slug) % 4, which puts one tile in four on the file-icon corner
+         and breaks the invariant-silhouette rule at the same time.
+       22-30% of the short edge. One corner only. Never standalone, never a
+         full-bleed panel, no fold or curl cues — those read as paper, and the
+         motif is a machined chamfer, not a dog-eared page. */
+  --am-chamfer:     10px;
+
+  --am-border-width: 1px;
+  --am-border-heavy: 2px;
+  --am-rule:         1px solid var(--am-border);
+
+  /* Shadows are near-neutral and warm-tinted; pure black shadow on a warm
+     surface reads as dirt. */
+  --am-shadow-sm: 0 1px 2px oklch(17.5% 0.008 75 / 0.06);
+  --am-shadow-md: 0 2px 4px oklch(17.5% 0.008 75 / 0.07),
+                  0 8px 16px oklch(17.5% 0.008 75 / 0.05);
+  --am-shadow-lg: 0 4px 8px oklch(17.5% 0.008 75 / 0.07),
+                  0 16px 32px oklch(17.5% 0.008 75 / 0.07);
+
+  /* --- MOTION ------------------------------------------------------------
+     Short and mechanical. Nothing bounces; a machine does not bounce.
+     Anything over 240ms starts to feel like a website performing for you. */
+  --am-dur-instant: 90ms;
+  --am-dur-fast:    140ms;
+  --am-dur-base:    200ms;
+  --am-dur-slow:    320ms;
+  --am-ease:        cubic-bezier(0.2, 0, 0.13, 1);
+  --am-ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+
+  --am-tilt: 15deg;   /* the 15° rule — the only angle in the system        */
+
+  --am-z-base: 1; --am-z-sticky: 100; --am-z-overlay: 400; --am-z-top: 900;
+}
+
+/* --- SEMANTIC: DARK ------------------------------------------------------
+   Not an inversion. The ember is lifted to 400/500 because a mid-chroma
+   orange that passes AA on paper goes muddy and fails on ink, and surfaces
+   step *up* in lightness rather than down so elevation still reads. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --am-bg:             var(--am-ink-950);
+    --am-bg-sunk:        oklch(9.5% 0.006 75);
+    --am-surface:        var(--am-ink-900);
+    --am-surface-raised: var(--am-ink-800);
+    --am-border:         oklch(28.0% 0.009 75);
+    /* 38% measured 2.03:1 on ink-950 — fails 1.4.11. 48% measures 3.09:1. */
+  --am-border-strong:  oklch(48.0% 0.010 75);
+    --am-text:           var(--am-ink-100);
+    --am-text-muted:     var(--am-ink-400);
+    --am-text-faint:     var(--am-ink-500);
+    --am-accent:         var(--am-ember-400);
+    --am-accent-hover:   var(--am-ember-300);
+    --am-accent-quiet:   oklch(26.0% 0.052 52);
+    --am-on-accent:      var(--am-ink-950);
+    --am-focus:          var(--am-ember-300);
+    --am-pass:  oklch(72.0% 0.115 152);
+    --am-warn:  oklch(80.0% 0.130  85);
+    --am-fail:  oklch(68.0% 0.150  27);
+    --am-info:  oklch(70.0% 0.070 240);
+    --am-shadow-sm: 0 1px 2px oklch(0% 0 0 / 0.40);
+    --am-shadow-md: 0 2px 4px oklch(0% 0 0 / 0.45), 0 8px 16px oklch(0% 0 0 / 0.35);
+    --am-shadow-lg: 0 4px 8px oklch(0% 0 0 / 0.45), 0 16px 32px oklch(0% 0 0 / 0.40);
+  }
+}
+
+/* The toggle must beat the media query in BOTH directions, so each theme is
+   also declared explicitly. Without the light block, a user on a dark OS who
+   picks light gets the media query's dark values back. */
+:root[data-theme="dark"] {
+  --am-bg:             var(--am-ink-950);
+  --am-bg-sunk:        oklch(9.5% 0.006 75);
+  --am-surface:        var(--am-ink-900);
+  --am-surface-raised: var(--am-ink-800);
+  --am-border:         oklch(28.0% 0.009 75);
+  /* 38% measured 2.03:1 on ink-950 — fails 1.4.11. 48% measures 3.09:1. */
+  --am-border-strong:  oklch(48.0% 0.010 75);
+  --am-text:           var(--am-ink-100);
+  --am-text-muted:     var(--am-ink-400);
+  --am-text-faint:     var(--am-ink-500);
+  --am-accent:         var(--am-ember-400);
+  --am-accent-hover:   var(--am-ember-300);
+  --am-accent-quiet:   oklch(26.0% 0.052 52);
+  --am-on-accent:      var(--am-ink-950);
+  --am-focus:          var(--am-ember-300);
+  --am-pass:  oklch(72.0% 0.115 152);
+  --am-warn:  oklch(80.0% 0.130  85);
+  --am-fail:  oklch(68.0% 0.150  27);
+  --am-info:  oklch(70.0% 0.070 240);
+  --am-shadow-sm: 0 1px 2px oklch(0% 0 0 / 0.40);
+  --am-shadow-md: 0 2px 4px oklch(0% 0 0 / 0.45), 0 8px 16px oklch(0% 0 0 / 0.35);
+  --am-shadow-lg: 0 4px 8px oklch(0% 0 0 / 0.45), 0 16px 32px oklch(0% 0 0 / 0.40);
+}
+
+:root[data-theme="light"] {
+  --am-bg:             var(--am-ink-50);
+  --am-bg-sunk:        var(--am-ink-100);
+  --am-surface:        #ffffff;
+  --am-surface-raised: #ffffff;
+  --am-border:         var(--am-ink-200);
+  --am-border-strong:  oklch(64.0% 0.011 75);   /* 3.22:1 — see :root note */
+  --am-text:           var(--am-ink-900);
+  --am-text-muted:     var(--am-ink-600);
+  --am-text-faint:     var(--am-ink-550);
+  --am-accent:         var(--am-ember-600);
+  --am-accent-hover:   var(--am-ember-700);
+  --am-accent-quiet:   var(--am-ember-50);
+  --am-on-accent:      #ffffff;
+  --am-focus:          var(--am-ember-600);
+}
+
+/* --- ACCESSIBILITY BASELINE ---------------------------------------------
+   A studio that sells an accessibility audit and ships an inaccessible site
+   has no product. These are not optional niceties here; they are the claim. */
+
+/* Libre display faces are typically Latin-only, single-weight and italic-less.
+   Browsers will happily fake a bold or a slant that does not exist, and the
+   fake looks broken. Refusing synthesis forces the scale to only ask for
+   weights we actually ship. */
+:root { font-synthesis: none; }
+
+/* This block must stay CORRECT STANDALONE — tokens.css can be loaded without
+   motion.css, and the usual copy-pasted reset is not sufficient on its own.
+
+   `animation-duration: 0.01ms !important` does NOT stop a scroll-driven
+   animation: when animation-timeline is a scroll or view timeline, progress
+   comes from scroll POSITION, not duration. Omit the timeline line and a page
+   passes a naive reduced-motion audit while still parallaxing someone into a
+   migraine. 0.01ms rather than 0s so transitionend/animationend still fire.
+
+   motion.css declares an equivalent block. Duplication is intentional here:
+   either file must be safe alone, and the two agree. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-timeline: none !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) { animation: none !important; }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --am-text-muted: var(--am-ink-800);
+    --am-text-faint: var(--am-ink-700);
+    --am-border: var(--am-ink-400);
+    --am-border-width: 2px;
+  }
+}
+
+/* Never remove the focus ring. Offset it so it reads on dense layouts. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--am-focus);
+  outline-offset: 2px;
+  border-radius: var(--am-radius-sm);
+}
+
+/* ==========================================================================
+   FORBIDDEN — enforced by review, not by the compiler
+   --------------------------------------------------------------------------
+   Blue as a primary or brand colour   — 46% of the category is blue
+   Animals, mascots, characters        — the category is full of them
+   Circles and roundels as containers  — soft, consumer, generic
+   Gradients as decoration             — gradient blobs date a page instantly
+   Gauges, speedometers, dials         — every performance tool already has one
+   Globes, magnifying glasses          — the most exhausted icons in software
+   Single-letter monograms             — "A" collides with everything
+   Rounded corners beyond 3px          — except the 10px chamfer, which is a cut
+   Any angle other than 15°            — one angle, used sparingly
+   Colour as the only signal           — always pair with text or shape
+   The word "Artifact" alone           — a live Class 42 registration exists on
+                                         the bare term; always both words
+   ========================================================================== */

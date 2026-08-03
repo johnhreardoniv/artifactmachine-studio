@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design System — Artifact Machine</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Artifact Machine design system — tokens, type, colour, components, and a live contrast audit that fails visibly.">
+<link rel="preload" href="/assets/fonts/UncutSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts.css">
+<link rel="stylesheet" href="/assets/tokens.css">
+<style>
+  *,*::before,*::after { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--am-bg); color: var(--am-text);
+    font-family: var(--am-font-sans); font-size: var(--am-text-md);
+    line-height: var(--am-leading-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: var(--am-container); margin: 0 auto; padding: var(--am-space-8) var(--am-space-6) var(--am-space-32); }
+  h1,h2,h3 { line-height: var(--am-leading-tight); letter-spacing: var(--am-tracking-tight); margin: 0; }
+  h1 { font-size: var(--am-text-4xl); letter-spacing: var(--am-tracking-display); }
+  h2 { font-size: var(--am-text-2xl); margin-top: var(--am-space-20); padding-top: var(--am-space-6); border-top: 2px solid var(--am-text); }
+  h3 { font-size: var(--am-text-lg); margin-top: var(--am-space-10); }
+  p { max-width: var(--am-measure); color: var(--am-text-muted); }
+  code, .mono { font-family: var(--am-font-mono); font-size: 0.92em; }
+
+  .eyebrow {
+    font-family: var(--am-font-mono); font-size: var(--am-text-2xs);
+    letter-spacing: var(--am-tracking-label); text-transform: uppercase;
+    color: var(--am-text-faint);
+  }
+  .lede { font-size: var(--am-text-lg); color: var(--am-text-muted); max-width: 60ch; }
+
+  .grid { display: grid; gap: var(--am-space-3); }
+  .g-ramp { grid-template-columns: repeat(auto-fit, minmax(88px,1fr)); }
+  .g-cards { grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: var(--am-space-4); }
+
+  .swatch { border: var(--am-rule); }
+  .swatch .chip { height: 68px; }
+  .swatch .meta { padding: var(--am-space-2); background: var(--am-surface); }
+  .swatch .name { font-family: var(--am-font-mono); font-size: var(--am-text-2xs); }
+  .swatch .val  { font-family: var(--am-font-mono); font-size: var(--am-text-2xs); color: var(--am-text-faint); }
+
+  table { border-collapse: collapse; width: 100%; font-size: var(--am-text-sm); }
+  th, td { text-align: left; padding: var(--am-space-2) var(--am-space-3); border-bottom: var(--am-rule); }
+  th { font-family: var(--am-font-mono); font-size: var(--am-text-2xs); text-transform: uppercase; letter-spacing: var(--am-tracking-label); color: var(--am-text-faint); font-weight: var(--am-weight-medium); }
+  .scroll { overflow-x: auto; }
+
+  .pill { display:inline-block; font-family: var(--am-font-mono); font-size: var(--am-text-2xs); padding: 2px 7px; border:1px solid currentColor; letter-spacing:.04em; }
+  .ok   { color: var(--am-pass); }
+  .bad  { color: var(--am-fail); font-weight: var(--am-weight-bold); }
+
+  .btn {
+    font: inherit; font-weight: var(--am-weight-medium);
+    padding: var(--am-space-3) var(--am-space-5);
+    border: var(--am-border-heavy) solid var(--am-accent);
+    background: var(--am-accent); color: var(--am-on-accent);
+    cursor: pointer; border-radius: var(--am-radius-sm);
+    transition: background var(--am-dur-fast) var(--am-ease), transform var(--am-dur-instant) var(--am-ease);
+  }
+  .btn:hover { background: var(--am-accent-hover); border-color: var(--am-accent-hover); }
+  .btn:active { transform: translateY(1px); }
+  .btn.ghost { background: transparent; color: var(--am-accent); }
+  .btn.ghost:hover { background: var(--am-accent-quiet); }
+
+  /* The Corner Cut — the brand's own corner. A 45° chamfer, never a curve. */
+  .chamfer {
+    background: var(--am-surface); border: var(--am-rule); padding: var(--am-space-5);
+    clip-path: polygon(var(--am-chamfer) 0, 100% 0, 100% 100%, 0 100%, 0 var(--am-chamfer));
+  }
+  .tile {
+    background: var(--am-surface); border: var(--am-rule); padding: var(--am-space-5);
+    clip-path: polygon(var(--am-chamfer) 0, 100% 0, 100% 100%, 0 100%, 0 var(--am-chamfer));
+    transition: border-color var(--am-dur-fast) var(--am-ease), transform var(--am-dur-fast) var(--am-ease);
+  }
+  .tile:hover { border-color: var(--am-accent); transform: translateY(-2px); }
+  .tile h4 { margin: 0 0 var(--am-space-1); font-size: var(--am-text-md); }
+  .tile p  { margin: 0; font-size: var(--am-text-sm); }
+
+  .status-row { display:flex; gap: var(--am-space-2); align-items:center; font-size: var(--am-text-sm); }
+  .dot { width:8px; height:8px; flex:none; }
+
+  .themebar { position: sticky; top:0; z-index: var(--am-z-sticky); background: var(--am-bg); border-bottom: var(--am-rule); padding: var(--am-space-3) var(--am-space-6); display:flex; gap: var(--am-space-3); align-items:center; }
+  .audit-banner { padding: var(--am-space-4) var(--am-space-5); border:2px solid; margin: var(--am-space-6) 0; font-family: var(--am-font-mono); font-size: var(--am-text-sm); }
+
+  .spec { display:grid; grid-template-columns: 140px 1fr; gap: var(--am-space-2) var(--am-space-4); font-size: var(--am-text-sm); }
+  .spec dt { font-family: var(--am-font-mono); font-size: var(--am-text-2xs); color: var(--am-text-faint); text-transform: uppercase; letter-spacing: var(--am-tracking-label); padding-top: 3px; }
+  .spec dd { margin:0; }
+
+  .no { color: var(--am-fail); }
+  ul.tight { padding-left: 1.1rem; }
+  ul.tight li { margin-bottom: var(--am-space-1); color: var(--am-text-muted); }
+</style>
+</head>
+<body>
+
+<div class="themebar">
+  <span class="eyebrow">Artifact Machine / Design System</span>
+  <span style="flex:1"></span>
+  <button class="btn ghost" id="themeBtn" type="button">Toggle theme</button>
+</div>
+
+<div class="wrap">
+
+  <p class="eyebrow" style="margin-top:var(--am-space-8)">Internal reference — v1.0</p>
+  <h1>The system</h1>
+  <p class="lede">
+    Every rule here exists because something in the category is broken and this is
+    the correction. Where a choice is only taste, it is marked as taste.
+  </p>
+
+  <!-- ================================================================= -->
+  <h2>1 · Live contrast audit</h2>
+  <p>
+    Computed in your browser right now against the real rendered values, not from a
+    spreadsheet written when the tokens were authored. Edit <code>tokens.css</code>
+    into non-compliance and this section turns red.
+  </p>
+  <div id="auditBanner" class="audit-banner">measuring…</div>
+  <div class="scroll"><table id="auditTable">
+    <thead><tr><th>Pairing</th><th>Use</th><th>Ratio</th><th>Needs</th><th>Result</th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+
+  <!-- ================================================================= -->
+  <h2>2 · Colour</h2>
+  <p>
+    A measurement of 24 logos in the website-audit category returned
+    <strong>blue 11, neutral 4, orange 3, green 2</strong> — the category is ~46% blue
+    and thick with mascots and gradients. Warm ink-and-paper with one burnt-orange
+    accent is chosen because it is the open lane, not because it is pretty.
+  </p>
+
+  <h3>Ember — the only accent</h3>
+  <div class="grid g-ramp" id="rampEmber"></div>
+
+  <h3>Ink — warm neutrals</h3>
+  <p>Hue 75, never true grey. A trace of ember in every surface makes the page read as paper rather than as a default UI slab.</p>
+  <div class="grid g-ramp" id="rampInk"></div>
+
+  <h3>Status</h3>
+  <p>Deliberately desaturated so they can sit inside an audit result without fighting the brand. <strong>Never the only signal</strong> — always paired with a label or shape.</p>
+  <div class="grid g-cards">
+    <div class="status-row"><span class="dot" style="background:var(--am-pass)"></span> <span class="mono">--am-pass</span> · Passed</div>
+    <div class="status-row"><span class="dot" style="background:var(--am-warn)"></span> <span class="mono">--am-warn</span> · Review</div>
+    <div class="status-row"><span class="dot" style="background:var(--am-fail)"></span> <span class="mono">--am-fail</span> · Failed</div>
+    <div class="status-row"><span class="dot" style="background:var(--am-retired)"></span> <span class="mono">--am-retired</span> · Retired</div>
+  </div>
+
+  <!-- ================================================================= -->
+  <h2>3 · Type — two voices</h2>
+  <p>
+    The split is <strong>semantic, not decorative</strong>. If a person wrote it, it is
+    sans. If the machine measured it, it is mono. That one rule does most of the work
+    of making these pages read as an instrument rather than as marketing.
+  </p>
+  <div class="grid g-cards">
+    <div class="chamfer">
+      <p class="eyebrow">Sans — the speaking voice</p>
+      <p style="font-size:var(--am-text-xl); color:var(--am-text); margin:var(--am-space-2) 0 0; letter-spacing:var(--am-tracking-tight)">Small tools that stay.</p>
+      <p style="font-size:var(--am-text-sm)">Headlines, body, navigation, anything a human wrote.</p>
+    </div>
+    <div class="chamfer">
+      <p class="eyebrow">Mono — the machine's voice</p>
+      <p class="mono" style="font-size:var(--am-text-xl); color:var(--am-text); margin:var(--am-space-2) 0 0">strict-transport-security · 0.94 · 340</p>
+      <p style="font-size:var(--am-text-sm)">Scores, headers, URLs, counts, timestamps, IDs.</p>
+    </div>
+  </div>
+
+  <h3>Scale</h3>
+  <p>Fluid via <code>clamp()</code>, so no breakpoint ever restates a size.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Token</th><th>Specimen</th></tr></thead>
+    <tbody id="typeRows"></tbody>
+  </table></div>
+
+  <!-- ================================================================= -->
+  <h2>4 · Form</h2>
+  <p>
+    Hard edges. A rounded corner is the fastest way to make a tool look like a
+    consumer app. The one permitted softening is the <strong>chamfer</strong> — a 45°
+    cut, not a curve — which is the brand's own corner and carries the product tiles.
+  </p>
+  <div class="grid g-cards">
+    <div class="tile"><h4>Security Headers Check</h4><p>17 headers, one row per domain.</p></div>
+    <div class="tile"><h4>AI Access Check</h4><p>Can a model read this site at all?</p></div>
+    <div class="tile"><h4>Accessibility Check</h4><p>What automated scanning can and cannot see.</p></div>
+  </div>
+
+  <h3>Buttons</h3>
+  <p style="margin-bottom:var(--am-space-4)">
+    <button class="btn" type="button">Run the check</button>
+    <button class="btn ghost" type="button" style="margin-left:var(--am-space-2)">View a sample</button>
+  </p>
+
+  <h3>The 15° rule</h3>
+  <p>One angle in the entire system, used sparingly — a single rotated element against an orthogonal grid. Two angles is noise.</p>
+  <div style="display:flex; gap:var(--am-space-4); align-items:center; margin-top:var(--am-space-4)">
+    <div style="width:44px;height:44px;background:var(--am-accent);transform:rotate(var(--am-tilt))"></div>
+    <span class="mono" style="font-size:var(--am-text-sm);color:var(--am-text-faint)">transform: rotate(var(--am-tilt))</span>
+  </div>
+
+  <!-- ================================================================= -->
+  <h2>5 · Motion</h2>
+  <p>Short and mechanical. Nothing bounces — a machine does not bounce. Anything over 240ms starts to feel like a website performing for you. All of it is disabled under <code>prefers-reduced-motion</code>.</p>
+  <dl class="spec">
+    <dt>instant</dt><dd>90ms — state flips, active states</dd>
+    <dt>fast</dt><dd>140ms — hover, focus, colour changes</dd>
+    <dt>base</dt><dd>200ms — reveals, expansions</dd>
+    <dt>slow</dt><dd>320ms — the largest permitted; use rarely</dd>
+    <dt>ease</dt><dd><code>cubic-bezier(0.2, 0, 0.13, 1)</code> — decisive, no overshoot</dd>
+  </dl>
+
+  <!-- ================================================================= -->
+  <h2>6 · Forbidden</h2>
+  <p>Enforced by review, not by the compiler. Each has a reason; none is arbitrary.</p>
+  <ul class="tight">
+    <li><span class="no">Blue as primary</span> — 46% of the category is already blue</li>
+    <li><span class="no">Animals, mascots, characters</span> — the category is full of them (a frog, a bear, a cat, a dog, a lighthouse)</li>
+    <li><span class="no">Circles and roundels as containers</span> — soft, consumer, generic</li>
+    <li><span class="no">Gradients as decoration</span> — gradient blobs date a page instantly</li>
+    <li><span class="no">Gauges, speedometers, dials</span> — every performance tool already has one</li>
+    <li><span class="no">Globes, magnifying glasses</span> — the most exhausted icons in software</li>
+    <li><span class="no">Single-letter monograms</span> — "A" collides with everything</li>
+    <li><span class="no">Rounded corners beyond 3px</span> — except the 10px chamfer, which is a cut</li>
+    <li><span class="no">Colour as the only signal</span> — always pair with text or shape</li>
+    <li><span class="no">The word "Artifact" alone</span> — a live Class 42 registration is reported on the bare term. Always both words.</li>
+    <li><span class="no">"AI-made" as a selling point</span> — in 2026 that is a liability signal on a paid tool, not a differentiator</li>
+    <li><span class="no">"Every tool runs on Apify"</span> — never state platform dependence where identity belongs</li>
+  </ul>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---- theme toggle: must beat the media query in both directions ---- */
+  var root = document.documentElement;
+  document.getElementById("themeBtn").addEventListener("click", function () {
+    var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    audit();
+  });
+
+  /* ---- colour maths --------------------------------------------------
+     Two traps here, both of which produced convincing WRONG numbers before
+     being caught:
+
+     1. getPropertyValue('--am-text') returns the literal string
+        "var(--am-ink-900)", not a colour. Assigning that fails silently and
+        every pairing collapses to exactly 1.00:1. So we pass the token NAME
+        and let CSS resolve the var() chain.
+
+     2. Chrome returns computed colours in the AUTHORED colour space — for
+        these tokens that is "oklch(0.175 0.008 75)", not rgb(). Regex-scraping
+        three numbers out of that yields [0.175, 0.008, 75] read as 0-255 RGB,
+        i.e. near-black for everything. Hex-literal tokens still returned rgb()
+        and passed, which made the failure look like a token problem rather
+        than a measurement problem.
+
+     Canvas sidesteps both: whatever colour space goes in, sRGB bytes come out. */
+  var _cv = document.createElement("canvas"); _cv.width = _cv.height = 1;
+  var _ctx = _cv.getContext("2d", { willReadFrequently: true });
+
+  function toRGB(tokenName) {
+    var p = document.createElement("span");
+    p.style.cssText = "position:absolute;opacity:0;pointer-events:none";
+    document.body.appendChild(p);
+    p.style.color = "var(" + tokenName + ")";
+    var css = getComputedStyle(p).color;
+    p.remove();
+    if (!css) return null;
+    _ctx.clearRect(0, 0, 1, 1);
+    _ctx.fillStyle = "#000";
+    _ctx.fillStyle = css;               // unsupported value leaves it at #000
+    _ctx.fillRect(0, 0, 1, 1);
+    var d = _ctx.getImageData(0, 0, 1, 1).data;
+    return [d[0], d[1], d[2]];
+  }
+
+  function lum(rgb) {
+    var a = rgb.map(function (v) {
+      v /= 255;
+      return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+    });
+    return 0.2126 * a[0] + 0.7152 * a[1] + 0.0722 * a[2];
+  }
+
+  function ratio(fgToken, bgToken) {
+    var a = toRGB(fgToken), b = toRGB(bgToken);
+    if (!a || !b) return null;
+    var l1 = lum(a), l2 = lum(b);
+    return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+  }
+
+  // Raw declared value — used only for DISPLAY in the ramps, never for maths.
+  var V = function (name) { return getComputedStyle(root).getPropertyValue(name).trim(); };
+
+  /* ---- the pairings that must hold ----------------------------------- */
+  var PAIRS = [
+    ["--am-text",       "--am-bg",      "Body text on page",        4.5],
+    ["--am-text-muted", "--am-bg",      "Secondary text",           4.5],
+    ["--am-text-faint", "--am-bg",      "Tertiary / captions",      4.5],
+    ["--am-text",       "--am-surface", "Text on card",             4.5],
+    ["--am-text-muted", "--am-surface", "Secondary on card",        4.5],
+    ["--am-accent",     "--am-bg",      "Links, accent text",       4.5],
+    ["--am-on-accent",  "--am-accent",  "Button label on accent",   4.5],
+    ["--am-accent",     "--am-surface", "Accent on card",           4.5],
+    ["--am-border-strong", "--am-bg",   "Strong border (UI)",       3.0],
+    ["--am-pass",       "--am-surface", "Pass state",               3.0],
+    ["--am-warn",       "--am-surface", "Warn state",               3.0],
+    ["--am-fail",       "--am-surface", "Fail state",               3.0]
+  ];
+
+  function audit() {
+    var tbody = document.querySelector("#auditTable tbody");
+    tbody.innerHTML = "";
+    var failures = 0, checked = 0;
+
+    PAIRS.forEach(function (p) {
+      var r = ratio(p[0], p[1]);
+      if (r === null) return;
+      checked++;
+      var pass = r >= p[3];
+      if (!pass) failures++;
+      var tr = document.createElement("tr");
+      tr.innerHTML =
+        '<td class="mono" style="font-size:var(--am-text-2xs)">' + p[0] + "<br>on " + p[1] + "</td>" +
+        "<td>" + p[2] + "</td>" +
+        '<td class="mono"><strong>' + r.toFixed(2) + ":1</strong></td>" +
+        '<td class="mono">' + p[3].toFixed(1) + ":1</td>" +
+        '<td><span class="pill ' + (pass ? "ok" : "bad") + '">' + (pass ? "PASS" : "FAIL") + "</span></td>";
+      tbody.appendChild(tr);
+    });
+
+    var b = document.getElementById("auditBanner");
+    var theme = root.getAttribute("data-theme") || "auto";
+    if (failures === 0) {
+      b.style.borderColor = "var(--am-pass)";
+      b.style.color = "var(--am-pass)";
+      b.textContent = "PASS — " + checked + "/" + checked + " pairings meet WCAG AA in " + theme + " theme.";
+    } else {
+      b.style.borderColor = "var(--am-fail)";
+      b.style.color = "var(--am-fail)";
+      b.textContent = "FAIL — " + failures + " of " + checked + " pairings below AA in " + theme +
+                      " theme. Fix tokens.css before shipping.";
+    }
+  }
+
+  /* ---- ramps --------------------------------------------------------- */
+  function ramp(el, prefix, steps) {
+    var host = document.getElementById(el);
+    steps.forEach(function (s) {
+      var name = "--am-" + prefix + "-" + s;
+      var d = document.createElement("div");
+      d.className = "swatch";
+      d.innerHTML = '<div class="chip" style="background:var(' + name + ')"></div>' +
+                    '<div class="meta"><div class="name">' + s + "</div>" +
+                    '<div class="val">' + V(name).replace("oklch", "").trim().slice(0, 16) + "</div></div>";
+      host.appendChild(d);
+    });
+  }
+  ramp("rampEmber", "ember", [50,100,200,300,400,500,600,700,800,900]);
+  ramp("rampInk",   "ink",   [50,100,200,300,400,500,600,700,800,900,950]);
+
+  /* ---- type specimens ------------------------------------------------ */
+  var SIZES = ["4xl","3xl","2xl","xl","lg","md","sm","xs","2xs"];
+  var rows = document.getElementById("typeRows");
+  SIZES.forEach(function (s) {
+    var tr = document.createElement("tr");
+    tr.innerHTML = '<td class="mono" style="white-space:nowrap">--am-text-' + s + "</td>" +
+      '<td style="font-size:var(--am-text-' + s + ');line-height:var(--am-leading-snug);letter-spacing:var(--am-tracking-tight);color:var(--am-text)">Small tools that stay</td>';
+    rows.appendChild(tr);
+  });
+
+  audit();
+})();
+</script>
+</body>
+</html>

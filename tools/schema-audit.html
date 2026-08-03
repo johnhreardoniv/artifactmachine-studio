@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Schema Audit - JSON-LD Structured Data Validator — Artifact Machine</title>
+<meta name="description" content="Validate JSON-LD structured data and check rich-result readiness. Finds missing, invalid and incomplete Schema.org markup on any page.">
+<link rel="canonical" href="https://artifactmachine.studio/tools/schema-audit.html">
+<meta property="og:site_name" content="Artifact Machine">
+<meta property="og:title" content="Schema Audit - JSON-LD Structured Data Validator — Artifact Machine">
+<meta property="og:description" content="Validate JSON-LD structured data and check rich-result readiness. Finds missing, invalid and incomplete Schema.org markup on any page.">
+<meta property="og:url" content="https://artifactmachine.studio/tools/schema-audit.html">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z' fill='%23a04a08'/%3E%3Crect x='8' y='14.6' width='8' height='7.9' rx='1.7' fill='%23a04a08'/%3E%3C/svg%3E">
+<link rel="preload" href="/assets/fonts/UncutSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts.css">
+<link rel="stylesheet" href="/assets/tokens.css">
+<link rel="stylesheet" href="/assets/motion.css">
+<link rel="stylesheet" href="/assets/page.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Schema Audit - JSON-LD Structured Data Validator","applicationCategory":"DeveloperApplication","operatingSystem":"Any (web API)","url":"https://artifactmachine.studio/tools/schema-audit.html","description":"Validate JSON-LD structured data and check rich-result readiness. Finds missing, invalid and incomplete Schema.org markup on any page.","publisher":{"@type":"Organization","name":"Artifact Machine","url":"https://artifactmachine.studio"},"offers":{"@type":"Offer","price":"1","priceCurrency":"USD","url":"https://apify.com/artifact-machine/artifact-machine-schema-audit","availability":"https://schema.org/InStock","description":"$1 per result, billed per dataset item through Apify."}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Tools","item":"https://artifactmachine.studio/"},{"@type":"ListItem","position":2,"name":"Schema Audit - JSON-LD Structured Data Validator","item":"https://artifactmachine.studio/tools/schema-audit.html"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does valid structured data guarantee rich results?","acceptedAnswer":{"@type":"Answer","text":"No. Valid markup is necessary but not sufficient — search engines decide independently whether to show a rich result. This audit tells you whether the markup is holding you back, which is the part you control."}}]}</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="/"><svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z" fill="var(--am-accent)"/><rect x="8" y="14.6" width="8" height="7.9" rx="1.7" fill="var(--am-accent)"/></svg><span>Artifact Machine</span></a>
+  <nav><a href="/#tools">Tools</a><a href="/lifecycle.html">Lifecycle</a><a href="/about.html">About</a></nav>
+</div></header>
+<main><div class="wrap">
+  <section class="hero">
+    <p><span class="tag">$1 per result</span></p>
+    <h1>Schema Audit - JSON-LD Structured Data Validator</h1>
+    <p>Validate JSON-LD structured data and check rich-result readiness. Finds missing, invalid and incomplete Schema.org markup on any page.</p>
+    <p>
+      <a class="cta" href="https://apify.com/artifact-machine/artifact-machine-schema-audit">Run it on Apify</a>
+      <a class="cta ghost" href="/">All tools</a>
+    </p>
+  </section>
+
+  <h2>Who it is for</h2>
+  <p class="lede">Anyone chasing rich results who needs to know why they are not appearing.</p>
+
+  <h2>What you would use it for</h2>
+  <ul>
+    <li>Validate JSON-LD structured data and find markup that is present but incomplete.</li>
+    <li>Check rich-result readiness before submitting a page for indexing.</li>
+    <li>Catch Schema.org types that are missing required properties.</li>
+    <li>Audit a batch of product or article pages for consistent markup.</li>
+  </ul>
+
+  <h2>What you get back</h2>
+  <p>One JSON record per page checked. These are the actual fields returned by the most recent
+  successful run — read from the live catalogue, not a documented ideal.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Field</th><th>Sample shape</th></tr></thead>
+    <tbody>
+<tr><td><code>actor</code></td><td>string — artifact-machine-schema-audit</td></tr>
+<tr><td><code>actorVersion</code></td><td>string — 0.1.0</td></tr>
+<tr><td><code>auditedAt</code></td><td>string — 2026-07-29T05:03:35.217Z</td></tr>
+<tr><td><code>url</code></td><td>string — https://neighbornest.kids/</td></tr>
+<tr><td><code>finalUrl</code></td><td>string — https://neighbornest.kids/</td></tr>
+<tr><td><code>origin</code></td><td>string — https://neighbornest.kids</td></tr>
+<tr><td><code>score</code></td><td>number — 37</td></tr>
+<tr><td><code>grade</code></td><td>string — F</td></tr>
+<tr><td><code>issueCounts</code></td><td>object (5 keys)</td></tr>
+<tr><td><code>checks</code></td><td>object (3 keys)</td></tr>
+<tr><td><code>issues</code></td><td>array (1)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Sample output</h2>
+  <p>Trimmed from a real run.</p>
+  <pre><code>{
+  &quot;actor&quot;: &quot;artifact-machine-schema-audit&quot;,
+  &quot;actorVersion&quot;: &quot;0.1.0&quot;,
+  &quot;auditedAt&quot;: &quot;2026-07-29T05:03:35.217Z&quot;,
+  &quot;url&quot;: &quot;https://neighbornest.kids/&quot;,
+  &quot;finalUrl&quot;: &quot;https://neighbornest.kids/&quot;,
+  &quot;origin&quot;: &quot;https://neighbornest.kids&quot;,
+  &quot;score&quot;: 37,
+  &quot;grade&quot;: &quot;F&quot;,
+  &quot;issueCounts&quot;: {
+    &quot;critical&quot;: 0,
+    &quot;high&quot;: 1,
+    &quot;medium&quot;: 0,
+    &quot;low&quot;: 0,
+    &quot;total&quot;: 1
+  },
+  &quot;checks&quot;: {
+    &quot;presence&quot;: {
+      &quot;pageStatus&quot;: 200,
+      &quot;jsonLdBlockCount&quot;: 0,
+      &quot;parsedBlockCount&quot;: 0,
+      &quot;parseErrorCount&quot;: 0
+    },
+    &quot;types&quot;: {
+      &quot;totalTypes&quot;: 0,
+      &quot;uniqueTypes&quot;: [],</code></pre>
+
+  <h2>Pricing</h2>
+  <p><strong>$1 per result.</strong> Pay-per-event through Apify — no subscription, and a run
+  that returns nothing costs nothing.</p>
+
+  <h2>Calling it from code</h2>
+  <p>Any HTTP client works. Replace <code class="mono">&lt;TOKEN&gt;</code> with your Apify API token.</p>
+  <pre><code>curl -X POST "https://api.apify.com/v2/acts/artifact-machine~artifact-machine-schema-audit/run-sync-get-dataset-items?token=&lt;TOKEN&gt;" \
+  -H "Content-Type: application/json" \
+  -d '{"startUrls":[{"url":"https://example.com"}]}'</code></pre>
+
+  <h2>Questions</h2>
+  <details class="faq"><summary>Does valid structured data guarantee rich results?</summary><p>No. Valid markup is necessary but not sufficient — search engines decide independently whether to show a rich result. This audit tells you whether the markup is holding you back, which is the part you control.</p></details>
+
+  <h2>Other tools</h2>
+  <p><a href="/tools/security-headers-checker.html">Security Headers Checker</a> · <a href="/tools/sitemap-health-audit.html">Sitemap Health Audit - XML Sitemap Validator</a> · <a href="/tools/tech-stack-analyzer.html">Tech Stack Analyzer - Detect Website Technologies</a> · <a href="/tools/ai-access-audit.html">AI Access Audit</a></p>
+
+  <p style="color:var(--muted);font-size:0.85rem;margin-top:2.5rem">
+    Details read from the live Apify catalogue on 2026-07-29.
+  </p>
+</div></main>
+<footer><div class="wrap">
+  <p><strong>Artifact Machine</strong> — Tiny useful things from the machine.</p>
+  <p>Every tool runs on <a href="https://apify.com/artifact-machine">Apify</a>. Pay per result, no subscription.</p>
+</div></footer>
+</body>
+</html>
