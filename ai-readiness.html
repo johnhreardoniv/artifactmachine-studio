@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Readiness — Artifact Machine</title>
+<meta name="description" content="Check whether a site that ranks in search is readable by answer engines. Free, instant, one page. We measured 57 companies; 14 had the gap.">
+<link rel="canonical" href="https://artifactmachine.studio/ai-readiness.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z' fill='%23a04a08'/%3E%3Crect x='8' y='14.6' width='8' height='7.9' rx='1.7' fill='%23a04a08'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/assets/tokens.css">
+<link rel="stylesheet" href="/assets/motion.css">
+<link rel="stylesheet" href="/assets/fonts.css">
+<link rel="stylesheet" href="/assets/page.css">
+<style>
+  /* ======================================================================
+     AI READINESS — page-specific styles.
+
+     Everything here extends tokens.css. No colour, size or duration is
+     hardcoded. Two rules from the system are doing most of the work:
+       · mono is the machine's voice — anything measured is mono, prose is sans
+       · status colour is never the only signal, always paired with a label
+     ====================================================================== */
+
+  /* --- browser surfaces the design system should own, not the browser --- */
+  ::selection { background: var(--am-accent-quiet); color: var(--am-text); }
+  :focus-visible {
+    outline: var(--am-border-heavy) solid var(--am-focus);
+    outline-offset: 2px;
+  }
+  .scan-field input { caret-color: var(--am-accent); }
+  .readout { scrollbar-color: var(--am-border-strong) transparent; }
+
+  /* --- the form -------------------------------------------------------- */
+  .scan {
+    border: var(--am-border-heavy) solid var(--am-text);
+    /* The chamfer: 45° cut, top-left only, never varies. */
+    clip-path: polygon(var(--am-chamfer) 0, 100% 0, 100% 100%, 0 100%, 0 var(--am-chamfer));
+    background: var(--am-surface);
+    padding: var(--am-space-6);
+    margin-block: var(--am-space-8);
+    max-width: 46rem;
+  }
+  .scan-field { display: flex; gap: var(--am-space-3); flex-wrap: wrap; }
+  .scan-field label {
+    flex-basis: 100%;
+    font-family: var(--am-font-mono);
+    font-size: var(--am-text-2xs);
+    text-transform: uppercase;
+    letter-spacing: var(--am-tracking-label);
+    color: var(--am-text-faint);
+    margin-bottom: var(--am-space-2);
+  }
+  .scan-field input {
+    flex: 1 1 18rem;
+    min-width: 0;                       /* or a long value forces overflow */
+    font-family: var(--am-font-mono);
+    font-size: var(--am-text-md);
+    padding: var(--am-space-3);
+    border: 1px solid var(--am-border-strong);
+    border-radius: var(--am-radius-sm);
+    background: var(--am-bg);
+    color: var(--am-text);
+  }
+  .scan-field input::placeholder { color: var(--am-text-faint); }
+  .scan-field button { flex: 0 0 auto; border: none; cursor: pointer; font: inherit; }
+  .scan-field button[disabled] { opacity: .55; cursor: not-allowed; }
+  .scan-note {
+    font-size: var(--am-text-sm);
+    color: var(--am-text-muted);
+    margin: var(--am-space-4) 0 0;
+    max-width: var(--am-measure);
+  }
+
+  /* --- the readout ------------------------------------------------------
+     Not two big numbers in two cards. The product's whole claim is the
+     DISTANCE between two measurements, so the distance is what gets drawn:
+     one shared 0–100 scale, both markers on it, the span between them
+     labelled. A number in isolation would hide the only thing worth seeing. */
+  .readout { margin-top: var(--am-space-8); }
+  .readout[hidden] { display: none !important; }
+
+  .scale { margin-block: var(--am-space-6); }
+  .scale-row {
+    display: grid;
+    grid-template-columns: minmax(6.5rem, auto) 1fr 4.5rem;
+    align-items: center;
+    gap: var(--am-space-3);
+    margin-bottom: var(--am-space-4);
+  }
+  .scale-row dt {
+    font-size: var(--am-text-sm);
+    color: var(--am-text-muted);
+  }
+  .scale-track {
+    position: relative;
+    height: 10px;
+    background: var(--am-bg-sunk);
+    border: 1px solid var(--am-border);
+  }
+  .scale-fill {
+    position: absolute; inset-block: 0; left: 0;
+    width: 100%;
+    background: var(--am-text);
+    /* The authored moment: the two bars grow to their measured width, and
+       the gap between them is what the eye lands on. Exponential ease-out
+       from zero, one time, on result. */
+    transform-origin: left center;
+    /* scaleX, not width: a width transition relayouts on every frame, and
+       the detector is right to flag it. The bar is full-width and scaled
+       down, so the animation runs on the compositor. */
+    transform: scaleX(0);
+    transition: transform var(--mo-5) var(--mo-ease-expo);
+  }
+  .scale-fill.is-aeo { background: var(--am-accent); }
+  .scale-row dd {
+    margin: 0;
+    font-family: var(--am-font-mono);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    /* Sligoil draws a slashed zero. It is the right glyph for a machine voice,
+       but at body size "100" reads as struck through, which is the worst
+       possible accident on the one number the page exists to deliver. The
+       slash resolves into a slash at display size, and the score deserves the
+       weight anyway. `font-feature-settings: "zero" 0` does not help — the
+       slash is the default glyph here, not an optional feature. */
+    font-size: var(--am-text-2xl);
+    line-height: 1;
+  }
+
+  /* A long domain must wrap rather than push the layout. Domains have no
+     spaces, so normal wrapping will not break them. */
+  #result-url { overflow-wrap: anywhere; }
+
+  /* Below the wrap point the label takes its own line. The bar is the whole
+     argument of this page — the distance between two measurements — and at
+     390px sharing a row with a 22-character label left it about 90px wide,
+     too short to read a gap from. */
+  @media (max-width: 34rem) {
+    .scale-row {
+      grid-template-columns: 1fr auto;
+      gap: var(--am-space-1) var(--am-space-3);
+    }
+    .scale-row dt { grid-column: 1 / -1; }
+    .scale-row dd { font-size: var(--am-text-xl); }
+  }
+
+  .verdict {
+    border-top: var(--am-rule);
+    padding-top: var(--am-space-5);
+    font-size: var(--am-text-lg);
+    max-width: var(--am-measure);
+    text-wrap: pretty;
+  }
+  /* Status is carried by this label, not by colour alone. */
+  .verdict-label {
+    display: inline-block;
+    font-family: var(--am-font-mono);
+    font-size: var(--am-text-2xs);
+    text-transform: uppercase;
+    letter-spacing: var(--am-tracking-label);
+    border: 1px solid currentColor;
+    padding: 2px var(--am-space-2);
+    margin-bottom: var(--am-space-3);
+  }
+  .is-qualified   { color: var(--am-fail); }   /* a large gap is the problem */
+  .is-modest-gap  { color: var(--am-warn); }
+  .is-no-gap      { color: var(--am-pass); }
+  .is-low-investment { color: var(--am-info); }
+  .is-unknown     { color: var(--am-text-muted); }
+
+  /* --- states ----------------------------------------------------------- */
+  .state {
+    border: 1px solid var(--am-border-strong);
+    border-left: var(--am-border-heavy) solid var(--am-text);
+    padding: var(--am-space-5);
+    max-width: var(--am-measure);
+    margin-top: var(--am-space-6);
+  }
+  .state h3 { margin-top: 0; }
+  .state p { color: var(--am-text-muted); margin-bottom: 0; }
+  .state[hidden] { display: none !important; }
+
+  .working { display: flex; align-items: baseline; gap: var(--am-space-3); }
+  .working-dots::after {
+    content: '';
+    animation: dots 1.4s steps(4, end) infinite;
+  }
+  @keyframes dots { 0% { content: ''; } 25% { content: '·'; } 50% { content: '· ·'; } 75% { content: '· · ·'; } }
+  @media (prefers-reduced-motion: reduce) {
+    .working-dots::after { content: '· · ·'; animation: none; }
+  }
+
+  .not-checked {
+    font-family: var(--am-font-mono);
+    font-size: var(--am-text-2xs);
+    text-transform: uppercase;
+    letter-spacing: var(--am-tracking-label);
+    color: var(--am-text-faint);
+    margin-top: var(--am-space-5);
+  }
+
+  .findings { margin-top: var(--am-space-8); }
+  .findings li { margin-bottom: var(--am-space-3); }
+  .findings .where {
+    font-family: var(--am-font-mono);
+    font-size: var(--am-text-2xs);
+    color: var(--am-text-faint);
+    text-transform: uppercase;
+    letter-spacing: var(--am-tracking-label);
+    display: block;
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the check</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z" fill="currentColor"/><rect x="8" y="14.6" width="8" height="7.9" rx="1.7" fill="currentColor"/></svg>
+      Artifact Machine
+    </a>
+    <nav>
+      <a href="/#tools">Tools</a>
+      <a href="/lifecycle.html">Lifecycle</a>
+      <a href="/about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+
+    <section class="hero">
+      <h1>Your site ranks. Can an answer engine read it?</h1>
+      <p class="lede">
+        We measured 57 companies. Fourteen had spent real money on search and got
+        almost nothing back from answer engines: sites scoring 100 for search
+        readiness and under 25 for machine readability. Three quarters did not
+        have that problem. This tells you which group a site is in, in about
+        two seconds.
+      </p>
+    </section>
+
+    <form class="scan" id="scan-form" novalidate>
+      <div class="scan-field">
+        <label for="url">Address to check</label>
+        <input
+          id="url" name="url" type="text" inputmode="url" autocomplete="url"
+          placeholder="example.com" spellcheck="false" required
+          aria-describedby="scan-note">
+        <button class="cta" type="submit" id="scan-button">Check this site</button>
+      </div>
+      <p class="scan-note" id="scan-note">
+        One page, no account, nothing stored. We read the homepage the way a
+        crawler would and compare two things: how ready it is for search, and
+        how ready it is for a machine that has to answer a question about you.
+      </p>
+    </form>
+
+    <!-- WORKING ---------------------------------------------------------- -->
+    <div class="state" id="state-working" hidden aria-live="polite">
+      <p class="working"><span>Reading the page</span><span class="working-dots" aria-hidden="true"></span></p>
+    </div>
+
+    <!-- ERROR ------------------------------------------------------------ -->
+    <div class="state" id="state-error" hidden role="alert">
+      <h2 id="error-title" style="margin-top:0;border-top:none;padding-top:0">That didn't work</h2>
+      <p id="error-message"></p>
+    </div>
+
+    <!-- BLOCKED ---------------------------------------------------------- -->
+    <div class="state" id="state-blocked" hidden aria-live="polite">
+      <h2 style="margin-top:0;border-top:none;padding-top:0">We couldn't read this one, so there are no scores</h2>
+      <p id="blocked-reason"></p>
+      <p style="margin-top:var(--am-space-3)">
+        Scores are deliberately blank rather than zero. A zero would be a
+        measurement, and nothing was measured. About one site in eight turns
+        away an automated reader, and they are usually the ones with a
+        security product in front of them.
+      </p>
+    </div>
+
+    <!-- RESULT ----------------------------------------------------------- -->
+    <section class="readout" id="state-result" hidden aria-live="polite">
+      <h2 style="margin-top:0">Result for <span class="mono" id="result-url"></span></h2>
+
+      <dl class="scale">
+        <div class="scale-row">
+          <dt>Search readiness</dt>
+          <dd class="scale-track-cell">
+            <div class="scale-track"><div class="scale-fill" id="fill-seo"></div></div>
+          </dd>
+          <dd id="score-seo">&ndash;</dd>
+        </div>
+        <div class="scale-row">
+          <dt>Answer-engine readiness</dt>
+          <dd class="scale-track-cell">
+            <div class="scale-track"><div class="scale-fill is-aeo" id="fill-aeo"></div></div>
+          </dd>
+          <dd id="score-aeo">&ndash;</dd>
+        </div>
+      </dl>
+
+      <div class="verdict">
+        <span class="verdict-label" id="verdict-label">&ndash;</span>
+        <p id="verdict-text" style="margin:0"></p>
+      </div>
+
+      <div class="findings" id="findings-wrap" hidden>
+        <h3>What's behind the number</h3>
+        <ul id="findings-list"></ul>
+      </div>
+
+      <p class="not-checked" id="not-checked"></p>
+    </section>
+
+    <h2>What this does not tell you</h2>
+    <p>
+      It reads one page, the homepage, and it checks machine readability only.
+      It says nothing about performance, accessibility, security headers, broken
+      links, or whether the writing is any good. A high score here is not a healthy site; it means a machine can parse this page.
+    </p>
+    <p>
+      It also cannot tell you whether an AI assistant actually mentions you
+      today. That is a different measurement. It needs repeated sampling of the
+      models themselves, and several companies sell it. This is the cheaper question underneath it: if a model does come looking,
+      is there anything here it can use?
+    </p>
+
+    <h2>Where the numbers come from</h2>
+    <p>
+      The same scanner and the same scoring produced the 57-site study, so a
+      number here means what it means there. Search readiness is meta
+      completeness, heading structure and structured data. Answer-engine
+      readiness is whether the page states answers a machine can lift:
+      question headings, marked-up Q&amp;A, self-contained claims, plus whether
+      the page needs JavaScript to say anything at all.
+    </p>
+    <p>
+      The gap is the finding, not the score. Almost every site scores badly on
+      answer-engine readiness: across 57 companies the median was 24 and nobody
+      cleared 69. On its own that is weather. It only becomes a problem worth
+      money when a site has clearly paid for search and is getting none of that
+      value back.
+    </p>
+
+    <details class="faq">
+      <summary>Why does it sometimes refuse to give a score?</summary>
+      <p>
+        Because it could not read the page. Bot protection, a challenge screen,
+        or a server error all produce a document that is not the site. Scoring
+        that would describe an empty page and blame the owner for it, so we
+        return nothing and say why.
+      </p>
+    </details>
+    <details class="faq">
+      <summary>Do you store the addresses people check?</summary>
+      <p>
+        No. The scan runs and the result goes back to your browser. Nothing is
+        written down, and there is no account to create.
+      </p>
+    </details>
+    <details class="faq">
+      <summary>Can I check more than one page, or a whole site?</summary>
+      <p>
+        Not here. This reads one page so it can stay free and instant. A full
+        crawl is a different job. <a href="/about.html">Get in touch</a> if
+        that is what you need.
+      </p>
+    </details>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Artifact Machine — small tools that check one thing well.</p>
+  </div>
+</footer>
+
+<script type="module">
+/* ==========================================================================
+   The endpoint lives on Vercel because a scan needs a browser and this site
+   is static. If it is unreachable the page says so plainly rather than
+   showing a broken control — "we could not check" is a real answer here and
+   is treated as one.
+   ========================================================================== */
+const ENDPOINT = 'https://artifact-machine-scan.vercel.app/api/scan';
+
+const $ = (id) => document.getElementById(id);
+const form = $('scan-form');
+const input = $('url');
+const button = $('scan-button');
+
+const panels = ['state-working', 'state-error', 'state-blocked', 'state-result'];
+const show = (id) => panels.forEach((p) => { $(p).hidden = (p !== id); });
+const hideAll = () => panels.forEach((p) => { $(p).hidden = true; });
+
+function fail(title, message) {
+  $('error-title').textContent = title;
+  $('error-message').textContent = message;
+  show('state-error');
+}
+
+/** Verdict copy is server-authored; this only decides the short label. */
+const LABELS = {
+  qualified: 'Large gap',
+  'modest-gap': 'Some gap',
+  'no-gap': 'No gap',
+  'low-investment': 'Different problem',
+  unknown: 'Not measured',
+};
+
+function render(data) {
+  if (data.retrieval === 'blocked' || data.retrieval === 'error') {
+    $('blocked-reason').textContent = data.reason
+      ? `We asked, and ${data.reason}.`
+      : 'The page could not be read.';
+    show('state-blocked');
+    return;
+  }
+
+  const { seo, aeo } = data.scores ?? {};
+  if (typeof seo !== 'number' || typeof aeo !== 'number') {
+    fail('Nothing to compare',
+      'The scan came back without both measurements, so there is no gap to report.');
+    return;
+  }
+
+  $('result-url').textContent = data.url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+  $('score-seo').textContent = `${seo}`;
+  $('score-aeo').textContent = `${aeo}`;
+
+  const verdict = data.gap ?? { verdict: 'unknown', headline: '' };
+  const label = $('verdict-label');
+  label.textContent = LABELS[verdict.verdict] ?? 'Result';
+  label.className = `verdict-label is-${verdict.verdict}`;
+  $('verdict-text').textContent = verdict.headline;
+
+  const issues = (data.issues ?? []).filter((i) => i && i.title);
+  const list = $('findings-list');
+  list.replaceChildren();
+  for (const issue of issues.slice(0, 6)) {
+    const li = document.createElement('li');
+    const where = document.createElement('span');
+    where.className = 'where';
+    where.textContent = issue.category ?? 'finding';
+    const body = document.createElement('span');
+    // textContent throughout: issue text describes a stranger's page and is
+    // never trusted as markup.
+    body.textContent = issue.title;
+    li.append(where, body);
+    list.append(li);
+  }
+  $('findings-wrap').hidden = issues.length === 0;
+
+  $('not-checked').textContent = data.notChecked?.length
+    ? `Not checked: ${data.notChecked.join(' · ')}`
+    : '';
+
+  show('state-result');
+
+  // Grow the bars after the panel is visible, so the transition has a
+  // from-value to animate from. One authored moment, once per result.
+  requestAnimationFrame(() => {
+    $('fill-seo').style.transform = `scaleX(${seo / 100})`;
+    $('fill-aeo').style.transform = `scaleX(${aeo / 100})`;
+  });
+}
+
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const value = input.value.trim();
+
+  if (!value) {
+    fail('Nothing to check', 'Enter a web address first. example.com will do.');
+    input.focus();
+    return;
+  }
+
+  // Reset the bars so a second check animates rather than jumping.
+  $('fill-seo').style.transform = 'scaleX(0)';
+  $('fill-aeo').style.transform = 'scaleX(0)';
+
+  button.disabled = true;
+  button.textContent = 'Checking…';
+  hideAll();
+  show('state-working');
+
+  try {
+    const response = await fetch(ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: value }),
+    });
+
+    const data = await response.json().catch(() => null);
+
+    if (response.status === 429) {
+      fail('Too many checks just now',
+        data?.error ?? 'Give it a minute and try again.');
+    } else if (!response.ok || !data) {
+      fail('That didn’t work',
+        data?.error ?? 'The check could not be completed. Try again in a moment.');
+    } else if (data.ok === false) {
+      fail('That address didn’t work', data.error);
+    } else {
+      render(data);
+    }
+  } catch {
+    // Network failure, CORS, or the endpoint is not deployed. Do not dress
+    // this up as a result about the site being checked.
+    fail('The checker is unreachable',
+      'We could not reach the scanner just now, so nothing was measured. '
+      + 'This is a problem on our side, not with the site you entered.');
+  } finally {
+    button.disabled = false;
+    button.textContent = 'Check this site';
+  }
+});
+</script>
+</body>
+</html>

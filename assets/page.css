@@ -49,6 +49,13 @@ header.top, .site-header {
 header.top .wrap, .site-header .wrap {
   display: flex; align-items: center; gap: var(--am-space-4);
   padding-block: var(--am-space-4);
+  /* The brand wordmark is `white-space: nowrap` and the nav is a rigid row,
+     so at 390px the two together measured 399px and pushed the whole document
+     sideways — on the homepage, on all eleven tool pages, and on anything else
+     using this header. Wrapping is enough to fix it, and costs nothing at
+     wider sizes because the row fits. */
+  flex-wrap: wrap;
+  row-gap: var(--am-space-2);
 }
 .brand {
   display: inline-flex; align-items: center; gap: var(--am-space-3);
@@ -60,7 +67,15 @@ header.top .wrap, .site-header .wrap {
   white-space: nowrap;
 }
 .brand svg, .mark { width: 24px; height: 24px; flex: none; display: block; }
-header.top nav, .site-header nav { margin-left: auto; display: flex; gap: var(--am-space-5); }
+header.top nav, .site-header nav {
+  margin-left: auto; display: flex; flex-wrap: wrap;
+  gap: var(--am-space-3) var(--am-space-5);
+}
+/* Below the wrap point the nav owns the second row rather than being pushed
+   to one side of it. */
+@media (max-width: 26rem) {
+  header.top nav, .site-header nav { margin-left: 0; gap: var(--am-space-4); }
+}
 header.top nav a, .site-header nav a {
   color: var(--am-text-muted); text-decoration: none; font-size: var(--am-text-sm);
 }
