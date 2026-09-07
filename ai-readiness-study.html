@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The AI Readiness Study — Artifact Machine</title>
+<meta name="description" content="We checked 57 companies for answer-engine readiness. 25% had the pattern worth acting on. Full method, full data, and what would have proved us wrong.">
+<link rel="canonical" href="https://artifactmachine.studio/ai-readiness-study.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z' fill='%23a04a08'/%3E%3Crect x='8' y='14.6' width='8' height='7.9' rx='1.7' fill='%23a04a08'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/assets/tokens.css">
+<link rel="stylesheet" href="/assets/motion.css">
+<link rel="stylesheet" href="/assets/fonts.css">
+<link rel="stylesheet" href="/assets/page.css">
+<style>
+  ::selection { background: var(--am-accent-quiet); color: var(--am-text); }
+  :focus-visible { outline: var(--am-border-heavy) solid var(--am-focus); outline-offset: 2px; }
+  .scroll { scrollbar-color: var(--am-border-strong) transparent; }
+
+  /* The three headline figures. Mono because every one was measured. */
+  .figures {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: var(--am-space-6);
+    border-block: var(--am-rule);
+    padding-block: var(--am-space-6);
+    margin-block: var(--am-space-10);
+  }
+  .figures div { min-width: 0; }
+  .figures b {
+    display: block;
+    font-family: var(--am-font-mono);
+    font-size: var(--am-text-3xl);
+    font-weight: var(--am-weight-regular);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .figures span {
+    display: block;
+    margin-top: var(--am-space-2);
+    font-size: var(--am-text-sm);
+    color: var(--am-text-muted);
+    max-width: 24ch;
+  }
+
+  td.num { font-family: var(--am-font-mono); text-align: right; font-variant-numeric: tabular-nums; }
+  th.num { text-align: right; }
+  tr.qualified td { background: var(--am-accent-quiet); }
+  tr.unmeasured td { color: var(--am-text-faint); }
+  caption {
+    text-align: left;
+    color: var(--am-text-muted);
+    font-size: var(--am-text-sm);
+    padding-bottom: var(--am-space-3);
+    max-width: var(--am-measure);
+  }
+
+  /* Falsifiers: the three results that would have killed the finding. Each
+     carries its outcome as a word, so the section reads as a record of tests
+     run rather than as three reassurances. */
+  .test { border-top: var(--am-rule); padding-top: var(--am-space-5); margin-top: var(--am-space-8); }
+  .test h3 { margin-top: 0; }
+  .test .outcome {
+    display: inline-block;
+    font-family: var(--am-font-mono);
+    font-size: var(--am-text-2xs);
+    text-transform: uppercase;
+    letter-spacing: var(--am-tracking-label);
+    border: 1px solid currentColor;
+    padding: 2px var(--am-space-2);
+    /* --am-pass measures 3.88:1 as 11px text on paper, below the 4.5:1 AA
+       floor. The design system's own rule is that status colour is never the
+       only signal, so the word carries the meaning and the border carries the
+       hue; the text takes full-strength ink and passes. */
+    color: var(--am-text);
+    border-color: var(--am-pass);
+    margin-bottom: var(--am-space-3);
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the findings</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z" fill="currentColor"/><rect x="8" y="14.6" width="8" height="7.9" rx="1.7" fill="currentColor"/></svg>
+      Artifact Machine
+    </a>
+    <nav>
+      <a href="/ai-readiness-study.html">Study</a>
+      <a href="/#tools">Tools</a>
+      <a href="/lifecycle.html">Lifecycle</a>
+      <a href="/about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+
+    <section class="hero">
+      <h1>Most sites are bad at this. Only a quarter should care.</h1>
+      <p class="lede">
+        We checked 57 companies for one thing: whether a machine sent to
+        answer a question about them could read their homepage. Almost all
+        scored badly. That on its own is not a finding, it is the weather.
+        The finding is that only 25% had the pattern that
+        actually costs money.
+      </p>
+    </section>
+
+    <div class="figures">
+      <div>
+        <b>25%</b>
+        <span>had both real search investment and a large answer-engine gap</span>
+      </div>
+      <div>
+        <b>24</b>
+        <span>median answer-engine readiness, out of 100</span>
+      </div>
+      <div>
+        <b>69</b>
+        <span>the highest score anyone reached</span>
+      </div>
+    </div>
+
+    <h2>What we were actually testing</h2>
+    <p>
+      A low answer-engine score is easy to sell and mostly meaningless. Across
+      these 56 sites the median was 24 and the best
+      anyone managed was 69, so telling a company "you score
+      24%" describes the entire market, not them.
+    </p>
+    <p>
+      The thing worth measuring is the <em>mismatch</em>: a company that
+      demonstrably paid for search visibility and got none of that value back
+      from machines. Search readiness 100, answer-engine readiness
+      under 25. That is a specific, checkable loss, and it is what
+      14 of 56 sites here have.
+    </p>
+
+    <h2>What would have proved us wrong</h2>
+    <p>
+      Three results would have killed this. We report all three rather than
+      only the flattering one, because a study that could not have failed is
+      not evidence.
+    </p>
+
+    <div class="test">
+      <span class="outcome">Survived</span>
+      <h3>If the score measured nothing</h3>
+      <p>
+        A dimension where everyone lands in the same place is not measuring the
+        site, it is measuring the rubric. Answer-engine scores here ran from
+        5 to 69, a 64-point spread.
+        It discriminates. (An earlier version of this scanner did not, and was
+        fixed before this run.)
+      </p>
+    </div>
+
+    <div class="test">
+      <span class="outcome">Survived</span>
+      <h3>If everyone had the problem</h3>
+      <p>
+        Had ninety per cent qualified, there would be nothing to sell anyone:
+        "you are bad at a thing everyone is bad at" is not a reason to act.
+        25% qualified. Three quarters of this list do not have
+        the problem, and saying so is what makes the quarter credible.
+      </p>
+    </div>
+
+    <div class="test">
+      <span class="outcome">Survived</span>
+      <h3>If the gap were universal rather than earned</h3>
+      <p>
+        Gaps ran from -11 to 84. The negative end matters:
+        some sites are <em>better</em> prepared for answer engines than for
+        search, so the pitch simply does not apply to them. Sites with low
+        search investment were also excluded, because a gap on a site nobody
+        optimised is not a loss, it is an absence.
+      </p>
+    </div>
+
+    <h2>By company type</h2>
+    <p>
+      Weaker than the headline, and worth saying so. The differences are real
+      but modest, and the smaller groups are too thin to conclude much from.
+      Treat this as a mild preference, not a targeting rule.
+    </p>
+    <div class="scroll" tabindex="0" role="region" aria-label="Median scores by segment">
+      <table>
+        <caption>Median scores by segment. Segments were assigned by hand.</caption>
+        <thead>
+          <tr>
+            <th scope="col">Segment</th>
+            <th scope="col" class="num">Sites</th>
+            <th scope="col" class="num">SEO</th>
+            <th scope="col" class="num">AEO</th>
+            <th scope="col" class="num">Gap</th>
+            <th scope="col" class="num">Qualified</th>
+          </tr>
+        </thead>
+        <tbody>
+      <tr>
+        <td>saas (large)</td>
+        <td class="num">18</td>
+        <td class="num">77</td>
+        <td class="num">26</td>
+        <td class="num">38</td>
+        <td class="num">6 of 18</td>
+      </tr>
+      <tr>
+        <td>saas (small)</td>
+        <td class="num">10</td>
+        <td class="num">70</td>
+        <td class="num">21</td>
+        <td class="num">34</td>
+        <td class="num">3 of 10</td>
+      </tr>
+      <tr>
+        <td>marketplace</td>
+        <td class="num">7</td>
+        <td class="num">60</td>
+        <td class="num">24</td>
+        <td class="num">27</td>
+        <td class="num">2 of 7</td>
+      </tr>
+      <tr>
+        <td>dtc</td>
+        <td class="num">18</td>
+        <td class="num">57</td>
+        <td class="num">25</td>
+        <td class="num">36</td>
+        <td class="num">3 of 18</td>
+      </tr>
+      <tr>
+        <td>media</td>
+        <td class="num">3</td>
+        <td class="num">60</td>
+        <td class="num">27</td>
+        <td class="num">33</td>
+        <td class="num">0 of 3</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      The direct-to-consumer result is the interesting one, and it is not that
+      their gaps are small. It is that they have the lowest median search
+      readiness of any group, so fewer of them clear the bar of having invested
+      in the first place. There is no loss to point at.
+    </p>
+
+    <h2>Every site we checked</h2>
+    <p>
+      Highlighted rows are the 14 that qualified. Scores are
+      out of 100, measured on the homepage only, on 2026-09-07.
+    </p>
+    <div class="scroll" tabindex="0" role="region" aria-label="Every site checked">
+      <table>
+        <caption>
+          One site could not be measured and is shown as such rather than
+          scored. Reporting a zero for a page we were never shown would be a
+          claim we did not earn.
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Site</th>
+            <th scope="col">Segment</th>
+            <th scope="col" class="num">SEO</th>
+            <th scope="col" class="num">AEO</th>
+            <th scope="col" class="num">Gap</th>
+            <th scope="col">Note</th>
+          </tr>
+        </thead>
+        <tbody>
+      <tr class="qualified">
+        <td><span class="mono">www.warbyparker.com</span></td>
+        <td>dtc</td>
+        <td class="num">100</td>
+        <td class="num">16</td>
+        <td class="num">84</td>
+        <td>Large gap on a site that invested in search</td>
+      </tr>
+      <tr class="qualified">
+        <td><span class="mono">tally.so</span></td>
+        <td>saas (small)</td>
+        <td class="num">100</td>
+        <td class="num">18</td>
+        <td class="num">82</td>
+        <td>Large gap on a site that invested in search</td>
+      </tr>
+      <tr class="qualified">
+        <td><span class="mono">www.calendly.com</span></td>
+        <td>saas (large)</td>
+        <td class="num">100</td>
+        <td class="num">20</td>
+        <td class="num">80</td>
+        <td>Large gap on a site that invested in search</td>
+      </tr>
+      <tr class="qualified">
+        <td><span class="mono">basecamp.com</span></td>
+        <td>saas (small)</td>
+        <td class="num">100</td>
+        <td class="num">21</td>
+        <td class="num">79</td>
+        <td>Large gap on a site that invested in search</td>
+      </tr>
+      <tr class="qualified">
+        <td><span class="mono">monday.com</span></td>
+        <td>saas (large)</td>
+        <td class="num">94</td>
+        <td class="num">16</td>
+        <td class="num">78</td>
+        <td>Large gap on a site that invested in search</td>
+      </tr>
+      <tr class="qualified">
+        <td><span class="mono">www.canva.com</span></td>
+        <td>saas (large)</td>
+        <td class="num">94</td>
+        <td class="num">19</td>
+        <td class="num">75</td>
+        <td>Large gap on a site that invested in search</td>
+      </tr>
+      <tr class="qualified">
+        <td><span class="mono">mailchimp.com</span></td>
+        <td>saas (large)</td>
+        <td class="num">100</td>
+        <td class="num">26</td>
+        <td class="num">74</td>
+        <td>Large gap on a site that invested in search</td>
+      </tr>
+      <tr class="qualified">
+        <td><span class="mono">www.intercom.com</span></td>
+        <td>saas (large)</td>
+        <td class="num">94</td>
+        <td class="num">21</td>
+        <td class="num">73</td>
+        <td>Large gap on a site that invested in search</td>
+      </tr>
+      <tr class="qualified">
+        <td><span class="mono">www.zapier.com</span></td>
+        <td>saas (large)</td>
+        <td class="num">94</td>
+        <td class="num">23</td>
+        <td class="num">71</td>
+        <td>Large gap on a site that invested in search</td>
+      </tr>
+      <tr class="qualified">
+        <td><span class="mono">www.brooklinen.com</span></td>
+        <td>dtc</td>
+        <td class="num">94</td>
+        <td class="num">29</td>
+        <td class="num">65</td>
+        <td>Large gap on a site that invested in search</td>
+      </tr>
+      <tr class="qualified">
+        <td><span class="mono">www.outdoorvoices.com</span></td>
+        <td>dtc</td>
+        <td class="num">83</td>
+        <td class="num">19</td>
+        <td class="num">64</td>
+        <td>Large gap on a site that invested in search</td>
+      </tr>
+      <tr class="qualified">
+        <td><span class="mono">www.angi.com</span></td>
+        <td>marketplace</td>
+        <td class="num">100</td>
+        <td class="num">40</td>
+        <td class="num">60</td>
+        <td>Large gap on a site that invested in search</td>
+      </tr>
+      <tr class="qualified">
+        <td><span class="mono">cal.com</span></td>
+        <td>saas (small)</td>
+        <td class="num">80</td>
+        <td class="num">21</td>
+        <td class="num">59</td>
+        <td>Large gap on a site that invested in search</td>
+      </tr>
+      <tr class="qualified">
+        <td><span class="mono">www.rocketlawyer.com</span></td>
+        <td>marketplace</td>
+        <td class="num">80</td>
+        <td class="num">24</td>
+        <td class="num">56</td>
+        <td>Large gap on a site that invested in search</td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.notion.so</span></td>
+        <td>saas (large)</td>
+        <td class="num">74</td>
+        <td class="num">27</td>
+        <td class="num">47</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.harrys.com</span></td>
+        <td>dtc</td>
+        <td class="num">60</td>
+        <td class="num">14</td>
+        <td class="num">46</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.rothys.com</span></td>
+        <td>dtc</td>
+        <td class="num">54</td>
+        <td class="num">13</td>
+        <td class="num">41</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">buffer.com</span></td>
+        <td>saas (small)</td>
+        <td class="num">60</td>
+        <td class="num">20</td>
+        <td class="num">40</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.hydroflask.com</span></td>
+        <td>dtc</td>
+        <td class="num">60</td>
+        <td class="num">20</td>
+        <td class="num">40</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.mejuri.com</span></td>
+        <td>dtc</td>
+        <td class="num">54</td>
+        <td class="num">14</td>
+        <td class="num">40</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.thirdlove.com</span></td>
+        <td>dtc</td>
+        <td class="num">54</td>
+        <td class="num">14</td>
+        <td class="num">40</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">arstechnica.com</span></td>
+        <td>media</td>
+        <td class="num">60</td>
+        <td class="num">21</td>
+        <td class="num">39</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">asana.com</span></td>
+        <td>saas (large)</td>
+        <td class="num">54</td>
+        <td class="num">15</td>
+        <td class="num">39</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.figma.com</span></td>
+        <td>saas (large)</td>
+        <td class="num">94</td>
+        <td class="num">55</td>
+        <td class="num">39</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.everlane.com</span></td>
+        <td>dtc</td>
+        <td class="num">54</td>
+        <td class="num">17</td>
+        <td class="num">37</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.helpscout.com</span></td>
+        <td>saas (small)</td>
+        <td class="num">60</td>
+        <td class="num">23</td>
+        <td class="num">37</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.legalzoom.com</span></td>
+        <td>marketplace</td>
+        <td class="num">60</td>
+        <td class="num">24</td>
+        <td class="num">36</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.smartsheet.com</span></td>
+        <td>saas (large)</td>
+        <td class="num">51</td>
+        <td class="num">15</td>
+        <td class="num">36</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">liquid-death.com</span></td>
+        <td>dtc</td>
+        <td class="num">89</td>
+        <td class="num">54</td>
+        <td class="num">35</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.airtable.com</span></td>
+        <td>saas (large)</td>
+        <td class="num">80</td>
+        <td class="num">45</td>
+        <td class="num">35</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.hubspot.com</span></td>
+        <td>saas (large)</td>
+        <td class="num">94</td>
+        <td class="num">60</td>
+        <td class="num">34</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.magicspoon.com</span></td>
+        <td>dtc</td>
+        <td class="num">54</td>
+        <td class="num">20</td>
+        <td class="num">34</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.theverge.com</span></td>
+        <td>media</td>
+        <td class="num">60</td>
+        <td class="num">27</td>
+        <td class="num">33</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">baremetrics.com</span></td>
+        <td>saas (small)</td>
+        <td class="num">54</td>
+        <td class="num">23</td>
+        <td class="num">31</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.docusign.com</span></td>
+        <td>saas (large)</td>
+        <td class="num">54</td>
+        <td class="num">23</td>
+        <td class="num">31</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">fathomanalytics.com</span></td>
+        <td>saas (small)</td>
+        <td class="num">94</td>
+        <td class="num">64</td>
+        <td class="num">30</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.purple.com</span></td>
+        <td>dtc</td>
+        <td class="num">60</td>
+        <td class="num">32</td>
+        <td class="num">28</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.typeform.com</span></td>
+        <td>saas (large)</td>
+        <td class="num">54</td>
+        <td class="num">26</td>
+        <td class="num">28</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.thumbtack.com</span></td>
+        <td>marketplace</td>
+        <td class="num">43</td>
+        <td class="num">16</td>
+        <td class="num">27</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">plausible.io</span></td>
+        <td>saas (small)</td>
+        <td class="num">94</td>
+        <td class="num">69</td>
+        <td class="num">25</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">webflow.com</span></td>
+        <td>saas (large)</td>
+        <td class="num">54</td>
+        <td class="num">32</td>
+        <td class="num">22</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.chubbiesshorts.com</span></td>
+        <td>dtc</td>
+        <td class="num">60</td>
+        <td class="num">40</td>
+        <td class="num">20</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.allbirds.com</span></td>
+        <td>dtc</td>
+        <td class="num">74</td>
+        <td class="num">57</td>
+        <td class="num">17</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">missiveapp.com</span></td>
+        <td>saas (small)</td>
+        <td class="num">34</td>
+        <td class="num">18</td>
+        <td class="num">16</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">linear.app</span></td>
+        <td>saas (small)</td>
+        <td class="num">34</td>
+        <td class="num">19</td>
+        <td class="num">15</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">clickup.com</span></td>
+        <td>saas (large)</td>
+        <td class="num">43</td>
+        <td class="num">30</td>
+        <td class="num">13</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">drinkolipop.com</span></td>
+        <td>dtc</td>
+        <td class="num">54</td>
+        <td class="num">41</td>
+        <td class="num">13</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">ritual.com</span></td>
+        <td>dtc</td>
+        <td class="num">54</td>
+        <td class="num">42</td>
+        <td class="num">12</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.betterhelp.com</span></td>
+        <td>marketplace</td>
+        <td class="num">54</td>
+        <td class="num">47</td>
+        <td class="num">7</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.carvana.com</span></td>
+        <td>marketplace</td>
+        <td class="num">63</td>
+        <td class="num">56</td>
+        <td class="num">7</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.zocdoc.com</span></td>
+        <td>marketplace</td>
+        <td class="num">11</td>
+        <td class="num">5</td>
+        <td class="num">6</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.casper.com</span></td>
+        <td>dtc</td>
+        <td class="num">54</td>
+        <td class="num">52</td>
+        <td class="num">2</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.quip.com</span></td>
+        <td>saas (large)</td>
+        <td class="num">54</td>
+        <td class="num">52</td>
+        <td class="num">2</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.glossier.com</span></td>
+        <td>dtc</td>
+        <td class="num">34</td>
+        <td class="num">33</td>
+        <td class="num">1</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.gusto.com</span></td>
+        <td>saas (large)</td>
+        <td class="num">40</td>
+        <td class="num">39</td>
+        <td class="num">1</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="mono">www.smashingmagazine.com</span></td>
+        <td>media</td>
+        <td class="num">40</td>
+        <td class="num">51</td>
+        <td class="num">-11</td>
+        <td></td>
+      </tr>
+      <tr class="unmeasured">
+        <td><span class="mono">www.patagonia.com</span></td>
+        <td>dtc</td>
+        <td class="num">&ndash;</td>
+        <td class="num">&ndash;</td>
+        <td class="num">&ndash;</td>
+        <td>Not measured &mdash; served a bot challenge</td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Method</h2>
+    <p>
+      One page per site, the homepage, loaded in a real browser on
+      2026-09-07. Search readiness is meta completeness, heading structure
+      and structured data. Answer-engine readiness is whether the page states
+      answers a machine can lift: question headings, marked-up Q&amp;A,
+      self-contained claims, and whether the page needs JavaScript to say
+      anything at all.
+    </p>
+    <p>
+      The same scanner and the same scoring produce every row here, so any of
+      them can be reproduced from the description above.
+    </p>
+
+    <h2>What this does not show</h2>
+    <ul>
+      <li>
+        Whether any AI assistant actually mentions these companies today. That
+        needs repeated sampling of the models themselves. This is the cheaper
+        question underneath it: if one comes looking, is there anything usable?
+      </li>
+      <li>
+        Anything about site quality. Performance, accessibility, security and
+        content were not part of this measurement.
+      </li>
+      <li>
+        Anything beyond the homepage. A deeper page could score differently.
+      </li>
+      <li>
+        A stable market picture. This is one run on one day, and sites change.
+      </li>
+    </ul>
+
+    <h2>Check your own</h2>
+    <p>
+      The free single-site checker that runs this same measurement is built but
+      not yet switched on. It will appear here when it is. Until then every row
+      above is reproducible from the method described, and the
+      <a href="/about.html">contact address</a> reaches a person.
+    </p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Artifact Machine — small tools that check one thing well.</p>
+  </div>
+</footer>
+</body>
+</html>
