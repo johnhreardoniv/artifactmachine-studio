@@ -1,14 +1,22 @@
 /* ==========================================================================
    ARTIFACT MACHINE — SELF-HOSTED FONTS
    --------------------------------------------------------------------------
-   Load BEFORE tokens.css. Three families, 178 KB total, all SIL OFL 1.1.
+   Load BEFORE tokens.css. Three families, ~197 KB total, all SIL OFL 1.1.
 
-   SHIPPED UNMODIFIED, ON PURPOSE. Basteleur and Sligoil both carry Reserved
-   Font Names (they are trademarks of Keussel, and of Ariel Martin Perez /
-   Meaning Machine Games); Uncut Sans is a trademark of Kasper Nordkvist. The
-   OFL's RFN clause only restricts MODIFIED versions — so subsetting these
-   would force a rename. At 178 KB total that trade is not worth making.
+   SLIGOIL AND UNCUT SANS ARE SHIPPED UNMODIFIED, ON PURPOSE. Sligoil carries
+   a Reserved Font Name (a trademark of Ariel Martin Perez / Meaning Machine
+   Games); Uncut Sans is a trademark of Kasper Nordkvist. The OFL's RFN clause
+   only restricts MODIFIED versions — so subsetting these would force a
+   rename, and at their size that trade is not worth making.
    Do not run pyftsubset on them without renaming the family.
+
+   FRAUNCES IS THE EXCEPTION, AND IT IS DELIBERATE. Its OFL copyright line
+   reads "Copyright 2018 The Fraunces Project Authors" with NO "with Reserved
+   Font Name" suffix — checked in the licence shipped beside it, not assumed
+   from the family. No RFN means subsetting and instancing are permitted
+   without renaming, so the file here is not the upstream binary: it is the
+   official variable font with SOFT and WONK pinned to 0 and the character set
+   cut to latin. 360 KB became 67 KB. opsz and wght are still live.
 
    Licences ship alongside the files in this directory, which the OFL requires:
    public self-hosting is distribution.
@@ -17,19 +25,35 @@
    assumed. Two of them are non-standard and would have broken the site.
    ========================================================================== */
 
-/* --- DISPLAY: Basteleur Bold -------------------------------------------
-   Static, single weight. usWeightClass reports 400 despite the name being
-   "Bold", so it is declared 400 — declaring 700 would make the browser
-   synthesise a bolder face on top of an already-bold design.
-   Metrics: upem 1000, hhea asc 950 / desc -250. */
+/* --- DISPLAY: Fraunces Variable ----------------------------------------
+   Replaced Basteleur (2026-09-09). Basteleur is a good face and the wrong
+   one here: its bouncing baseline and swash capitals read as a craft label,
+   and what looked like character in a 73px hero became noise at the 27px
+   heading size, where most of the site's display type actually lives.
+   Fraunces keeps the serif, ink-and-paper voice that made the direction
+   work, without the wobble.
+
+   TWO LIVE AXES, both used:
+     opsz 9-144 — real optical sizing, which is the reason to pick this face.
+       `font-optical-sizing: auto` (the browser default) tracks it to the
+       rendered size on its own, so a 27px h2 gets sturdier, more open
+       letterforms than a 73px h1 rather than a shrunken copy of it.
+     wght 100-900 — headings use 700.
+
+   ⚠ The wght axis DEFAULTS TO 900, not 400. Anything that uses this family
+   without stating a weight renders at Black. Every display surface in the
+   system sets one; new ones must too.
+
+   Metrics: upem 2000, hhea asc 1956 / desc -510 / gap 0 — read out of the
+   subset binary with fontTools, like every other number in this file. */
 @font-face {
-  font-family: "Basteleur";
-  src: url("/assets/fonts/Basteleur-Bold.woff2") format("woff2");
-  font-weight: 400;
+  font-family: "Fraunces";
+  src: url("/assets/fonts/Fraunces-Variable.woff2") format("woff2-variations");
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
-  ascent-override: 95%;
-  descent-override: 25%;
+  ascent-override: 97.8%;
+  descent-override: 25.5%;
   line-gap-override: 0%;
 }
 
@@ -103,3 +127,10 @@
   font-weight: var(--am-mono-regular);
 }
 :where(.cadence__when, .brand__name, th) { font-weight: var(--am-mono-medium); }
+
+/* The display face has the same shape of trap as Sligoil above, in the other
+   direction: its wght axis defaults to 900, so any heading that does not
+   state a weight renders at Black. This is the floor. :where() keeps
+   specificity at zero, so any component can still ask for something else. */
+:root { --am-display-weight: 700; }
+:where(h1, h2, h3, .display, .finding-figure) { font-weight: var(--am-display-weight); }

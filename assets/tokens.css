@@ -105,17 +105,31 @@
      the pages read as instrument rather than as marketing.
 
      CHOSEN FACES — all SIL OFL 1.1, all self-hostable without ambiguity,
-     ~178 KB for three voices:
-       Display — Basteleur Bold        (Keussel / Velvetyne)      48,040 B
+     ~197 KB for three voices:
+       Display — Fraunces variable     (Undercase Type)           67,020 B
        Text    — Uncut Sans variable   (Kasper Nordkvist)         78,072 B
        Mono    — Sligoil variable      (A. Martín Pérez/Velvetyne)52,328 B
 
-     Chosen over the safe option (Bricolage/Literata/Geist Mono) because
-     nothing else will be wearing it. Every face in the "fonts designers
-     actually use in 2026" lists is paid indie type; of 50, exactly one is
-     open source. Velvetyne and Collletttivo are where free type with actual
-     character lives, and Basteleur's Tarot-de-Marseille × Cooper Black warmth
-     is unlike anything on a competitor's pricing page.
+     Sans and mono were chosen over the safe option (Bricolage/Literata/Geist
+     Mono) because nothing else will be wearing them. Every face in the "fonts
+     designers actually use in 2026" lists is paid indie type; of 50, exactly
+     one is open source. Velvetyne and Collletttivo are where free type with
+     actual character lives.
+
+     THE DISPLAY FACE CHANGED 2026-09-09. It was Basteleur Bold, picked for
+     the same reason — a Tarot-de-Marseille × Cooper Black warmth unlike
+     anything on a competitor's pricing page. The reasoning was sound and the
+     result was not: the bouncing baseline and swash capitals read as a craft
+     label rather than an instrument, and the character that was arguable at
+     73px became noise at 27px, which is where most of the site's display type
+     actually lives. Fraunces keeps the serif, ink-and-paper voice and drops
+     the wobble, and its opsz axis means a 27px heading is genuinely redrawn
+     for that size rather than scaled down.
+
+     One concrete gain worth recording: Fraunces draws a plain zero. Both
+     previous display candidates slashed theirs, which is why the scan scores
+     had to escape to the sans (see ai-readiness.html). Prices like $0.001
+     now set correctly in a heading.
 
      ⚠ DO NOT substitute Fontshare faces (Switzer, Satoshi, Cabinet Grotesk).
      They are ITF-FFL, not OFL. That licence forbids "uploading them in a
@@ -127,8 +141,8 @@
      ⚠ Until the .woff2 files land in /assets/fonts, the fallbacks below carry
      the page. They are real, chosen fallbacks — not placeholders — so the
      site is never blocked on a font binary. */
-  --am-font-display: "Basteleur", "Cooper Black", "Iowan Old Style",
-                     Georgia, serif;
+  --am-font-display: "Fraunces", "Iowan Old Style", "Palatino Linotype",
+                     Georgia, "Times New Roman", serif;
   --am-font-sans: "Uncut Sans", ui-sans-serif, system-ui, -apple-system,
                   "Helvetica Neue", "Segoe UI", Roboto, Arial, sans-serif;
   --am-font-mono: "Sligoil", ui-monospace, "SF Mono", "Cascadia Mono",

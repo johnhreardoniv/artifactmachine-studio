@@ -95,6 +95,8 @@ header.top nav a[aria-current="page"], .site-header nav a[aria-current="page"] {
 .hero { padding-block: var(--am-space-20) var(--am-space-10); }
 h1, .hero h1 {
   font-family: var(--am-font-display);
+  /* Stated, not inherited: the Fraunces wght axis defaults to 900. */
+  font-weight: var(--am-display-weight);
   font-size: var(--am-text-3xl);
   line-height: var(--am-leading-tight);
   letter-spacing: var(--am-tracking-display);
@@ -112,6 +114,15 @@ h1, .hero h1 {
 /* ---------- body copy --------------------------------------------------- */
 main { padding-bottom: var(--am-space-20); }
 h2 {
+  /* Section headings are display type now. They were set in the sans because
+     Basteleur was unusable at this size — its character became noise below
+     hero scale — and that constraint left every page with a serif hero
+     followed by sans headings that read as a different document. Fraunces
+     holds at 27px, so the reason is gone and the split with it.
+     `font-optical-sizing: auto` is the browser default and is doing real
+     work here: this renders sturdier and more open than the h1, not smaller. */
+  font-family: var(--am-font-display);
+  font-weight: var(--am-display-weight);
   font-size: var(--am-text-xl);
   line-height: var(--am-leading-snug);
   letter-spacing: var(--am-tracking-tight);
@@ -120,7 +131,13 @@ h2 {
   border-top: var(--am-rule);
   text-wrap: balance;
 }
-h3 { font-size: var(--am-text-lg); letter-spacing: var(--am-tracking-tight); margin: var(--am-space-8) 0 var(--am-space-2); }
+h3 {
+  font-family: var(--am-font-display);
+  font-weight: var(--am-display-weight);
+  font-size: var(--am-text-lg);
+  letter-spacing: var(--am-tracking-tight);
+  margin: var(--am-space-8) 0 var(--am-space-2);
+}
 p { max-width: var(--am-measure); }
 main ul { max-width: var(--am-measure); padding-left: 1.15rem; }
 main li { margin-bottom: var(--am-space-2); }

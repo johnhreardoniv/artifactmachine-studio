@@ -7,6 +7,7 @@
 <meta name="robots" content="noindex">
 <meta name="description" content="Artifact Machine design system — tokens, type, colour, components, and a live contrast audit that fails visibly.">
 <link rel="preload" href="/assets/fonts/UncutSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/Fraunces-Variable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/fonts.css">
 <link rel="stylesheet" href="/assets/tokens.css">
 <style>
@@ -241,7 +242,7 @@
   document.getElementById("themeBtn").addEventListener("click", function () {
     var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
     root.setAttribute("data-theme", next);
-    audit();
+    auditAll();
   });
 
   /* ---- colour maths --------------------------------------------------
@@ -314,9 +315,11 @@
     ["--am-fail",       "--am-surface", "Fail state",               3.0]
   ];
 
-  function audit() {
+  /* @param {boolean} render — the table shows one theme's numbers; the
+     banner covers both. Passing false measures without touching the DOM. */
+  function audit(render) {
     var tbody = document.querySelector("#auditTable tbody");
-    tbody.innerHTML = "";
+    if (render) tbody.innerHTML = "";
     var failures = 0, checked = 0;
 
     PAIRS.forEach(function (p) {
@@ -332,20 +335,55 @@
         '<td class="mono"><strong>' + r.toFixed(2) + ":1</strong></td>" +
         '<td class="mono">' + p[3].toFixed(1) + ":1</td>" +
         '<td><span class="pill ' + (pass ? "ok" : "bad") + '">' + (pass ? "PASS" : "FAIL") + "</span></td>";
-      tbody.appendChild(tr);
+      if (render) tbody.appendChild(tr);
     });
 
+    return { checked: checked, failures: failures };
+  }
+
+  /* ---- BOTH themes, every load ---------------------------------------
+     This used to audit whatever theme happened to be showing, and the
+     document is hardcoded to data-theme="light" — so the twelve dark
+     pairings were only ever measured if a human clicked the toggle first.
+     A guard that quietly checks half of what it claims to check is worse
+     than no guard, because the green banner is taken as coverage.
+
+     Light and dark do NOT share tokens here — tokens.css keeps separate
+     ink steps for them precisely because darkening a shared value to fix
+     light broke dark — so passing in one says nothing about the other.
+     Both are now measured on load by flipping the attribute, reading, and
+     putting it back. Reading getComputedStyle between the writes forces the
+     recalc, so the values are the theme's real ones and not the old ones. */
+  function auditAll() {
     var b = document.getElementById("auditBanner");
-    var theme = root.getAttribute("data-theme") || "auto";
-    if (failures === 0) {
+    var before = root.getAttribute("data-theme");
+    var results = [];
+
+    ["light", "dark"].forEach(function (theme) {
+      root.setAttribute("data-theme", theme);
+      getComputedStyle(root).getPropertyValue("--am-bg");   // force recalc
+      var r = audit(theme === "light");                     // table shows light
+      results.push({ theme: theme, checked: r.checked, failures: r.failures });
+    });
+
+    if (before === null) root.removeAttribute("data-theme");
+    else root.setAttribute("data-theme", before);
+    getComputedStyle(root).getPropertyValue("--am-bg");
+
+    var totalFail = results.reduce(function (n, r) { return n + r.failures; }, 0);
+    var parts = results.map(function (r) {
+      return r.theme + " " + (r.checked - r.failures) + "/" + r.checked;
+    }).join(" · ");
+
+    if (totalFail === 0) {
       b.style.borderColor = "var(--am-pass)";
       b.style.color = "var(--am-pass)";
-      b.textContent = "PASS — " + checked + "/" + checked + " pairings meet WCAG AA in " + theme + " theme.";
+      b.textContent = "PASS — every pairing meets WCAG AA in both themes (" + parts + ").";
     } else {
       b.style.borderColor = "var(--am-fail)";
       b.style.color = "var(--am-fail)";
-      b.textContent = "FAIL — " + failures + " of " + checked + " pairings below AA in " + theme +
-                      " theme. Fix tokens.css before shipping.";
+      b.textContent = "FAIL — " + totalFail + " pairing(s) below AA (" + parts +
+                      "). Fix tokens.css before shipping.";
     }
   }
 
@@ -375,7 +413,7 @@
     rows.appendChild(tr);
   });
 
-  audit();
+  auditAll();
 })();
 </script>
 </body>
