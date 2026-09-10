@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>API — Artifact Machine</title>
+<meta name="description" content="Score a list of domains for answer-engine readiness. One HTTP call, one row per domain. Works in Clay, n8n, Make, Zapier or curl.">
+<link rel="canonical" href="https://artifactmachine.studio/api.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z' fill='%23a04a08'/%3E%3Crect x='8' y='14.6' width='8' height='7.9' rx='1.7' fill='%23a04a08'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/assets/tokens.css">
+<link rel="stylesheet" href="/assets/motion.css">
+<link rel="stylesheet" href="/assets/fonts.css">
+<link rel="stylesheet" href="/assets/page.css">
+<style>
+  ::selection { background: var(--am-accent-quiet); color: var(--am-text); }
+  :focus-visible { outline: var(--am-border-heavy) solid var(--am-focus); outline-offset: 2px; }
+  pre, .scroll { scrollbar-color: var(--am-border-strong) transparent; }
+
+  /* Endpoint line: method and path are machine facts, so they are mono. */
+  .endpoint {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--am-space-3);
+    border: var(--am-border-heavy) solid var(--am-text);
+    clip-path: polygon(var(--am-chamfer) 0, 100% 0, 100% 100%, 0 100%, 0 var(--am-chamfer));
+    background: var(--am-surface);
+    padding: var(--am-space-4) var(--am-space-5);
+    margin-block: var(--am-space-6);
+  }
+  .endpoint b {
+    font-family: var(--am-font-mono);
+    font-size: var(--am-text-2xs);
+    letter-spacing: var(--am-tracking-label);
+    background: var(--am-accent); color: var(--am-on-accent);
+    padding: 2px var(--am-space-2);
+  }
+  .endpoint code {
+    font-family: var(--am-font-mono);
+    font-size: var(--am-text-md);
+    overflow-wrap: anywhere;
+  }
+
+  /* Field reference. A table, because it is reference material people scan
+     rather than read, and a card grid would bury the column names. */
+  td code, th code { font-family: var(--am-font-mono); font-size: 0.92em; }
+  td:first-child { white-space: nowrap; }
+
+  .limits { border-top: var(--am-rule); padding-top: var(--am-space-5); margin-top: var(--am-space-8); }
+  .limits dt {
+    font-family: var(--am-font-mono);
+    font-size: var(--am-text-2xs);
+    text-transform: uppercase;
+    letter-spacing: var(--am-tracking-label);
+    color: var(--am-text-faint);
+    margin-top: var(--am-space-4);
+  }
+  .limits dd { margin: var(--am-space-1) 0 0; max-width: var(--am-measure); }
+
+  /* Recipes: each is a whole worked integration, so they are sections rather
+     than cards — the content is a code block and cards would only add a box. */
+  .recipe { border-top: var(--am-rule); padding-top: var(--am-space-5); margin-top: var(--am-space-10); }
+  .recipe h3 { margin-top: 0; }
+  .recipe p { color: var(--am-text-muted); }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the endpoint</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z" fill="currentColor"/><rect x="8" y="14.6" width="8" height="7.9" rx="1.7" fill="currentColor"/></svg>
+      Artifact Machine
+    </a>
+    <nav>
+      <a href="/ai-readiness.html">Check a site</a>
+      <a href="/ai-readiness-study.html">Study</a>
+      <a href="/api.html">API</a>
+      <a href="/#tools">Tools</a>
+      <a href="/about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+
+    <section class="hero">
+      <h1>One call. One row per domain.</h1>
+      <p class="lede">
+        Send a list of domains, get back how ready each one is for search, how
+        ready it is for answer engines, and the gap between them. No account, no
+        key, no signup. If it speaks HTTP, it can use this.
+      </p>
+    </section>
+
+    <div class="endpoint">
+      <b>POST</b>
+      <code>https://artifact-machine-scan.vercel.app/api/batch</code>
+    </div>
+
+    <h2>Try it right now</h2>
+    <p>This works as-is. Paste it into a terminal.</p>
+<pre tabindex="0"><code>curl -s -X POST https://artifact-machine-scan.vercel.app/api/batch \
+  -H 'Content-Type: application/json' \
+  -d '{"domains": ["basecamp.com", "linear.app"]}'</code></pre>
+
+    <p>Which returns:</p>
+<pre tabindex="0"><code>{
+  "ok": true,
+  "requested": 2,
+  "measured": 2,
+  "qualified": 1,
+  "rows": [
+    {
+      "domain": "basecamp.com",
+      "measured": true,
+      "reason": null,
+      "searchReadiness": 100,
+      "answerEngineReadiness": 23,
+      "aiCitability": 61,
+      "gap": 77,
+      "qualified": true,
+      "verdict": "qualified",
+      "summary": "Search readiness 100%, answer-engine readiness 23% — a 77-point gap on a site that has clearly invested in search."
+    }
+  ]
+}</code></pre>
+
+    <h2>What comes back</h2>
+    <div class="scroll" tabindex="0" role="region" aria-label="Response fields">
+      <table>
+        <caption>One object per domain, in <code>rows</code>.</caption>
+        <thead>
+          <tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">What it is</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>domain</code></td><td>string</td><td>The domain, normalised.</td></tr>
+          <tr><td><code>measured</code></td><td>boolean</td><td><strong>Check this first.</strong> False means we could not read the site, and every score is null.</td></tr>
+          <tr><td><code>reason</code></td><td>string</td><td>Why we could not read it. Null when we could.</td></tr>
+          <tr><td><code>searchReadiness</code></td><td>0&ndash;100</td><td>Meta completeness, heading structure, structured data.</td></tr>
+          <tr><td><code>answerEngineReadiness</code></td><td>0&ndash;100</td><td>Whether the page states answers a machine can lift.</td></tr>
+          <tr><td><code>aiCitability</code></td><td>0&ndash;100</td><td>Depth and structure of the content itself.</td></tr>
+          <tr><td><code>gap</code></td><td>number</td><td>Search minus answer-engine. Can be negative.</td></tr>
+          <tr><td><code>qualified</code></td><td>boolean</td><td>Search readiness &ge; 50 <em>and</em> a gap &ge; 50.</td></tr>
+          <tr><td><code>verdict</code></td><td>string</td><td>One of <code>qualified</code>, <code>modest-gap</code>, <code>low-investment</code>, <code>no-gap</code>.</td></tr>
+          <tr><td><code>summary</code></td><td>string</td><td>The finding in a sentence you could send to someone.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Domains we could not read</h2>
+    <p>
+      About one site in four in a cold list cannot be read: dead domains,
+      timeouts, and bot protection. Those come back with
+      <code>measured: false</code>, a <code>reason</code>, and
+      <strong>every score null</strong> — never a zero.
+    </p>
+    <p>
+      That is deliberate. A zero is a measurement, and nothing was measured. In
+      a sheet of ten thousand rows a fabricated zero is worse than a missing
+      one, because it looks plausible and nobody audits it. Filter on
+      <code>measured</code> and you always know which rows are real.
+    </p>
+
+    <h2>Limits</h2>
+    <dl class="limits">
+      <dt>Domains per request</dt>
+      <dd>
+        10. Each one is a real browser page load. Ask for more and the request
+        is refused with the number — it is never silently truncated, because a
+        shortened list looks exactly like a complete one.
+      </dd>
+
+      <dt>Rate</dt>
+      <dd>
+        Roughly 10 requests per minute per address, with a shared ceiling on top.
+        A 429 tells you when to come back.
+      </dd>
+
+      <dt>Speed</dt>
+      <dd>About two to four seconds per domain.</dd>
+
+      <dt>Cost</dt>
+      <dd>
+        Free, and no key. If you need volume beyond this,
+        <a href="/about.html">get in touch</a> rather than looping it.
+      </dd>
+
+      <dt>What it reads</dt>
+      <dd>The homepage only, in a real browser, once per request.</dd>
+    </dl>
+
+    <h2>Wiring it into the tools people actually use</h2>
+    <p>
+      All of these speak HTTP, so none of them needs anything installed or
+      approved. Each takes about ten minutes.
+    </p>
+
+    <section class="recipe">
+      <h3>Clay</h3>
+      <p>
+        Add an <strong>HTTP API</strong> enrichment to a table that already has
+        a domain column.
+      </p>
+<pre tabindex="0"><code>Method   POST
+URL      https://artifact-machine-scan.vercel.app/api/batch
+Headers  Content-Type: application/json
+Body     {"domains": ["{{Domain}}"]}</code></pre>
+      <p>
+        Map <code>rows[0].gap</code> and <code>rows[0].qualified</code> into
+        columns. One domain per row keeps you inside the per-request limit and
+        lets Clay handle its own concurrency.
+      </p>
+    </section>
+
+    <section class="recipe">
+      <h3>n8n</h3>
+      <p>An <strong>HTTP Request</strong> node, batching ten at a time.</p>
+<pre tabindex="0"><code>Method: POST
+URL: https://artifact-machine-scan.vercel.app/api/batch
+Send Body: JSON
+Body: {"domains": {{ $json.domains }}}</code></pre>
+      <p>
+        Put a <strong>Split In Batches</strong> node in front with a batch size
+        of 10, and an <strong>Item Lists</strong> node after it to split
+        <code>rows</code> back out into one item per domain.
+      </p>
+    </section>
+
+    <section class="recipe">
+      <h3>Make or Zapier</h3>
+      <p>
+        A <strong>Webhooks &rarr; Make a request</strong> module (Make) or
+        <strong>Webhooks by Zapier &rarr; POST</strong> (Zapier). Same URL, same
+        JSON body. Both parse the response without extra configuration.
+      </p>
+    </section>
+
+    <section class="recipe">
+      <h3>A spreadsheet</h3>
+      <p>
+        Google Apps Script, for when the list already lives in Sheets.
+      </p>
+<pre tabindex="0"><code>function gap(domain) {
+  const res = UrlFetchApp.fetch(
+    'https://artifact-machine-scan.vercel.app/api/batch',
+    { method: 'post', contentType: 'application/json',
+      payload: JSON.stringify({ domains: [domain] }) });
+  const row = JSON.parse(res.getContentText()).rows[0];
+  return row.measured ? row.gap : row.reason;
+}</code></pre>
+      <p>
+        Then <code>=gap(A2)</code>. It returns the reason instead of a number
+        when a site could not be read, so a blank cell never gets mistaken for a
+        zero.
+      </p>
+    </section>
+
+    <h2>One domain at a time</h2>
+    <p>
+      There is a single-site endpoint too, with more detail in the response —
+      the individual findings and the answer-engine breakdown.
+    </p>
+    <div class="endpoint">
+      <b>POST</b>
+      <code>https://artifact-machine-scan.vercel.app/api/scan</code>
+    </div>
+<pre tabindex="0"><code>curl -s -X POST https://artifact-machine-scan.vercel.app/api/scan \
+  -H 'Content-Type: application/json' \
+  -d '{"url": "example.com"}'</code></pre>
+
+    <h2>Where the numbers come from</h2>
+    <p>
+      The same scanner and the same scoring produced the
+      <a href="/ai-readiness-study.html">57-company study</a>, so a number here
+      means what it means there. You can reproduce any row in it through this
+      endpoint.
+    </p>
+    <p>
+      Worth knowing before you build on it: across 3,000 randomly sampled
+      domains, the gap correlates 0.84 with search readiness alone. It is a
+      genuinely different ranking &mdash; about half the top 200 differs &mdash;
+      but it is not an independent signal, and anyone telling you otherwise is
+      overselling it.
+    </p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Artifact Machine — small tools that check one thing well.</p>
+  </div>
+</footer>
+</body>
+</html>

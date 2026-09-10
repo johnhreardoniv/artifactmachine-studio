@@ -28,6 +28,7 @@
   <a class="brand" href="/"><svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z" fill="var(--am-accent)"/><rect x="8" y="14.6" width="8" height="7.9" rx="1.7" fill="var(--am-accent)"/></svg><span>Artifact Machine</span></a>
   <nav><a href="/ai-readiness.html">Check a site</a>
       <a href="/ai-readiness-study.html">Study</a>
+      <a href="/api.html">API</a>
       <a href="/#tools">Tools</a><a href="/lifecycle.html">Lifecycle</a><a href="/about.html">About</a></nav>
 </div></header>
 <main><div class="wrap">
@@ -73,7 +74,7 @@
 
   <h2>Sample output</h2>
   <p>Trimmed from a real run.</p>
-  <pre><code>{
+  <pre tabindex="0"><code>{
   &quot;actor&quot;: &quot;artifact-machine-sitemap-health-audit&quot;,
   &quot;actorVersion&quot;: &quot;0.1.0&quot;,
   &quot;auditedAt&quot;: &quot;2026-07-29T05:03:31.462Z&quot;,
@@ -106,7 +107,7 @@
 
   <h2>Calling it from code</h2>
   <p>Any HTTP client works. Replace <code class="mono">&lt;TOKEN&gt;</code> with your Apify API token.</p>
-  <pre><code>curl -X POST "https://api.apify.com/v2/acts/artifact-machine~artifact-machine-sitemap-health-audit/run-sync-get-dataset-items?token=&lt;TOKEN&gt;" \
+  <pre tabindex="0"><code>curl -X POST "https://api.apify.com/v2/acts/artifact-machine~artifact-machine-sitemap-health-audit/run-sync-get-dataset-items?token=&lt;TOKEN&gt;" \
   -H "Content-Type: application/json" \
   -d '{"startUrls":[{"url":"https://example.com"}]}'</code></pre>
 
