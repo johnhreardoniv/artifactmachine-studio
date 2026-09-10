@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "marquee",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-09-10T03:03:36.046Z",
+        "reason": "Claude: no marquee exists. The page's only animation is .rule-draw — a one-shot 'forwards' transform:scaleX on the hero rule at load, not 'infinite', with a prefers-reduced-motion:none branch. Nothing auto-scrolls and no content is hidden at any moment. Verified in source at index.html:134-138."
+      }
+    ]
+  }
+}
