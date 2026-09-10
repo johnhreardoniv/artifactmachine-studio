@@ -22,48 +22,111 @@
 
 </head>
 <body>
+<a class="skip" href="#main">Skip to the content</a>
 <header class="top"><div class="wrap">
   <a class="brand" href="/"><svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z" fill="var(--am-accent)"/><rect x="8" y="14.6" width="8" height="7.9" rx="1.7" fill="var(--am-accent)"/></svg><span>Artifact Machine</span></a>
-  <nav><a href="/ai-readiness.html">Check a site</a>
+  <nav>
+      <a href="/ai-readiness.html">Check a site</a>
       <a href="/ai-readiness-study.html">Study</a>
       <a href="/api.html">API</a>
-      <a href="/#tools">Tools</a><a href="/lifecycle.html">Lifecycle</a><a href="/about.html">About</a></nav>
+      <a href="/#tools">Tools</a>
+      <a href="/lifecycle.html">Lifecycle</a>
+      <a href="/about.html" aria-current="page">About</a>
+    </nav>
 </div></header>
-<main><div class="wrap">
+<main id="main"><div class="wrap">
   <section class="hero">
-    <h1>About the machine</h1>
-    <p>Tiny useful things from the machine.</p>
+    <h1>One person, measuring in public.</h1>
+    <p class="lede">
+      Artifact Machine measures whether a machine sent to answer a question
+      about a company can actually read that company&rsquo;s website. Everything
+      here is downstream of that one question.
+    </p>
   </section>
 
   <h2>What this is</h2>
-  <p>A small catalogue of single-purpose website audit tools. Each one does one job, takes a URL,
-  and returns structured JSON. They are built to be called by other software as much as by people.</p>
+  <p>
+    A scanner, and the things built on top of it. The scanner reads a page in a
+    real browser and scores it &mdash; how ready it is for search, how ready it
+    is for answer engines, and the distance between the two. Everything else is
+    a different way of getting at that number: a free check for one site, an
+    open API for a list, a published study of 57 companies, and paid columns
+    and audits on Apify.
+  </p>
 
   <h2>What it is not</h2>
-  <p>Not a platform, not a dashboard, not a monitoring service. Nothing here needs an account with us,
-  stores your data, or emails you. If a tool would need to run continuously on your behalf to be useful,
-  it does not get built — a service that quietly stops working is worse than no service, and we would
-  rather ship the thing that cannot fail silently.</p>
+  <p>
+    Not a platform, not a dashboard, not a monitoring service. Nothing here
+    needs an account with us, stores your data, or emails you. If a tool would
+    need to run continuously on your behalf to be useful, it does not get built
+    &mdash; a service that quietly stops working is worse than no service, and
+    we would rather ship the thing that cannot fail silently.
+  </p>
+  <p>
+    It also will not tell you whether an AI assistant mentions you today. That
+    requires repeatedly sampling the models themselves, several companies sell
+    it, and this is not it.
+  </p>
 
   <h2>Pricing</h2>
-  <p>Every tool is pay-per-result, between $0.50 and $3.00 per record, billed through Apify.
-  There is no subscription and nothing to cancel. A run that returns no results costs nothing.</p>
+  <p>
+    The <a href="/ai-readiness.html">single-site check</a> and the
+    <a href="/api.html">batch API</a> are free and need no key. There are two
+    paid lines, both billed per result through
+    <a href="https://apify.com/artifact-machine">Apify</a>, with no
+    subscription and nothing to cancel:
+  </p>
+  <ul>
+    <li>
+      <strong>Enrichment columns, $0.001 to $0.003 a row.</strong> Built for a
+      list. Priced so that scoring ten thousand domains is a rounding error.
+    </li>
+    <li>
+      <strong>Single-purpose audits, $0.50 to $3.00 a result.</strong> Built for
+      one site at a time, in more depth than a column can carry.
+    </li>
+  </ul>
+  <p>A run that returns no results costs nothing.</p>
 
   <h2>Honest status</h2>
-  <p>These are new. 11 tools are published and health-checked every day, but the catalogue has
-  no meaningful external usage yet, and this page will not pretend otherwise. There are no testimonials here
-  because there are no customers yet to quote. When that changes, this paragraph changes.</p>
+  <p>
+    Nothing here has earned money. The audit line has been published since July
+    2026 and has no paying usage; the enrichment line is newer and has none
+    either. There are no testimonials on this site because there are no
+    customers to quote. When that changes, this paragraph changes &mdash; and if
+    a line is retired for lack of interest, it goes on the
+    <a href="/lifecycle.html">lifecycle page</a> saying exactly that, in those
+    words.
+  </p>
 
-  <h2>What the tools will not tell you</h2>
-  <p>Automated checks find machine-checkable problems. They do not certify accessibility, they do not
-  determine legal compliance, and they do not replace a person looking at the page. Each tool page says
-  where its own limits are, because a tool sold past its limits is worse than no tool.</p>
+  <h2>What the measurements will not tell you</h2>
+  <p>
+    Automated checks find machine-checkable problems. They do not certify
+    accessibility, they do not determine legal compliance, and they do not
+    replace a person looking at the page. Each tool page states its own limits,
+    because a tool sold past its limits is worse than no tool.
+  </p>
+  <p>
+    The headline signal has a published limitation too. Across 3,000 randomly
+    sampled domains the search-to-answer gap correlates 0.84 with search
+    readiness alone. It ranks a list differently &mdash; about half the top 200
+    changes &mdash; but it is not an independent signal, and the
+    <a href="/ai-readiness-study.html">study</a> says so rather than leaving it
+    out.
+  </p>
 
-  <p style="color:var(--muted);font-size:0.85rem;margin-top:2.5rem">Page generated 2026-07-29.</p>
+  <h2 id="contact">Getting in touch</h2>
+  <p>
+    There is no mailing list and no contact form, because there is nothing to
+    put you on a list for. For anything about a specific tool, the issues tab on
+    its <a href="https://apify.com/artifact-machine">Apify page</a> reaches the
+    person who built it, and it is the only channel that is actually monitored.
+  </p>
 </div></main>
 <footer><div class="wrap">
-  <p><strong>Artifact Machine</strong> — Tiny useful things from the machine.</p>
-  <p>Every tool runs on <a href="https://apify.com/artifact-machine">Apify</a>. Pay per result, no subscription.</p>
+  <p><strong>Artifact Machine</strong> &mdash; measuring whether machines can read the web.</p>
+  <p>The <a href="/ai-readiness.html">check</a> and the <a href="/api.html">API</a> are free.
+     The <a href="https://apify.com/artifact-machine">Apify</a> tools are billed per result, no subscription.</p>
 </div></footer>
 </body>
 </html>

@@ -114,15 +114,23 @@
   .scale-fill.is-aeo { background: var(--am-accent); }
   .scale-row dd {
     margin: 0;
-    font-family: var(--am-font-mono);
+    /* THE SANS, DELIBERATELY — do not "restore" this to the mono.
+       The system sets measured values in Sligoil, and that rule is right
+       everywhere else on the site. It cannot hold here. Sligoil's default
+       zero is slashed, so the score 100 renders as a struck-through number:
+       the one figure this page exists to deliver, drawn as if it had been
+       cancelled. It is not an optional feature — rendering "100" under
+       `"zero" 0`, `"ss01" 0` and `calt` disabled produces a byte-identical
+       glyph, and Basteleur slashes its zero too. Uncut Sans is the only face
+       here that draws a plain one, so the two headline scores are set in it,
+       with tabular figures so the digits still line up between the rows.
+       Every smaller measured value on the page stays mono, where the slash
+       reads as a mono affectation rather than a strikethrough. */
+    font-family: var(--am-font-sans);
     font-variant-numeric: tabular-nums;
+    font-weight: var(--am-weight-medium);
+    letter-spacing: var(--am-tracking-tight);
     text-align: right;
-    /* Sligoil draws a slashed zero. It is the right glyph for a machine voice,
-       but at body size "100" reads as struck through, which is the worst
-       possible accident on the one number the page exists to deliver. The
-       slash resolves into a slash at display size, and the score deserves the
-       weight anyway. `font-feature-settings: "zero" 0` does not help — the
-       slash is the default glyph here, not an optional feature. */
     font-size: var(--am-text-2xl);
     line-height: 1;
   }
@@ -221,7 +229,7 @@
       Artifact Machine
     </a>
     <nav>
-      <a href="/ai-readiness.html">Check a site</a>
+      <a href="/ai-readiness.html" aria-current="page">Check a site</a>
       <a href="/ai-readiness-study.html">Study</a>
       <a href="/api.html">API</a>
       <a href="/#tools">Tools</a>
@@ -377,11 +385,11 @@
   </div>
 </main>
 
-<footer>
-  <div class="wrap">
-    <p>Artifact Machine — small tools that check one thing well.</p>
-  </div>
-</footer>
+<footer><div class="wrap">
+  <p><strong>Artifact Machine</strong> &mdash; measuring whether machines can read the web.</p>
+  <p>The <a href="/ai-readiness.html">check</a> and the <a href="/api.html">API</a> are free.
+     The <a href="https://apify.com/artifact-machine">Apify</a> tools are billed per result, no subscription.</p>
+</div></footer>
 
 <script type="module">
 /* ==========================================================================

@@ -24,14 +24,19 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is this the same as a Core Web Vitals check?","acceptedAnswer":{"@type":"Answer","text":"No. Web Vitals measure loading, interactivity and layout stability. This looks at whether the page is usable with a thumb — target sizes, spacing, viewport handling and legibility. A page can pass Web Vitals and still be awkward to tap."}}]}</script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to the content</a>
 <header class="top"><div class="wrap">
   <a class="brand" href="/"><svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z" fill="var(--am-accent)"/><rect x="8" y="14.6" width="8" height="7.9" rx="1.7" fill="var(--am-accent)"/></svg><span>Artifact Machine</span></a>
-  <nav><a href="/ai-readiness.html">Check a site</a>
+  <nav>
+      <a href="/ai-readiness.html">Check a site</a>
       <a href="/ai-readiness-study.html">Study</a>
       <a href="/api.html">API</a>
-      <a href="/#tools">Tools</a><a href="/lifecycle.html">Lifecycle</a><a href="/about.html">About</a></nav>
+      <a href="/#tools">Tools</a>
+      <a href="/lifecycle.html">Lifecycle</a>
+      <a href="/about.html">About</a>
+    </nav>
 </div></header>
-<main><div class="wrap">
+<main id="main"><div class="wrap">
   <section class="hero">
     <p><span class="tag">$2 per result</span></p>
     <h1>Mobile UX Auditor</h1>
@@ -115,15 +120,21 @@
   <details class="faq"><summary>Is this the same as a Core Web Vitals check?</summary><p>No. Web Vitals measure loading, interactivity and layout stability. This looks at whether the page is usable with a thumb — target sizes, spacing, viewport handling and legibility. A page can pass Web Vitals and still be awkward to tap.</p></details>
 
   <h2>Other tools</h2>
-  <p><a href="/tools/schema-audit.html">Schema Audit - JSON-LD Structured Data Validator</a> · <a href="/tools/security-headers-checker.html">Security Headers Checker</a> · <a href="/tools/sitemap-health-audit.html">Sitemap Health Audit - XML Sitemap Validator</a> · <a href="/tools/tech-stack-analyzer.html">Tech Stack Analyzer - Detect Website Technologies</a></p>
+  <ul class="linkrow">
+    <li><a href="/tools/schema-audit.html">Schema</a></li>
+    <li><a href="/tools/security-headers-checker.html">Security Headers</a></li>
+    <li><a href="/tools/sitemap-health-audit.html">Sitemap Health</a></li>
+    <li><a href="/tools/tech-stack-analyzer.html">Tech Stack</a></li>
+  </ul>
 
-  <p style="color:var(--muted);font-size:0.85rem;margin-top:2.5rem">
+  <p class="fineprint">
     Details read from the live Apify catalogue on 2026-07-29.
   </p>
 </div></main>
 <footer><div class="wrap">
-  <p><strong>Artifact Machine</strong> — Tiny useful things from the machine.</p>
-  <p>Every tool runs on <a href="https://apify.com/artifact-machine">Apify</a>. Pay per result, no subscription.</p>
+  <p><strong>Artifact Machine</strong> &mdash; measuring whether machines can read the web.</p>
+  <p>The <a href="/ai-readiness.html">check</a> and the <a href="/api.html">API</a> are free.
+     The <a href="https://apify.com/artifact-machine">Apify</a> tools are billed per result, no subscription.</p>
 </div></footer>
 </body>
 </html>

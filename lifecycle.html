@@ -12,47 +12,15 @@
 <link rel="stylesheet" href="/assets/tokens.css">
 <link rel="stylesheet" href="/assets/motion.css">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z' fill='%23a04a08'/%3E%3Crect x='8' y='14.6' width='8' height='7.9' rx='1.7' fill='%23a04a08'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/assets/page.css">
 <style>
-  *,*::before,*::after { box-sizing: border-box; }
-  body {
-    margin: 0; background: var(--am-bg); color: var(--am-text);
-    font-family: var(--am-font-sans); font-size: var(--am-text-md);
-    line-height: var(--am-leading-body); -webkit-font-smoothing: antialiased;
-    hanging-punctuation: first last;
-  }
-  .wrap { max-width: 62rem; margin-inline: auto; padding-inline: var(--am-space-6); }
-  a { color: var(--am-accent); text-underline-offset: 2px; }
-
-  .skip { position:absolute; left:-9999px; top:0; z-index:var(--am-z-top); background:var(--am-accent); color:var(--am-on-accent); padding:var(--am-space-3) var(--am-space-5); text-decoration:none; }
-  .skip:focus { left: var(--am-space-4); top: var(--am-space-4); }
-
-  .site-header { border-bottom: var(--am-rule); position: sticky; top:0; z-index: var(--am-z-sticky);
-    background: color-mix(in oklab, var(--am-bg) 86%, transparent); backdrop-filter: blur(10px); }
-  /* flex-wrap: brand + nav measured 405px at a 390px viewport and scrolled
-     the document sideways. Same fix as assets/page.css; this inline block is
-     a duplicate of it. */
-  .site-header .wrap { display:flex; align-items:center; gap:var(--am-space-4); padding-block:var(--am-space-4); flex-wrap:wrap; row-gap:var(--am-space-2); }
-  .brand { display:inline-flex; align-items:center; gap:var(--am-space-3); text-decoration:none; color:inherit; }
-  .brand__name { font-size:var(--am-text-xs); letter-spacing:var(--am-tracking-brand); text-transform:uppercase; font-weight:var(--am-weight-medium); white-space:nowrap; }
-  .mark { width:24px; height:24px; flex:none; display:block; }
-  .site-header nav { margin-left:auto; display:flex; flex-wrap:wrap; gap:var(--am-space-3) var(--am-space-5); }
-  @media (max-width: 26rem) { .site-header nav { margin-left:0; gap:var(--am-space-4); } }
-  .site-header nav a { color:var(--am-text-muted); text-decoration:none; font-size:var(--am-text-sm); }
-  .site-header nav a:hover { color: var(--am-text); }
-
-  h1 { font-family: var(--am-font-display); font-size: var(--am-text-3xl);
-       line-height: var(--am-leading-tight); letter-spacing: var(--am-tracking-display);
-       margin: 0 0 var(--am-space-5); max-width: 20ch; text-wrap: balance; }
-  .lede { font-size: var(--am-text-lg); color: var(--am-text-muted); max-width: 60ch; margin: 0; }
+  /* Only what is genuinely local to this page. Everything above the rows —
+     body, header, hero, footer — now comes from page.css. */
+  ::selection { background: var(--am-accent-quiet); color: var(--am-text); }
   header.page { padding-block: var(--am-space-20) var(--am-space-12); }
-
-  h2 { font-size: var(--am-text-xl); letter-spacing: var(--am-tracking-tight);
-       margin: 0 0 var(--am-space-2); text-wrap: balance; }
   section.block { padding-block: var(--am-space-12); border-top: var(--am-rule); }
+  section.block > h2 { border-top: none; padding-top: 0; margin-top: 0; }
   section.block > p { color: var(--am-text-muted); max-width: 64ch; margin: 0 0 var(--am-space-8); font-size: var(--am-text-sm); }
-  .eyebrow { display:block; margin-bottom:var(--am-space-3); font-family:var(--am-font-mono);
-             font-size:var(--am-text-2xs); letter-spacing:var(--am-tracking-label);
-             text-transform:uppercase; color:var(--am-text-faint); }
 
   /* ---- LIVE rows ---- */
   .rows { border-bottom: var(--am-rule); }
@@ -89,11 +57,6 @@
   .promise p { margin: 0 0 var(--am-space-3); color: var(--am-text-muted); font-size: var(--am-text-sm); }
   .promise p:last-child { margin-bottom: 0; }
   .promise strong { color: var(--am-text); }
-
-  footer { border-top: var(--am-rule); margin-top: var(--am-space-16);
-           padding-block: var(--am-space-10) var(--am-space-20);
-           font-size: var(--am-text-sm); color: var(--am-text-muted); }
-  footer a { color: var(--am-text-muted); }
 </style>
 </head>
 <body>
@@ -111,7 +74,7 @@
       <a href="/ai-readiness-study.html">Study</a>
       <a href="/api.html">API</a>
       <a href="/#tools">Tools</a>
-      <a href="/lifecycle.html">Lifecycle</a>
+      <a href="/lifecycle.html" aria-current="page">Lifecycle</a>
       <a href="/about.html">About</a>
     </nav>
   </div>
@@ -129,7 +92,6 @@
   </header>
 
   <section class="block">
-    <span class="eyebrow">The commitment</span>
     <h2>Why this page exists before it is needed</h2>
     <p>
       This category is full of tools that were quietly switched off. The free
@@ -156,8 +118,7 @@
   </section>
 
   <section class="block" id="live">
-    <span class="eyebrow">Running now — 11</span>
-    <h2>Published and checked every morning</h2>
+    <h2>Eleven audits, published and checked every morning</h2>
     <p>
       An automated check runs against each of these daily and disables anything that
       stops responding correctly, so a broken tool cannot quietly keep taking money.
@@ -235,23 +196,59 @@
   </section>
 
   <section class="block">
-    <span class="eyebrow">Built, not published — 27</span>
-    <h2>Why twenty-seven finished tools are being held back</h2>
+    <h2>The second line: enrichment columns</h2>
     <p>
-      They exist, they run, and they are not listed. Publishing a tool is a promise
-      to keep it working, and eleven promises is roughly what one person can keep
-      while also building. Shipping all thirty-eight would produce a catalogue where
-      most entries slowly rot — which is the exact failure this page exists to avoid.
+      A newer set, built for lists rather than for one site at a time, and
+      priced accordingly &mdash; $0.001 to $0.003 a row against $0.50 to $3.00
+      a result. Twelve exist. Five are published; the rest are held back behind
+      a publishing limit of five a day and will appear here as they go live.
+    </p>
+    <div class="rows">
+      <a class="row" href="https://apify.com/artifact-machine/company-contact-enrichment">
+        <span><span class="row__name">Company contact</span>
+          <span class="row__sub">Emails, phones and social profiles from a homepage.</span></span>
+        <span class="row__meta">Sep 2026 · $0.003</span>
+      </a>
+      <a class="row" href="https://apify.com/artifact-machine/ai-readiness-enrichment">
+        <span><span class="row__name">AI readiness</span>
+          <span class="row__sub">The score behind the study, as one column.</span></span>
+        <span class="row__meta">Sep 2026 · $0.003</span>
+      </a>
+      <a class="row" href="https://apify.com/artifact-machine/tech-stack-enrichment">
+        <span><span class="row__name">Tech stack</span>
+          <span class="row__sub">What a site is built on.</span></span>
+        <span class="row__meta">Sep 2026 · $0.003</span>
+      </a>
+      <a class="row" href="https://apify.com/artifact-machine/cookie-consent-enrichment">
+        <span><span class="row__name">Cookie consent</span>
+          <span class="row__sub">What fires before anyone agrees to it.</span></span>
+        <span class="row__meta">Sep 2026 · $0.003</span>
+      </a>
+      <a class="row" href="https://apify.com/artifact-machine/security-headers-enrichment">
+        <span><span class="row__name">Security headers</span>
+          <span class="row__sub">Seventeen headers, one row per domain.</span></span>
+        <span class="row__meta">Sep 2026 · $0.001</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>Why finished tools get held back</h2>
+    <p>
+      More are built than are listed. Publishing a tool is a promise to keep it
+      working, and the number of promises one person can keep while still
+      building is smaller than the number of things one person can build.
+      Shipping everything would produce a catalogue where most entries slowly
+      rot &mdash; the exact failure this page exists to avoid.
     </p>
     <p>
-      Some of them will never be published, because on inspection they duplicate a
-      free tool that is better maintained than anything a one-person studio can offer.
-      That is a reason to stop, not a reason to ship and hope.
+      Some will never be published, because on inspection they duplicate a free
+      tool better maintained than anything a one-person studio can offer. That
+      is a reason to stop, not a reason to ship and hope.
     </p>
   </section>
 
   <section class="block">
-    <span class="eyebrow">Retired — 0</span>
     <h2>Nothing has been retired yet</h2>
     <div class="empty">
       <p style="margin:0 0 var(--am-space-3)">
@@ -269,11 +266,11 @@
 
 </main>
 
-<footer>
-  <div class="wrap">
-    <p><a href="/">← Artifact Machine</a></p>
-  </div>
-</footer>
+<footer><div class="wrap">
+  <p><strong>Artifact Machine</strong> &mdash; measuring whether machines can read the web.</p>
+  <p>The <a href="/ai-readiness.html">check</a> and the <a href="/api.html">API</a> are free.
+     The <a href="https://apify.com/artifact-machine">Apify</a> tools are billed per result, no subscription.</p>
+</div></footer>
 
 </body>
 </html>

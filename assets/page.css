@@ -80,6 +80,16 @@ header.top nav a, .site-header nav a {
   color: var(--am-text-muted); text-decoration: none; font-size: var(--am-text-sm);
 }
 header.top nav a:hover, .site-header nav a:hover { color: var(--am-text); }
+/* The page you are on. Marked with aria-current in the markup, so this is the
+   visible half of a fact assistive tech already gets — never colour alone:
+   the underline carries it for anyone who cannot see the contrast shift. */
+header.top nav a[aria-current="page"], .site-header nav a[aria-current="page"] {
+  color: var(--am-text);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
+  text-decoration-color: var(--am-accent);
+}
 
 /* ---------- hero -------------------------------------------------------- */
 .hero { padding-block: var(--am-space-20) var(--am-space-10); }
@@ -198,3 +208,24 @@ footer a { color: var(--am-text-muted); }
 footer a:hover { color: var(--am-accent); }
 
 img, svg { max-width: 100%; height: auto; }
+
+/* ---------- a row of links ------------------------------------------------
+   Links strung through a paragraph on middots overlapped each other once they
+   wrapped — measured as a P1 at 390px AND 1440px on all eleven tool pages.
+   A list is what this always was; flex gap keeps the rows apart at any width
+   and the padding lifts each one toward a real tap target. */
+ul.linkrow {
+  list-style: none; padding: 0; margin: var(--am-space-2) 0 0;
+  display: flex; flex-wrap: wrap; gap: var(--am-space-2) var(--am-space-6);
+  max-width: var(--am-measure);
+}
+ul.linkrow li { margin: 0; }
+ul.linkrow a { display: inline-block; padding-block: var(--am-space-2); }
+
+/* Fine print. Was inline `color: var(--muted)` on twelve pages — a token that
+   does not exist, so every one of them rendered at full body contrast. */
+.fineprint {
+  color: var(--am-text-faint);
+  font-size: var(--am-text-sm);
+  margin-top: var(--am-space-10);
+}
