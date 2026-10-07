@@ -11,7 +11,7 @@
   <meta property="og:description" content="Every drawer deserves something nobody can explain.">
   <meta property="og:url" content="https://artifactmachine.studio/">
   <meta property="og:type" content="website">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='7' width='26' height='18' fill='%23171614'/%3E%3Crect x='12' y='14' width='8' height='3' fill='%23c2410c'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='7' width='26' height='18' fill='%232a2017'/%3E%3Crect x='12' y='14' width='8' height='3' fill='%23d99a1e'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap">
@@ -23,7 +23,7 @@
 <header class="masthead">
   <div class="wrap">
     <a class="wordmark" href="/" aria-label="Artifact Machine, home">
-      <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="6" width="28" height="20" fill="none" stroke="currentColor" stroke-width="2.5"/><rect x="11" y="14" width="10" height="4" fill="#c2410c"/></svg>
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="6" width="28" height="20" fill="none" stroke="currentColor" stroke-width="2.5"/><rect class="handle" x="11" y="14" width="10" height="4"/></svg>
       Artifact Machine
     </a>
     <nav aria-label="Primary">
@@ -38,7 +38,8 @@
 <main>
 
   <div class="hero">
-    <div class="wrap">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
       <p class="eyebrow">Manufacturers of unidentifiable objects · Est. 2026</p>
       <h1>Every drawer deserves something <em>nobody can explain.</em></h1>
       <p class="lede">Artifact Machine designs and manufactures the objects at the back of your kitchen drawer: the key that opens nothing, the screw left over after assembly, the cable that fits no device ever made. We have never produced an object with a purpose. We never will.</p>
@@ -46,6 +47,21 @@
         <a class="btn primary" href="#catalogue">View the catalogue</a>
         <a class="btn" href="#process">Our process</a>
       </div>
+      </div>
+      <figure class="hero-fig">
+        <svg viewBox="0 0 400 300" aria-hidden="true">
+          <rect class="tray" x="8" y="8" width="384" height="262"/>
+          <rect class="floor" x="24" y="24" width="352" height="230"/>
+          <rect class="pull" x="170" y="276" width="60" height="10"/>
+          <g class="obj" transform="translate(44 38) scale(0.72)"><circle cx="50" cy="50" r="30"/><circle cx="50" cy="50" r="9"/><path d="M80 44H210V56H200V70H190V60H178V74H166V60H152V68H140V56H80"/></g>
+          <g class="obj" transform="translate(236 40) rotate(14) scale(0.52)"><path d="M30 28H58V72H30Z"/><path d="M44 34V66"/><path d="M58 40H186L214 50L186 60H58"/><path d="M68 40L76 60M82 40L90 60M96 40L104 60M110 40L118 60M124 40L132 60M138 40L146 60M152 40L160 60M166 40L174 60"/></g>
+          <g class="obj" transform="translate(70 104) rotate(-6) scale(0.95)"><rect x="10" y="44" width="14" height="12"/><rect x="24" y="38" width="30" height="24"/><path d="M54 50C90 10 120 90 150 50S190 20 196 50"/><rect x="196" y="36" width="26" height="28"/><path d="M222 40L234 44V56L222 60"/></g>
+          <g class="obj" transform="translate(30 150) scale(0.62)"><path d="M60 18V82H192V68H74V18Z"/><circle cx="67" cy="34" r="3"/><circle cx="67" cy="54" r="3"/><circle cx="110" cy="75" r="3"/><circle cx="146" cy="75" r="3"/><circle cx="178" cy="75" r="3"/></g>
+          <g class="obj" transform="translate(150 168) rotate(-12) scale(0.6)"><path d="M70 72L84 30H140L150 22H172V44L162 50L170 57L158 63L166 71L150 76Z"/><circle cx="104" cy="52" r="7"/><path d="M84 30L96 22H124"/></g>
+          <g class="obj" transform="translate(236 158) scale(0.62)"><circle cx="120" cy="50" r="38"/><circle cx="120" cy="50" r="29"/><circle cx="108" cy="42" r="4"/><circle cx="132" cy="42" r="4"/><circle cx="120" cy="62" r="4"/></g>
+        </svg>
+        <figcaption>Fig. 1. Standard kitchen drawer, fully furnished. Contents: 6 objects. Purposes: 0.</figcaption>
+      </figure>
     </div>
   </div>
 
@@ -205,9 +221,13 @@
 
   <section id="promise" class="promise">
     <div class="wrap">
-      <p class="label">03 / The Artifact Machine Promise</p>
-      <blockquote>If you ever work out what your object is for, we will replace it with one you can't.</blockquote>
-      <p>The guarantee is unconditional and has never been claimed. We regard that as the most important figure we publish.</p>
+      <div class="section-head">
+        <p class="label">03 / Promise</p>
+        <div>
+          <blockquote>If you ever work out what your object is for, we will replace it with one you can't.</blockquote>
+          <p>The guarantee is unconditional and has never been claimed. We regard that as the most important figure we publish.</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -217,7 +237,7 @@
         <p class="label">04 / Owners</p>
         <div><h2>In their own words.</h2></div>
       </div>
-      <div class="quotes">
+      <div class="quotes indent">
         <figure>
           <blockquote>"I've moved house four times. I have never once thrown it out."</blockquote>
           <figcaption>D., owner of AM-001 for 14 years</figcaption>
@@ -243,6 +263,7 @@
           <p>Tell us which drawer. We will take it from there. You will not be notified.</p>
         </div>
       </div>
+      <div class="indent">
       <form id="request-form" novalidate>
         <label><span class="label">Your name</span><input name="name" type="text" autocomplete="off" placeholder="Optional. We already know."></label>
         <label><span class="label">Drawer</span>
@@ -259,6 +280,7 @@
       </form>
       <p class="result" id="request-result" aria-live="polite"></p>
       <p class="fine">Nothing you type here leaves your browser. Artifact Machine does not need your details to find your drawer.</p>
+      </div>
     </div>
   </section>
 
