@@ -56,16 +56,6 @@ a { color: inherit; text-underline-offset: 3px; }
 
 /* ---------- Masthead ---------- */
 
-.notice {
-  background: var(--ink);
-  color: var(--paper);
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  text-align: center;
-  padding: 8px var(--gutter);
-}
-
 .masthead {
   border-bottom: 1px solid var(--ink);
 }
