@@ -1,298 +1,312 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Artifact Machine</title>
-<meta name="description" content="We measured 57 companies for answer-engine readiness. A quarter had a problem worth fixing. Check any site free, or score a whole list through the API.">
-<link rel="canonical" href="https://artifactmachine.studio/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z' fill='%23a04a08'/%3E%3Crect x='8' y='14.6' width='8' height='7.9' rx='1.7' fill='%23a04a08'/%3E%3C/svg%3E">
-<link rel="preload" href="/assets/fonts/Fraunces-Variable.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/tokens.css">
-<link rel="stylesheet" href="/assets/motion.css">
-<link rel="stylesheet" href="/assets/fonts.css">
-<link rel="stylesheet" href="/assets/page.css">
-<style>
-  /* ======================================================================
-     HOME
-
-     The visual world is intact — warm paper, one ember accent, hard edges,
-     mono for anything measured. (The display face moved from Basteleur to
-     Fraunces separately; see assets/tokens.css for that reasoning.) What
-     changed here is what the page is about, and three things it did that
-     its own rules forbid:
-
-       · nine hues on the tool grid, several of them blue, against
-         "One accent. A second accent is how a palette starts dying" and a
-         FORBIDDEN list whose first line is "Blue as a primary or brand
-         colour". The hue-rotated squares are gone.
-       · an eyebrow above a heading ("START HERE — 3 OF 11").
-       · same-size cards carrying the page structure.
-
-     The replacement leans on the two things this system is actually good at:
-     type at real scale, and rules that separate rather than boxes that
-     contain.
-     ====================================================================== */
-
-  ::selection { background: var(--am-accent-quiet); color: var(--am-text); }
-  .hero .lede { margin-bottom: 0; }
-  :focus-visible { outline: var(--am-border-heavy) solid var(--am-focus); outline-offset: 2px; }
-
-  /* --- the finding ------------------------------------------------------
-     The measurement is the product's only real differentiator, so it leads.
-     A number this large is set in the display face, not the mono — it is a
-     headline first and a datum second. */
-  .finding {
-    border-block: var(--am-border-heavy) solid var(--am-text);
-    padding-block: var(--am-space-10);
-    margin-block: var(--am-space-8) var(--am-space-16);
-  }
-  /* `.finding p` and `.finding-figure` both match the figure, and the
-     descendant selector wins on specificity — which silently rendered the
-     headline number at body size. The prose rule excludes it explicitly. */
-  .finding-figure {
-    font-family: var(--am-font-display);
-    font-weight: var(--am-display-weight);
-    font-size: var(--am-text-4xl);
-    line-height: 0.9;
-    letter-spacing: var(--am-tracking-display);
-    margin: 0;
-    max-width: 14ch;
-  }
-  .finding p:not(.finding-figure) {
-    font-size: var(--am-text-lg);
-    max-width: 54ch;
-    margin: var(--am-space-5) 0 0;
-    text-wrap: pretty;
-  }
-  .finding .method {
-    /* Mono but NOT uppercase. The system sets measured metadata in uppercase
-       mono and that is right for the short ones — a tag, a column header,
-       "NOT CHECKED". This is a 78-character sentence carrying the section's
-       only link, and caps strip the ascenders and descenders words are
-       recognised by. Label tracking goes with it: it is spacing tuned for
-       capitals and reads as loose at lower case. */
-    font-family: var(--am-font-mono);
-    font-size: var(--am-text-xs);
-    letter-spacing: 0.01em;
-    color: var(--am-text-faint);
-    margin-top: var(--am-space-6);
-  }
-
-  /* --- the two things you can do ----------------------------------------
-     Two, not a grid of six. They are different sizes because they are not
-     equally important: one is for a person with a site, the other for
-     someone with a list. */
-  .paths { margin-block: var(--am-space-16); }
-  .path {
-    border-top: var(--am-rule);
-    padding-top: var(--am-space-6);
-    margin-top: var(--am-space-10);
-    display: grid;
-    gap: var(--am-space-4) var(--am-space-10);
-    grid-template-columns: minmax(0, 1fr);
-  }
-  @media (min-width: 52rem) {
-    .path { grid-template-columns: minmax(0, 20rem) minmax(0, 1fr); }
-  }
-  .path h2 {
-    margin: 0;
-    border-top: none;
-    padding-top: 0;
-    font-size: var(--am-text-2xl);
-    letter-spacing: var(--am-tracking-tight);
-  }
-  .path p { margin: 0 0 var(--am-space-4); max-width: var(--am-measure); }
-  .path .sample {
-    font-family: var(--am-font-mono);
-    font-size: var(--am-text-sm);
-    color: var(--am-text-muted);
-    border-left: var(--am-border-heavy) solid var(--am-border-strong);
-    padding-left: var(--am-space-4);
-    margin: var(--am-space-4) 0 0;
-    overflow-wrap: anywhere;
-  }
-
-  /* --- the tools, honestly ---------------------------------------------
-     A plain list, not a card grid. These are not the product any more and a
-     card each would say otherwise. */
-  .tools-list { columns: 2; column-gap: var(--am-space-10); max-width: 44rem; }
-  @media (max-width: 36rem) { .tools-list { columns: 1; } }
-  .tools-list li { break-inside: avoid; margin-bottom: var(--am-space-2); }
-  .tools-list a { text-decoration: none; display: block; padding-block: var(--am-space-2) 2px; }
-  .tools-list a:hover { text-decoration: underline; }
-  .tools-list span {
-    display: block;
-    font-size: var(--am-text-sm);
-    color: var(--am-text-muted);
-  }
-
-  .closer { margin-top: var(--am-space-10); color: var(--am-text-muted); }
-
-  /* The one authored motion moment: the rule under the headline draws itself
-     once, on load. Everything else on the page is still. */
-  .rule-draw {
-    height: var(--am-border-heavy);
-    background: var(--am-text);
-    transform-origin: left center;
-    transform: scaleX(0);
-    animation: draw var(--mo-5) var(--mo-ease-expo) 120ms forwards;
-  }
-  @keyframes draw { to { transform: scaleX(1); } }
-  @media (prefers-reduced-motion: reduce) {
-    .rule-draw { animation: none; transform: scaleX(1); }
-  }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Artifact Machine — Manufacturers of Unidentifiable Objects</title>
+  <meta name="description" content="Artifact Machine designs and manufactures the objects at the back of your drawer: the key that opens nothing, the leftover screw, the cable that fits no device. We have never made anything with a purpose.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="canonical" href="https://artifactmachine.studio/">
+  <meta property="og:title" content="Artifact Machine — Manufacturers of Unidentifiable Objects">
+  <meta property="og:description" content="Every drawer deserves something nobody can explain.">
+  <meta property="og:url" content="https://artifactmachine.studio/">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='7' width='26' height='18' fill='%23171614'/%3E%3Crect x='12' y='14' width='8' height='3' fill='%23c2410c'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap">
+  <link rel="stylesheet" href="/assets/site.css">
 </head>
 <body>
-<a class="skip" href="#main">Skip to the content</a>
 
-<header class="top">
+<div class="notice" role="note">Notice: this website is a temporary installation. The permanent website has been referred to the Identification Panel.</div>
+
+<header class="masthead">
   <div class="wrap">
-    <a class="brand" href="/">
-      <svg class="mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 2.5h20v4l-3.6 5.6H5.6L2 6.5z" fill="currentColor"/><rect x="8" y="14.6" width="8" height="7.9" rx="1.7" fill="currentColor"/></svg>
+    <a class="wordmark" href="/" aria-label="Artifact Machine, home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="6" width="28" height="20" fill="none" stroke="currentColor" stroke-width="2.5"/><rect x="11" y="14" width="10" height="4" fill="#c2410c"/></svg>
       Artifact Machine
     </a>
-    <nav>
-      <a href="/ai-readiness.html">Check a site</a>
-      <a href="/ai-readiness-study.html">Study</a>
-      <a href="/api.html">API</a>
-      <a href="/#tools">Tools</a>
-      <a href="/lifecycle.html">Lifecycle</a>
-      <a href="/about.html">About</a>
+    <nav aria-label="Primary">
+      <a href="#catalogue">Catalogue</a>
+      <a href="#process">Process</a>
+      <a href="#promise">Promise</a>
+      <a href="#request">Request</a>
     </nav>
   </div>
 </header>
 
-<main id="main">
-  <div class="wrap">
+<main>
 
-    <section class="hero">
-      <h1>Search engines found you. Answer engines can&rsquo;t read you.</h1>
-      <div class="rule-draw" aria-hidden="true"></div>
-      <p class="lede">
-        We measure whether a machine sent to answer a question about a company
-        can actually read its website &mdash; and whether that company has been
-        paying for search visibility it no longer gets. One page, two seconds,
-        no account.
-      </p>
-    </section>
-
-    <section class="finding">
-      <p class="finding-figure">Only 1 in 4</p>
-      <p>
-        of the companies we measured had the problem worth acting on. Almost
-        everyone scores badly on answer-engine readiness &mdash; that part is
-        the weather. The finding is the mismatch: businesses that clearly paid
-        for search and get nothing back from machines.
-      </p>
-      <p class="method">
-        57 companies &middot; homepage each &middot; full method and data published
-        &middot; <a href="/ai-readiness-study.html">read the study</a>
-      </p>
-    </section>
-
-    <div class="paths">
-      <section class="path">
-        <h2>Check one site</h2>
-        <div>
-          <p>
-            Paste an address. You get search readiness, answer-engine
-            readiness, and the distance between them, measured the same way as
-            every row in the study.
-          </p>
-          <p>
-            If we can&rsquo;t read the site &mdash; bot protection, a dead
-            server &mdash; you get no scores at all and a reason. A zero would
-            be a measurement, and nothing was measured.
-          </p>
-          <p><a class="cta" href="/ai-readiness.html">Check a site</a></p>
-        </div>
-      </section>
-
-      <section class="path">
-        <h2>Score a whole list</h2>
-        <div>
-          <p>
-            One HTTP call, one row per domain. It drops into Clay, n8n, Make,
-            Zapier or a spreadsheet without anything to install or approve.
-          </p>
-          <p class="sample">POST /api/batch<br>{"domains": ["example.com"]}</p>
-          <p style="margin-top:var(--am-space-5)"><a class="cta ghost" href="/api.html">Read the API docs</a></p>
-        </div>
-      </section>
+  <div class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Manufacturers of unidentifiable objects · Est. 2026</p>
+      <h1>Every drawer deserves something <em>nobody can explain.</em></h1>
+      <p class="lede">Artifact Machine designs and manufactures the objects at the back of your kitchen drawer: the key that opens nothing, the screw left over after assembly, the cable that fits no device ever made. We have never produced an object with a purpose. We never will.</p>
+      <div class="actions">
+        <a class="btn primary" href="#catalogue">View the catalogue</a>
+        <a class="btn" href="#process">Our process</a>
+      </div>
     </div>
-
-    <h2 id="tools">Things you can buy</h2>
-    <p>
-      Both run on <a href="https://apify.com/artifact-machine">Apify</a>, per
-      result, with no subscription. A run that returns nothing costs nothing.
-      Neither line has meaningful usage yet, and this paragraph will say so
-      until that stops being true.
-    </p>
-
-    <h3>Enrichment columns &mdash; $0.001 to $0.003 a row</h3>
-    <p>
-      Built for a list. You give them ten thousand domains and get one column
-      back, priced so that scoring a whole list is a rounding error rather than
-      a decision. Rows we could not read come back empty with a reason, never
-      as a zero.
-    </p>
-    <ul class="tools-list">
-      <li><a href="https://apify.com/artifact-machine/company-contact-enrichment">Company contact</a><span>emails, phones, social profiles</span></li>
-      <li><a href="https://apify.com/artifact-machine/ai-readiness-enrichment">AI readiness</a><span>the score behind the study</span></li>
-      <li><a href="https://apify.com/artifact-machine/tech-stack-enrichment">Tech stack</a><span>what a site is built on</span></li>
-      <li><a href="https://apify.com/artifact-machine/cookie-consent-enrichment">Cookie consent</a><span>what fires before you agree</span></li>
-      <li><a href="https://apify.com/artifact-machine/security-headers-enrichment">Security headers</a><span>17 headers, one row each</span></li>
-    </ul>
-
-    <h3>Single-purpose audits &mdash; $0.01 to $0.02 a result</h3>
-    <p>
-      Built for one site at a time, and the older of the two lines. Each
-      answers one question about one page in more depth than a column can
-      carry.
-    </p>
-    <ul class="tools-list">
-      <li><a href="/tools/ai-access-audit.html">AI Access</a><span>robots, llms.txt, agent rules</span></li>
-      <li><a href="/tools/schema-audit.html">Schema</a><span>JSON-LD types and validity</span></li>
-      <li><a href="/tools/sitemap-health-audit.html">Sitemap Health</a><span>reachability and staleness</span></li>
-      <li><a href="/tools/accessibility-audit.html">Accessibility</a><span>machine-checkable WCAG rules</span></li>
-      <li><a href="/tools/privacy-consent-scanner.html">Privacy &amp; Consent</a><span>what fires before you agree</span></li>
-      <li><a href="/tools/security-headers-checker.html">Security Headers</a><span>17 headers, one row per domain</span></li>
-      <li><a href="/tools/brand-kit-extractor.html">Brand Kit</a><span>computed colour, type, spacing</span></li>
-      <li><a href="/tools/mobile-ux-auditor.html">Mobile UX</a><span>tap targets and viewport</span></li>
-      <li><a href="/tools/tech-stack-analyzer.html">Tech Stack</a><span>what the page is built on</span></li>
-      <li><a href="/tools/third-party-script-auditor.html">Third-Party Scripts</a><span>what else it loads</span></li>
-      <li><a href="/tools/carbon-calculator.html">Carbon</a><span>CO&#8322; per page load</span></li>
-    </ul>
-
-    <h2>What we won&rsquo;t tell you</h2>
-    <p>
-      Whether an AI assistant mentions you today. That needs repeated sampling
-      of the models themselves, several companies sell it, and this is not it.
-      This is the cheaper question underneath: if a model does come looking, is
-      there anything here it can use?
-    </p>
-    <p>
-      We also won&rsquo;t claim the gap is a signal nobody else has. Across
-      3,000 randomly sampled domains it correlates 0.84 with search readiness
-      alone &mdash; a genuinely different ranking, about half the top 200
-      differs, but not an independent one. That number is published in the
-      study rather than left out of it.
-    </p>
-
-    <p class="closer">One person, measuring in public.</p>
-    <ul class="linkrow">
-      <li><a href="/lifecycle.html">How this keeps running</a></li>
-      <li><a href="/about.html">About</a></li>
-    </ul>
   </div>
+
+  <div class="figures">
+    <div class="wrap">
+      <dl>
+        <div><dt>Objects in circulation</dt><dd>4.1M</dd></div>
+        <div><dt>Identified by owners</dt><dd>0</dd></div>
+        <div><dt>Thrown away</dt><dd>0</dd></div>
+        <div><dt>Drawers served</dt><dd>2.6M</dd></div>
+      </dl>
+    </div>
+  </div>
+
+  <section id="catalogue">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="label">01 / Catalogue</p>
+        <div>
+          <h2>The 2026 range.</h2>
+          <p>Six objects. Each one engineered from first principles to be kept indefinitely and understood never. Every unit passes the Identification Panel before release. Try it yourself.</p>
+        </div>
+      </div>
+
+      <div class="catalogue">
+
+        <article class="item">
+          <header><span class="mono">AM-001</span><span class="mono">Flagship</span></header>
+          <div class="drawing" aria-hidden="true">
+            <svg viewBox="0 0 240 100"><circle cx="50" cy="50" r="30"/><circle cx="50" cy="50" r="9"/><path d="M80 44H210V56H200V70H190V60H178V74H166V60H152V68H140V56H80"/></svg>
+          </div>
+          <h3>The Key</h3>
+          <p>Precision-cut to fit a lock that has never existed. Owners report trying it in every door they have. This is the intended experience.</p>
+          <dl>
+            <dt>Material</dt><dd>Brass, lightly worn at the factory</dd>
+            <dt>Opens</dt><dd>Nothing</dd>
+            <dt>Ring included</dt><dd>No. It travels alone.</dd>
+          </dl>
+          <button class="btn identify" type="button">Attempt identification</button>
+          <p class="verdict" aria-live="polite"></p>
+        </article>
+
+        <article class="item">
+          <header><span class="mono">AM-014</span><span class="mono">Best seller</span></header>
+          <div class="drawing" aria-hidden="true">
+            <svg viewBox="0 0 240 100"><path d="M30 28H58V72H30Z"/><path d="M44 34V66"/><path d="M58 40H186L214 50L186 60H58"/><path d="M68 40L76 60M82 40L90 60M96 40L104 60M110 40L118 60M124 40L132 60M138 40L146 60M152 40L160 60M166 40L174 60"/></svg>
+          </div>
+          <h3>The Leftover Screw</h3>
+          <p>Supplied with flat-pack furniture and discovered only after assembly is complete. The furniture stands. The screw remains. Nobody discusses it.</p>
+          <dl>
+            <dt>Thread</dt><dd>Metric, approximately</dd>
+            <dt>Belongs to</dt><dd>Something important</dd>
+            <dt>Anxiety</dt><dd>Low, persistent</dd>
+          </dl>
+          <button class="btn identify" type="button">Attempt identification</button>
+          <p class="verdict" aria-live="polite"></p>
+        </article>
+
+        <article class="item">
+          <header><span class="mono">AM-027</span><span class="mono">Connectivity</span></header>
+          <div class="drawing" aria-hidden="true">
+            <svg viewBox="0 0 240 100"><rect x="10" y="44" width="14" height="12"/><rect x="24" y="38" width="30" height="24"/><path d="M54 50C90 10 120 90 150 50S190 20 196 50"/><rect x="196" y="36" width="26" height="28"/><path d="M222 40L234 44V56L222 60"/></svg>
+          </div>
+          <h3>The Cable</h3>
+          <p>Connector A is proprietary. Connector B is also proprietary, to a different company. Compatible devices: zero, verified across every device manufactured since 1987.</p>
+          <dl>
+            <dt>Length</dt><dd>Slightly too short</dd>
+            <dt>Charges</dt><dd>No</dd>
+            <dt>Coiled</dt><dd>Into a knot, at source</dd>
+          </dl>
+          <button class="btn identify" type="button">Attempt identification</button>
+          <p class="verdict" aria-live="polite"></p>
+        </article>
+
+        <article class="item">
+          <header><span class="mono">AM-033</span><span class="mono">Apparel</span></header>
+          <div class="drawing" aria-hidden="true">
+            <svg viewBox="0 0 240 100"><circle cx="120" cy="50" r="38"/><circle cx="120" cy="50" r="29"/><circle cx="108" cy="42" r="4"/><circle cx="132" cy="42" r="4"/><circle cx="120" cy="62" r="4"/></svg>
+          </div>
+          <h3>The Spare Button</h3>
+          <p>Sewn into a small bag and attached to a garment you do not own. Three holes, by design. Our textile division considers four holes derivative.</p>
+          <dl>
+            <dt>Diameter</dt><dd>Matches no shirt</dd>
+            <dt>Holes</dt><dd>3</dd>
+            <dt>Colour</dt><dd>Almost beige</dd>
+          </dl>
+          <button class="btn identify" type="button">Attempt identification</button>
+          <p class="verdict" aria-live="polite"></p>
+        </article>
+
+        <article class="item">
+          <header><span class="mono">AM-048</span><span class="mono">Polymers</span></header>
+          <div class="drawing" aria-hidden="true">
+            <svg viewBox="0 0 240 100"><path d="M70 72L84 30H140L150 22H172V44L162 50L170 57L158 63L166 71L150 76Z"/><circle cx="104" cy="52" r="7"/><path d="M84 30L96 22H124"/></svg>
+          </div>
+          <h3>The Little Plastic Thing</h3>
+          <p>Visibly snapped off something larger. Our engineers moulded the break first and then decided against the larger object. It is the purest expression of our work.</p>
+          <dl>
+            <dt>Weight</dt><dd>0.6 g</dd>
+            <dt>Snapped from</dt><dd>Classified</dd>
+            <dt>Sharp edge</dt><dd>One, intentional</dd>
+          </dl>
+          <button class="btn identify" type="button">Attempt identification</button>
+          <p class="verdict" aria-live="polite"></p>
+        </article>
+
+        <article class="item">
+          <header><span class="mono">AM-052</span><span class="mono">Structural</span></header>
+          <div class="drawing" aria-hidden="true">
+            <svg viewBox="0 0 240 100"><path d="M60 18V82H192V68H74V18Z"/><circle cx="67" cy="34" r="3"/><circle cx="67" cy="54" r="3"/><circle cx="110" cy="75" r="3"/><circle cx="146" cy="75" r="3"/><circle cx="178" cy="75" r="3"/></svg>
+          </div>
+          <h3>The Bracket</h3>
+          <p>L-shaped, pre-drilled, and load-rated to 40 kg. Unrelated to anything in your home. Customers often keep it "in case." The case has never arrived.</p>
+          <dl>
+            <dt>Holes</dt><dd>5, irregularly spaced</dd>
+            <dt>Load rating</dt><dd>40 kg</dd>
+            <dt>Load</dt><dd>None, ever</dd>
+          </dl>
+          <button class="btn identify" type="button">Attempt identification</button>
+          <p class="verdict" aria-live="polite"></p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="label">02 / Process</p>
+        <div>
+          <h2>Ambiguity is engineered, not accidental.</h2>
+          <p>Anyone can make a thing that does nothing. Making a thing that looks like it must do something, and then making sure it does not, takes discipline.</p>
+        </div>
+      </div>
+
+      <ol class="steps">
+        <li>
+          <span class="num">Stage 01</span>
+          <div><h3>Conception</h3><p>Every object begins as a real, useful product. Our design team then removes the purpose, one feature at a time, until only the sense of a purpose remains.</p></div>
+        </li>
+        <li>
+          <span class="num">Stage 02</span>
+          <div><h3>Manufacture</h3><p>Objects are produced to tolerances of ±0.01 mm, because a vague object made carelessly is just rubbish. Ours are made carefully, which is why nobody throws them away.</p></div>
+        </li>
+        <li>
+          <span class="num">Stage 03</span>
+          <div><h3>The Identification Panel</h3><p>Every unit is shown to forty members of the public. If any one of them can say what it is for, the unit is destroyed. Our rejection rate is 31%, and we are proud of every rejection.</p></div>
+        </li>
+        <li>
+          <span class="num">Stage 04</span>
+          <div><h3>Distribution</h3><p>Our objects are not sold. They are found. Each one arrives in its drawer the way these things always have: nobody saw it happen, and nobody can say when.</p></div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="promise" class="promise">
+    <div class="wrap">
+      <p class="label">03 / The Artifact Machine Promise</p>
+      <blockquote>If you ever work out what your object is for, we will replace it with one you can't.</blockquote>
+      <p>The guarantee is unconditional and has never been claimed. We regard that as the most important figure we publish.</p>
+    </div>
+  </section>
+
+  <section id="testimonials">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="label">04 / Owners</p>
+        <div><h2>In their own words.</h2></div>
+      </div>
+      <div class="quotes">
+        <figure>
+          <blockquote>"I've moved house four times. I have never once thrown it out."</blockquote>
+          <figcaption>D., owner of AM-001 for 14 years</figcaption>
+        </figure>
+        <figure>
+          <blockquote>"It was in my father's drawer. Now it is in mine. One day it will be in my son's."</blockquote>
+          <figcaption>R., third-generation owner of AM-052</figcaption>
+        </figure>
+        <figure>
+          <blockquote>"My partner asked me what it was. I said, 'Don't.'"</blockquote>
+          <figcaption>A., owner of AM-048</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="request" class="request">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="label">05 / Request</p>
+        <div>
+          <h2>Request an object.</h2>
+          <p>Tell us which drawer. We will take it from there. You will not be notified.</p>
+        </div>
+      </div>
+      <form id="request-form" novalidate>
+        <label><span class="label">Your name</span><input name="name" type="text" autocomplete="off" placeholder="Optional. We already know."></label>
+        <label><span class="label">Drawer</span>
+          <select name="drawer">
+            <option>Kitchen, second from the top</option>
+            <option>The other kitchen drawer</option>
+            <option>Desk</option>
+            <option>Bedside table</option>
+            <option>Glove compartment</option>
+            <option>Toolbox, bottom tray</option>
+          </select>
+        </label>
+        <button class="btn primary" type="submit">Submit request</button>
+      </form>
+      <p class="result" id="request-result" aria-live="polite"></p>
+      <p class="fine">Nothing you type here leaves your browser. Artifact Machine does not need your details to find your drawer.</p>
+    </div>
+  </section>
+
 </main>
 
-<footer><div class="wrap">
-  <p><strong>Artifact Machine</strong> &mdash; measuring whether machines can read the web.</p>
-  <p>The <a href="/ai-readiness.html">check</a> and the <a href="/api.html">API</a> are free.
-     The <a href="https://apify.com/artifact-machine">Apify</a> tools are billed per result, no subscription.</p>
-</div></footer>
+<footer>
+  <div class="wrap">
+    <p>Artifact Machine accepts no responsibility for objects found in kitchen drawers, glove compartments, coat pockets, the bottom of toolboxes, or behind the dryer. Any resemblance between an Artifact Machine object and an object with a purpose is a manufacturing defect and should be reported.</p>
+    <p class="mono">© 2026 Artifact Machine</p>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const verdicts = [
+    'Panel verdict: inconclusive. Object passed.',
+    'A panelist suggested "something for a bike." Panelist dismissed. Object passed.',
+    'Panelist 14 said "oh, that\'s for the—" and then stopped. Object passed.',
+    'No consensus after 40 minutes. Object passed with distinction.',
+    'Possibly from a printer. Investigated. It was not. Object passed.',
+    'Verdict: "it goes with something." Object passed.',
+    'Two panelists left the room. Object passed.',
+    'Identification failed. Quality confirmed.'
+  ];
+  let last = -1;
+  document.querySelectorAll('.identify').forEach((button) => {
+    button.addEventListener('click', () => {
+      let i;
+      do { i = Math.floor(Math.random() * verdicts.length); } while (i === last);
+      last = i;
+      const out = button.nextElementSibling;
+      out.textContent = '';
+      requestAnimationFrame(() => { out.textContent = verdicts[i]; });
+    });
+  });
+
+  const form = document.getElementById('request-form');
+  const result = document.getElementById('request-result');
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const ref = 'AM-' + String(Math.floor(Math.random() * 900) + 100) + '-' +
+      Math.random().toString(36).slice(2, 6).toUpperCase();
+    const drawer = form.elements.drawer.value.toLowerCase();
+    result.textContent = `Request ${ref} logged for: ${drawer}. Please do not wait by the drawer. ` +
+      'Delivery cannot be observed, confirmed or prevented. You will know it has arrived when you find something you do not remember putting there.';
+  });
+})();
+</script>
 </body>
 </html>
