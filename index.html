@@ -5,16 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Artifact Machine — Manufacturers of Unidentifiable Objects</title>
   <meta name="description" content="Artifact Machine designs and manufactures the objects at the back of your drawer: the key that opens nothing, the leftover screw, the cable that fits no device. We have never made anything with a purpose.">
-  <meta name="color-scheme" content="light dark">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#0a0c0f">
   <link rel="canonical" href="https://artifactmachine.studio/">
   <meta property="og:title" content="Artifact Machine — Manufacturers of Unidentifiable Objects">
   <meta property="og:description" content="Every drawer deserves something nobody can explain.">
   <meta property="og:url" content="https://artifactmachine.studio/">
   <meta property="og:type" content="website">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='7' width='26' height='18' fill='%230b1f3a'/%3E%3Crect x='12' y='14' width='8' height='3' fill='%231d4ed8'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='7' width='26' height='18' fill='%230a0c0f' stroke='%23e9edf1' stroke-width='2'/%3E%3Crect x='12' y='14' width='8' height='3' fill='%237df0c2'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap">
   <link rel="stylesheet" href="/assets/site.css">
 </head>
 <body>
@@ -27,6 +28,7 @@
       Artifact Machine
     </a>
     <div class="mast-right">
+      <a class="status-pill" href="/status.html"><span class="dot" aria-hidden="true"></span>All systems ambiguous</a>
       <nav aria-label="Primary">
         <a href="#catalogue">Catalogue</a>
         <a href="#process">Process</a>
@@ -40,6 +42,8 @@
 <main>
 
   <div class="hero">
+    <canvas class="machine" aria-hidden="true"></canvas>
+    <canvas class="machine overlay" aria-hidden="true"></canvas>
     <div class="wrap hero-grid">
       <div class="hero-copy">
       <p class="eyebrow">Manufacturers of unidentifiable objects · Est. 2026</p>
@@ -50,27 +54,26 @@
         <a class="btn" href="#process">Our process</a>
       </div>
       </div>
-      <figure class="hero-fig">
-        <svg viewBox="0 0 400 300" aria-hidden="true">
-          <rect class="tray" x="8" y="8" width="384" height="262" rx="10"/>
-          <rect class="floor" x="24" y="24" width="352" height="230" rx="4"/>
-          <rect class="pull" x="170" y="276" width="60" height="10" rx="2"/>
-          <g class="obj" transform="translate(44 38) scale(0.72)"><circle cx="50" cy="50" r="30"/><circle cx="50" cy="50" r="9"/><path d="M80 44H210V56H200V70H190V60H178V74H166V60H152V68H140V56H80"/></g>
-          <g class="obj" transform="translate(236 40) rotate(14) scale(0.52)"><path d="M30 28H58V72H30Z"/><path d="M44 34V66"/><path d="M58 40H186L214 50L186 60H58"/><path d="M68 40L76 60M82 40L90 60M96 40L104 60M110 40L118 60M124 40L132 60M138 40L146 60M152 40L160 60M166 40L174 60"/></g>
-          <g class="obj" transform="translate(70 104) rotate(-6) scale(0.95)"><rect x="10" y="44" width="14" height="12"/><rect x="24" y="38" width="30" height="24"/><path d="M54 50C90 10 120 90 150 50S190 20 196 50"/><rect x="196" y="36" width="26" height="28"/><path d="M222 40L234 44V56L222 60"/></g>
-          <g class="obj" transform="translate(30 150) scale(0.62)"><path d="M60 18V82H192V68H74V18Z"/><circle cx="67" cy="34" r="3"/><circle cx="67" cy="54" r="3"/><circle cx="110" cy="75" r="3"/><circle cx="146" cy="75" r="3"/><circle cx="178" cy="75" r="3"/></g>
-          <g class="obj" transform="translate(150 168) rotate(-12) scale(0.6)"><path d="M70 72L84 30H140L150 22H172V44L162 50L170 57L158 63L166 71L150 76Z"/><circle cx="104" cy="52" r="7"/><path d="M84 30L96 22H124"/></g>
-          <g class="obj" transform="translate(236 158) scale(0.62)"><circle cx="120" cy="50" r="38"/><circle cx="120" cy="50" r="29"/><circle cx="108" cy="42" r="4"/><circle cx="132" cy="42" r="4"/><circle cx="120" cy="62" r="4"/></g>
-        </svg>
-        <figcaption>Fig. 1. Standard kitchen drawer, fully furnished. Contents: 6 objects. Purposes: 0.</figcaption>
-      </figure>
+      <div class="stage" aria-hidden="true">
+        <div class="hud">
+          <div class="hud-head"><span class="dot"></span>Machine 01 · Live</div>
+          <dl>
+            <div><dt>Run</dt><dd id="hud-run">#18,204,377</dd></div>
+            <div><dt>Candidate</dt><dd id="hud-cand">AM-0··</dd></div>
+            <div><dt>Form match</dt><dd id="hud-match">4.0%</dd></div>
+            <div><dt>Ambiguity</dt><dd id="hud-amb">0.9971</dd></div>
+            <div><dt>Purpose</dt><dd>Suppressed</dd></div>
+            <div><dt>Status</dt><dd id="hud-status" class="hud-status">Searching</dd></div>
+          </dl>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="figures">
     <div class="wrap">
       <dl>
-        <div><dt>Objects in circulation</dt><dd>4.1M</dd></div>
+        <div><dt><span class="dot" aria-hidden="true"></span>Objects in circulation</dt><dd id="live-count">4,102,881</dd></div>
         <div><dt>Identified by owners</dt><dd>0</dd></div>
         <div><dt>Thrown away</dt><dd>0</dd></div>
         <div><dt>Drawers served</dt><dd>2.6M</dd></div>
@@ -319,6 +322,17 @@
     });
   });
 
+  const live = document.getElementById('live-count');
+  if (live && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    let n = 4102881;
+    const tick = () => {
+      n += 1;
+      live.textContent = n.toLocaleString('en-US');
+      setTimeout(tick, 1400 + Math.random() * 2600);
+    };
+    setTimeout(tick, 2000);
+  }
+
   const form = document.getElementById('request-form');
   const result = document.getElementById('request-result');
   form.addEventListener('submit', (event) => {
@@ -331,5 +345,6 @@
   });
 })();
 </script>
+<script src="/assets/machine.js" defer></script>
 </body>
 </html>
