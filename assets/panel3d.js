@@ -1,13 +1,13 @@
 /**
- * Live panel viewer. Unit AM-001 (The Key), extruded into a wireframe and
- * rotated under a scan line, with dimension callouts and an attempt counter
- * that never produces a result.
+ * Live panel viewer. Unit AM-048 (The Little Plastic Thing), extruded into a
+ * wireframe and rotated under a scan line, with dimension callouts and an
+ * attempt counter that never produces a result.
  *
  * Canvas 2D, no dependencies. Pauses off screen; one still frame under
  * prefers-reduced-motion.
  */
 (() => {
-  const canvas = document.querySelector('canvas.key3d');
+  const canvas = document.querySelector('canvas.panel3d');
   if (!canvas || !canvas.getContext) return;
   const ctx = canvas.getContext('2d');
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -20,14 +20,13 @@
   const INK2 = rgb(css.getPropertyValue('--ink-2') || '#8e99a6');
   const SIGNAL = rgb(css.getPropertyValue('--signal') || '#7df0c2');
 
-  // ---- model: the catalogue key, extruded ----
-  const CX = 115, CY = 50, HALF_DEPTH = 6;
-  const shaft = [[80, 44], [210, 44], [210, 56], [200, 56], [200, 70], [190, 70], [190, 60], [178, 60], [178, 74], [166, 74], [166, 60], [152, 60], [152, 68], [140, 68], [140, 56], [80, 56]];
-  const ring = (r, n) => Array.from({ length: n }, (_, i) => [50 + r * Math.cos((i / n) * Math.PI * 2), 50 + r * Math.sin((i / n) * Math.PI * 2)]);
+  // ---- model: the catalogue drawing of AM-048, extruded ----
+  const CX = 121, CY = 49, HALF_DEPTH = 5;
+  const outline = [[70, 72], [84, 30], [140, 30], [150, 22], [172, 22], [172, 44], [162, 50], [170, 57], [158, 63], [166, 71], [150, 76]];
+  const ring = (cx, cy, r, n) => Array.from({ length: n }, (_, i) => [cx + r * Math.cos((i / n) * Math.PI * 2), cy + r * Math.sin((i / n) * Math.PI * 2)]);
   const loops = [
-    { pts: shaft, every: 1 },
-    { pts: ring(30, 48), every: 4 },
-    { pts: ring(9, 24), every: 4 },
+    { pts: outline, every: 1 },
+    { pts: ring(104, 52, 7, 24), every: 3 },
   ];
 
   const verts = [];
@@ -44,15 +43,15 @@
     }
   });
 
-  // Callouts: a model vertex tracked by a leader line to a fixed label slot
-  // (fractions of the viewer), so labels never collide as the model turns.
-  const outerStart = shaft.length * 2;
-  const innerStart = outerStart + 48 * 2;
+  // Callouts: a front-face vertex tracked by a leader line to a fixed label
+  // slot (fractions of the viewer), so labels never collide as the model turns.
+  const front = outline.length;
+  const holeFront = outline.length * 2 + 24;
   const callouts = [
-    [outerStart + 36, 'R 30.00', 0.14, 0.24],
-    [innerStart + 6, 'Ø 18.00', 0.14, 0.72],
-    [shaft.length + 1, 'L 130.00', 0.86, 0.24],
-    [shaft.length + 12, 'BIT 4 · 14.00', 0.86, 0.72],
+    [front + 1, 'PURPOSE · —', 0.14, 0.24],
+    [holeFront + 6, 'Ø 14.00', 0.14, 0.72],
+    [front + 4, 'TAB 22.00', 0.86, 0.24],
+    [front + 7, 'BREAK · INTENTIONAL', 0.86, 0.72],
   ];
 
   // ---- readout ----
@@ -70,7 +69,7 @@
     canvas.width = W * dpr;
     canvas.height = H * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    scale = Math.min(W / 250, H / 120) * (W < 520 ? 0.82 : 0.92);
+    scale = Math.min(W / 150, H / 90) * (W < 520 ? 0.85 : 0.72);
   }
 
   function project(v, ry, rx) {
