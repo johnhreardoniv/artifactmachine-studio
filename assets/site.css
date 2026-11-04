@@ -556,6 +556,7 @@ footer { padding: 40px 0 56px; }
 footer .wrap { display: grid; grid-template-columns: 1fr auto; gap: 24px; }
 footer p { margin: 0; font-size: 14px; color: var(--ink-2); max-width: 70ch; }
 footer .mono { color: var(--ink); }
+footer .footer-notes { display: grid; gap: 24px; }
 @media (max-width: 760px) { footer .wrap { grid-template-columns: 1fr; } }
 
 /* ---------- Status page ---------- */
