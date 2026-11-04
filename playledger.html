@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Playledger, a ledger of your Steam games — Artifact Machine</title>
+  <meta name="description" content="A free Windows app that shows where your Steam hours go, what to play next, which games you've forgotten, and what's new for the games you own.">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#0a0c0f">
+  <link rel="canonical" href="https://artifactmachine.studio/playledger.html">
+  <meta property="og:title" content="Playledger, a ledger of your Steam games">
+  <meta property="og:description" content="See where your Steam hours go, what to play next, and which games you've forgotten.">
+  <meta property="og:url" content="https://artifactmachine.studio/playledger.html">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='7' width='26' height='18' fill='%230a0c0f' stroke='%23e9edf1' stroke-width='2'/%3E%3Crect x='12' y='14' width='8' height='3' fill='%237df0c2'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="/assets/site.css">
+  <style>
+    .pl-hero { padding: clamp(48px, 8vw, 96px) 0 clamp(32px, 5vw, 56px); }
+    .pl-hero h1 { font-family: var(--display); font-weight: 300; letter-spacing: -0.035em; font-size: clamp(38px, 6vw, 68px); line-height: 1.05; margin: 0 0 24px; max-width: 16ch; }
+    .pl-hero p { margin: 0; color: var(--ink-2); font-size: 20px; line-height: 1.5; max-width: 52ch; }
+    .pl-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+    .pl-shot { display: block; border: 1px solid var(--rule-2); border-radius: var(--radius); overflow: hidden; }
+    .pl-shot img { display: block; width: 100%; height: auto; }
+    .pl-body { max-width: 68ch; padding: 24px 0 72px; }
+    .pl-body h2 { font-family: var(--display); font-weight: 400; letter-spacing: -0.02em; font-size: 28px; line-height: 1.2; margin: 56px 0 16px; }
+    .pl-body p, .pl-body li { color: var(--ink-2); }
+    .pl-body strong { color: var(--ink); font-weight: 500; }
+    .pl-body a { color: var(--ink); }
+    .pl-body ul, .pl-body ol { padding-left: 1.2em; }
+    .pl-body li { margin-bottom: 10px; }
+    .pl-body code { font: 400 15px/1.5 var(--mono); color: var(--ink); overflow-wrap: anywhere; }
+    .pl-check { padding: 14px 16px; border: 1px solid var(--rule-2); border-radius: var(--radius); background: var(--plate); }
+  </style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="wordmark" href="/" aria-label="Artifact Machine, home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="6" width="28" height="20" fill="none" stroke="currentColor" stroke-width="2.5"/><rect class="handle" x="11" y="14" width="10" height="4"/></svg>
+      Artifact Machine
+    </a>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="pl-hero">
+    <h1>Playledger, a ledger of your Steam games</h1>
+    <p>See where your hours go, what to play next, which games you've forgotten, and what's new for the games you own.</p>
+    <div class="pl-actions">
+      <a class="btn primary" href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/playledger-v0.1.0/playledger-0.1.0-windows-x64.zip">Download for Windows (35 MB)</a>
+      <a class="btn" href="/playledger-demo.html">Try it with sample data</a>
+    </div>
+  </section>
+
+  <a class="pl-shot" href="/playledger-demo.html"><img src="/assets/playledger-tonight.png" width="1360" height="850" alt="Playledger's Tonight page, with made-up games: a game to pick up again, one to try next, lifetime hours, and hours by type of game."></a>
+
+  <div class="pl-body">
+    <h2>What it does</h2>
+    <ul>
+      <li><strong>Tonight</strong> picks one game to return to and one to try, and says why.</li>
+      <li><strong>Time</strong> adds up your hours by type of game, for your whole library and for each week from the day you start it.</li>
+      <li><strong>Next up</strong> ranks your backlog, wishlist and other Steam games by how you've actually spent your time.</li>
+      <li><strong>Revisit</strong> finds the games you put serious hours into and stopped, and the ones you barely tried.</li>
+      <li><strong>News and Releases</strong> follow the games you own and the ones you're waiting for.</li>
+    </ul>
+
+    <h2>What it reads</h2>
+    <p>Playledger runs on your PC and keeps your data there, with no account and nothing to sign up for. It reads the files Steam keeps on your computer. It also asks Steam's public store and news services about your games, so Steam sees those requests. It talks to no other service, it can't change anything in Steam, and it can't log in to your account.</p>
+    <p>A free <a href="https://steamcommunity.com/dev/apikey">Steam Web API key</a> is optional. It adds achievements and any games missing from those local files.</p>
+
+    <h2>Start it</h2>
+    <ol>
+      <li>Unzip the download somewhere permanent, such as your Documents folder. You'll need Steam installed and 64-bit Windows.</li>
+      <li>Double-click <code>Playledger.exe</code>. Your browser opens the app, and a small window stays open while it runs.</li>
+      <li>To have it start quietly each time you sign in, open a Command Prompt in that folder and run <code>Playledger.exe autostart on</code>. Weekly hours only count while it's running.</li>
+    </ol>
+
+    <h2>Why Windows warns you</h2>
+    <p>This program isn't code-signed, so Windows may show "Windows protected your PC". If you trust where you got the link, choose "More info", then "Run anyway". To confirm your copy is the published one, run <code>certutil -hashfile playledger-0.1.0-windows-x64.zip SHA256</code> and compare the result with this:</p>
+    <p class="pl-check"><code>6b6d2907ecb118010038b58b579fb585d3c6ae5062b96af2cd3fa340d01b0ade</code></p>
+
+    <h2>Mac and Linux</h2>
+    <p>There's no download for them yet.</p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Playledger isn't affiliated with Valve. Steam is a trademark of Valve Corporation. Licences for the fonts and open-source code are in the zip.</p>
+    <p class="mono">© 2026 Artifact Machine</p>
+  </div>
+</footer>
+
+</body>
+</html>
