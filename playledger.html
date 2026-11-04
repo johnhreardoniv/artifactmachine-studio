@@ -51,7 +51,7 @@
     <h1>Playledger, a ledger of your Steam games</h1>
     <p>See where your hours go, what to play next, which games you've forgotten, and what's new for the games you own.</p>
     <div class="pl-actions">
-      <a class="btn primary" href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/playledger-v0.1.1/playledger-0.1.1-windows-x64.zip">Download for Windows (35 MB)</a>
+      <a class="btn primary" href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/playledger-v0.1.2/playledger-0.1.2-windows-x64.zip">Download for Windows (35 MB)</a>
       <a class="btn" href="/playledger-demo.html">Try it with sample data</a>
     </div>
   </section>
@@ -80,17 +80,20 @@
     </ol>
 
     <h2>Why Windows warns you</h2>
-    <p>This program isn't code-signed, so Windows may show "Windows protected your PC". If you trust where you got the link, choose "More info", then "Run anyway". To confirm your copy is the published one, run <code>certutil -hashfile playledger-0.1.1-windows-x64.zip SHA256</code> and compare the result with this:</p>
-    <p class="pl-check"><code>c9e7d1bd047af1a5a7c57254f54c9d8410f779a6976c3e1694e3d657f9a9afec</code></p>
+    <p>This program isn't code-signed, so Windows may show "Windows protected your PC". If you trust where you got the link, choose "More info", then "Run anyway". To confirm your copy is the published one, run <code>certutil -hashfile playledger-0.1.2-windows-x64.zip SHA256</code> and compare the result with this:</p>
+    <p class="pl-check"><code>7746e66c4f91f10f5a5df9e22bf15a8773273ecf34bbf5df459cfcef5035ee93</code></p>
 
     <h2>Mac and Linux</h2>
-    <p>There's no download for them yet.</p>
+    <p><a href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/playledger-v0.1.2/playledger-0.1.2-mac-linux.tar.gz">The Mac and Linux download</a> (0.5 MB) runs on your own copy of <a href="https://nodejs.org/">Node.js</a>, version 22.13 or newer. Unpack it somewhere permanent and run <code>node playledger.cjs</code> in that folder.</p>
+    <p>It hasn't been tried on a Mac yet. On Linux it has only been tried in a container with sample Steam files, not with Steam itself. On both, Playledger can't see which game is running, so your hours update after you stop playing and Steam saves them, with no live sessions. Starting it at sign-in is up to you, and the README shows the command.</p>
+    <p>To confirm your copy, run <code>sha256sum</code> on Linux or <code>shasum -a 256</code> on a Mac, and compare the result with this:</p>
+    <p class="pl-check"><code>28be88deba6735e34345063b020d585f2c1830d53ae8a8c649bf5896423f16ed</code></p>
   </div>
 </main>
 
 <footer>
   <div class="wrap">
-    <p>Playledger isn't affiliated with Valve. Steam is a trademark of Valve Corporation. Licences for the fonts and open-source code are in the zip.</p>
+    <p>Playledger isn't affiliated with Valve. Steam is a trademark of Valve Corporation. Licences for the fonts and open-source code are in the download.</p>
     <p class="mono">© 2026 Artifact Machine</p>
   </div>
 </footer>
