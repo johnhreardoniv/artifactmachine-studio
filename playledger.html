@@ -51,7 +51,7 @@
     <h1>Playledger, a ledger of your Steam games</h1>
     <p>See where your hours go, what to play next, which games you've forgotten, and what's new for the games you own.</p>
     <div class="pl-actions">
-      <a class="btn primary" href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/playledger-v0.1.2/playledger-0.1.2-windows-x64.zip">Download for Windows (35 MB)</a>
+      <a class="btn primary" href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/playledger-v0.2.0/playledger-0.2.0-windows-x64.zip">Download for Windows (34 MB)</a>
       <a class="btn" href="/playledger-demo.html">Try it with sample data</a>
     </div>
   </section>
@@ -62,14 +62,16 @@
     <h2>What it does</h2>
     <ul>
       <li><strong>Tonight</strong> picks one game to return to and one to try, and says why.</li>
-      <li><strong>Time</strong> adds up your hours by type of game, for your whole library and for each week from the day you start it.</li>
-      <li><strong>Next up</strong> ranks your backlog, wishlist and other Steam games by how you've actually spent your time.</li>
+      <li><strong>Time</strong> adds up your hours by type of game, for your whole library and for each week from the day you start it. Click a type to see each game in it and how it was classified.</li>
+      <li><strong>Insights</strong> shows how your taste is moving, what you leave early, what you buy and don't start, and the studios you keep returning to.</li>
+      <li><strong>Next up</strong> ranks your backlog, wishlist and other Steam games by how you've actually spent your time, and names the tags and games behind each pick. No AI model is involved.</li>
       <li><strong>Revisit</strong> finds the games you put serious hours into and stopped, and the ones you barely tried.</li>
       <li><strong>News and Releases</strong> follow the games you own and the ones you're waiting for.</li>
     </ul>
 
     <h2>What it reads</h2>
     <p>Playledger runs on your PC and keeps your data there, with no account and nothing to sign up for. It reads the files Steam keeps on your computer. It also asks Steam's public store and news services about your games, so Steam sees those requests. It talks to no other service, it can't change anything in Steam, and it can't log in to your account.</p>
+    <p>If you use other stores, it also reads what the Epic launcher and GOG Galaxy keep on your PC, and a file you export from Playnite. It never signs in to them, and it looks each title up on Steam to match it. Those games join your recommendations, and their hours stay out of your Steam time. This part has only been tested on sample files, not a real Epic or GOG library.</p>
     <p>A free <a href="https://steamcommunity.com/dev/apikey">Steam Web API key</a> is optional. It adds achievements and any games missing from those local files.</p>
 
     <h2>Start it</h2>
@@ -80,14 +82,14 @@
     </ol>
 
     <h2>Why Windows warns you</h2>
-    <p>This program isn't code-signed, so Windows may show "Windows protected your PC". If you trust where you got the link, choose "More info", then "Run anyway". To confirm your copy is the published one, run <code>certutil -hashfile playledger-0.1.2-windows-x64.zip SHA256</code> and compare the result with this:</p>
-    <p class="pl-check"><code>7746e66c4f91f10f5a5df9e22bf15a8773273ecf34bbf5df459cfcef5035ee93</code></p>
+    <p>This program isn't code-signed, so Windows may show "Windows protected your PC". If you trust where you got the link, choose "More info", then "Run anyway". To confirm your copy is the published one, run <code>certutil -hashfile playledger-0.2.0-windows-x64.zip SHA256</code> and compare the result with this:</p>
+    <p class="pl-check"><code>7fb89ba41790758b51fccc69284008a9f0b78da40e1a5c082f280d39ff099e90</code></p>
 
     <h2>Mac and Linux</h2>
-    <p><a href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/playledger-v0.1.2/playledger-0.1.2-mac-linux.tar.gz">The Mac and Linux download</a> (0.5 MB) runs on your own copy of <a href="https://nodejs.org/">Node.js</a>, version 22.13 or newer. Unpack it somewhere permanent and run <code>node playledger.cjs</code> in that folder.</p>
+    <p><a href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/playledger-v0.2.0/playledger-0.2.0-mac-linux.tar.gz">The Mac and Linux download</a> (0.4 MB) runs on your own copy of <a href="https://nodejs.org/">Node.js</a>, version 22.13 or newer. Unpack it somewhere permanent and run <code>node playledger.cjs</code> in that folder.</p>
     <p>It hasn't been tried on a Mac yet. On Linux it has only been tried in a container with sample Steam files, not with Steam itself. On both, Playledger can't see which game is running, so your hours update after you stop playing and Steam saves them, with no live sessions. Starting it at sign-in is up to you, and the README shows the command.</p>
     <p>To confirm your copy, run <code>sha256sum</code> on Linux or <code>shasum -a 256</code> on a Mac, and compare the result with this:</p>
-    <p class="pl-check"><code>28be88deba6735e34345063b020d585f2c1830d53ae8a8c649bf5896423f16ed</code></p>
+    <p class="pl-check"><code>89670f58f73fbfe368270b2654081d38133da6f5accc4238782393b1ed01be76</code></p>
   </div>
 </main>
 
