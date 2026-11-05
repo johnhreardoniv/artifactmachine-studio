@@ -33,6 +33,18 @@
     .pl-body li { margin-bottom: 10px; }
     .pl-body code { font: 400 15px/1.5 var(--mono); color: var(--ink); overflow-wrap: anywhere; }
     .pl-check { padding: 14px 16px; border: 1px solid var(--rule-2); border-radius: var(--radius); background: var(--plate); }
+    .pl-current { margin: 16px 0 0; font-size: 15px; color: var(--ink-2); }
+    .pl-current a { color: var(--ink); }
+    .pl-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 24px; margin: 32px 0 0; }
+    .pl-gallery figure { margin: 0; }
+    .pl-gallery .pl-shot { border-radius: var(--radius); }
+    .pl-gallery figcaption { margin-top: 10px; font-size: 15px; line-height: 1.5; color: var(--ink-2); }
+    .pl-gallery figcaption strong { color: var(--ink); font-weight: 500; }
+    .pl-release { margin-top: 32px; }
+    .pl-release h3 { margin: 0; font-family: var(--display); font-weight: 400; font-size: 20px; line-height: 1.3; }
+    .pl-latest { margin-left: 8px; padding: 2px 8px; border: 1px solid var(--rule-2); border-radius: var(--radius); font: 500 13px/1.4 var(--mono); color: var(--ink); vertical-align: 2px; }
+    .pl-date { margin: 4px 0 8px; font-size: 15px; }
+    @media (max-width: 720px) { .pl-gallery { grid-template-columns: minmax(0, 1fr); } }
   </style>
 </head>
 <body>
@@ -51,12 +63,32 @@
     <h1>Playledger, a ledger of your Steam games</h1>
     <p>See where your hours go, what to play next, which games you've forgotten, and what's new for the games you own.</p>
     <div class="pl-actions">
-      <a class="btn primary" href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/playledger-v0.2.0/playledger-0.2.0-windows-x64.zip">Download for Windows (34 MB)</a>
+      <a class="btn primary" href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/playledger-v0.3.0/playledger-0.3.0-windows-x64.zip">Download for Windows (<span data-size="windows">34 MB</span>)</a>
       <a class="btn" href="/playledger-demo.html">Try it with sample data</a>
     </div>
+    <div class="pl-current"><p data-current>Version 0.3.0, released November 5, 2026.</p> <a href="#releases">See what changed</a></div>
   </section>
 
   <a class="pl-shot" href="/playledger-demo.html"><img src="/assets/playledger-tonight.png" width="1360" height="850" alt="Playledger's Tonight page, with made-up games: a game to pick up again, one to try next, lifetime hours, and hours by type of game."></a>
+
+  <section class="pl-gallery" aria-label="Screenshots, all with made-up sample games">
+    <figure>
+      <a class="pl-shot" href="/playledger-demo.html#/next"><img loading="lazy" src="/assets/playledger-next.png" width="1360" height="850" alt="The Next up page: made-up games ranked, each with the tags and games behind the pick."></a>
+      <figcaption><strong>Next up</strong> ranks what to play by how you've spent your time.</figcaption>
+    </figure>
+    <figure>
+      <a class="pl-shot" href="/playledger-demo.html#/time"><img loading="lazy" src="/assets/playledger-time.png" width="1360" height="850" alt="One type of game opened from the Time page: each made-up game in it, with its hours and how it was classified."></a>
+      <figcaption><strong>Time</strong> opens any type of game to show each game in it and why it's there.</figcaption>
+    </figure>
+    <figure>
+      <a class="pl-shot" href="/playledger-demo.html#/insights"><img loading="lazy" src="/assets/playledger-insights.png" width="1360" height="850" alt="The Insights page, with made-up games, showing how taste is moving and what gets left early."></a>
+      <figcaption><strong>Insights</strong> shows how your taste is moving and what you leave early.</figcaption>
+    </figure>
+    <figure>
+      <a class="pl-shot" href="/playledger-demo.html#/stores"><img loading="lazy" src="/assets/playledger-stores.png" width="1360" height="850" alt="The Stores page: whether GOG Galaxy, Epic and Playnite are connected, with steps for connecting each one."></a>
+      <figcaption><strong>Stores</strong> says what's connected and walks you through the rest.</figcaption>
+    </figure>
+  </section>
 
   <div class="pl-body">
     <h2>What it does</h2>
@@ -67,11 +99,12 @@
       <li><strong>Next up</strong> ranks your backlog, wishlist and other Steam games by how you've actually spent your time, and names the tags and games behind each pick. No AI model is involved.</li>
       <li><strong>Revisit</strong> finds the games you put serious hours into and stopped, and the ones you barely tried.</li>
       <li><strong>News and Releases</strong> follow the games you own and the ones you're waiting for.</li>
+      <li><strong>Stores</strong> says whether GOG Galaxy, Epic and Playnite are connected, and walks you through connecting each one.</li>
     </ul>
 
     <h2>What it reads</h2>
     <p>Playledger runs on your PC and keeps your data there, with no account and nothing to sign up for. It reads the files Steam keeps on your computer. It also asks Steam's public store and news services about your games, so Steam sees those requests. It talks to no other service, it can't change anything in Steam, and it can't log in to your account.</p>
-    <p>If you use other stores, it also reads what the Epic launcher and GOG Galaxy keep on your PC, and a file you export from Playnite. It never signs in to them, and it looks each title up on Steam to match it. Those games join your recommendations, and their hours stay out of your Steam time. This part has only been tested on sample files, not a real Epic or GOG library.</p>
+    <p>If you use other stores, it also reads what the Epic launcher and GOG Galaxy keep on your PC, and a file you export from Playnite, which can also bring in Xbox, Battle.net, Ubisoft and others. It never signs in to them, and it looks each title up on Steam to match it. Those games join your recommendations, and their hours stay out of your Steam time. This part has only been tested on sample files, not a real Epic, GOG or Playnite library.</p>
     <p>A free <a href="https://steamcommunity.com/dev/apikey">Steam Web API key</a> is optional. It adds achievements and any games missing from those local files.</p>
 
     <h2>Start it</h2>
@@ -82,14 +115,44 @@
     </ol>
 
     <h2>Why Windows warns you</h2>
-    <p>This program isn't code-signed, so Windows may show "Windows protected your PC". If you trust where you got the link, choose "More info", then "Run anyway". To confirm your copy is the published one, run <code>certutil -hashfile playledger-0.2.0-windows-x64.zip SHA256</code> and compare the result with this:</p>
-    <p class="pl-check"><code>7fb89ba41790758b51fccc69284008a9f0b78da40e1a5c082f280d39ff099e90</code></p>
+    <p>This program isn't code-signed, so Windows may show "Windows protected your PC". If you trust where you got the link, choose "More info", then "Run anyway". To confirm your copy is the published one, run <code>certutil -hashfile playledger-0.3.0-windows-x64.zip SHA256</code> and compare the result with this:</p>
+    <p class="pl-check" data-sha="windows"><code>2c73ef4884d1f13b221e1f950b3d03d8fdc94f2fa5e541a5629053be4fa7e400</code></p>
 
     <h2>Mac and Linux</h2>
-    <p><a href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/playledger-v0.2.0/playledger-0.2.0-mac-linux.tar.gz">The Mac and Linux download</a> (0.4 MB) runs on your own copy of <a href="https://nodejs.org/">Node.js</a>, version 22.13 or newer. Unpack it somewhere permanent and run <code>node playledger.cjs</code> in that folder.</p>
+    <p><a href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/playledger-v0.3.0/playledger-0.3.0-mac-linux.tar.gz">The Mac and Linux download</a> (<span data-size="node">0.4 MB</span>) runs on your own copy of <a href="https://nodejs.org/">Node.js</a>, version 22.13 or newer. Unpack it somewhere permanent and run <code>node playledger.cjs</code> in that folder.</p>
     <p>It hasn't been tried on a Mac yet. On Linux it has only been tried in a container with sample Steam files, not with Steam itself. On both, Playledger can't see which game is running, so your hours update after you stop playing and Steam saves them, with no live sessions. Starting it at sign-in is up to you, and the README shows the command.</p>
     <p>To confirm your copy, run <code>sha256sum</code> on Linux or <code>shasum -a 256</code> on a Mac, and compare the result with this:</p>
-    <p class="pl-check"><code>89670f58f73fbfe368270b2654081d38133da6f5accc4238782393b1ed01be76</code></p>
+    <p class="pl-check" data-sha="node"><code>0cd13f598104dc7e7ea2bd8c6c69102d3040219f124024a7f1c6a162ee224396</code></p>
+
+    <h2 id="releases">Release history</h2>
+    <p>The buttons at the top of this page always download the newest version. To update, download it and replace the old program. Your data stays where it is.</p>
+    <!-- release-history:start -->
+<article class="pl-release">
+  <h3>Version 0.3.0 <span class="pl-latest">Latest</span></h3>
+  <p class="pl-date">November 5, 2026</p>
+  <ul><li>Click anywhere on a row of hours, including its bar, to open that type of game.</li><li>A new Stores page says whether GOG Galaxy, Epic and Playnite are connected, and walks through connecting each one.</li><li>Playnite libraries can come in through the Playnite Library Exporter extension's file. Games Playnite got from Steam are left out, since Playledger reads Steam directly.</li><li>A release history inside the app, and the sidebar shows which version you're on.</li></ul>
+</article>
+<article class="pl-release">
+  <h3>Version 0.2.0</h3>
+  <p class="pl-date">November 5, 2026</p>
+  <ul><li>A Steam-style look, with a sidebar that collapses.</li><li>Click a type of game to see each game in it and how it was classified.</li><li>A new Insights page.</li><li>Recommendations name the tags and games behind each pick.</li><li>Reads the Epic launcher, GOG Galaxy and Playnite exports. Tried on sample files only so far.</li></ul>
+</article>
+<article class="pl-release">
+  <h3>Version 0.1.2</h3>
+  <p class="pl-date">November 4, 2026</p>
+  <ul><li>A Mac and Linux download that runs on your own Node 22.13 or newer. Not tried on a Mac yet, and on Linux only in a container with sample files.</li><li>Games you no longer own stay out of your counts, Abandoned and Forgotten.</li><li>Achievements fill in faster.</li></ul>
+</article>
+<article class="pl-release">
+  <h3>Version 0.1.1</h3>
+  <p class="pl-date">November 4, 2026</p>
+  <ul><li>Types of game give more weight to specific Steam tags than to common ones like Open World.</li><li>The health check lists any job that has been failing for over a day.</li></ul>
+</article>
+<article class="pl-release">
+  <h3>Version 0.1.0</h3>
+  <p class="pl-date">November 4, 2026</p>
+  <ul><li>The first release: a ledger of your Steam games for Windows. Unzip and run Playledger.exe.</li></ul>
+</article>
+<!-- release-history:end -->
   </div>
 </main>
 
