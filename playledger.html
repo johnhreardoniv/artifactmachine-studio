@@ -63,10 +63,10 @@
     <h1>Playledger, a ledger of your Steam games</h1>
     <p>See where your hours go, what to play next, which games you've forgotten, and what's new for the games you own.</p>
     <div class="pl-actions">
-      <a class="btn primary" href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/playledger-v0.3.0/playledger-0.3.0-windows-x64.zip">Download for Windows (<span data-size="windows">34 MB</span>)</a>
+      <a class="btn primary" href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/playledger-v0.4.0/playledger-0.4.0-windows-x64.zip">Download for Windows (<span data-size="windows">34 MB</span>)</a>
       <a class="btn" href="/playledger-demo.html">Try it with sample data</a>
     </div>
-    <div class="pl-current"><p data-current>Version 0.3.0, released November 5, 2026.</p> <a href="#releases">See what changed</a></div>
+    <div class="pl-current"><p data-current>Version 0.4.0, released November 5, 2026.</p> <a href="#releases">See what changed</a></div>
   </section>
 
   <a class="pl-shot" href="/playledger-demo.html"><img src="/assets/playledger-tonight.png" width="1360" height="850" alt="Playledger's Tonight page, with made-up games: a game to pick up again, one to try next, lifetime hours, and hours by type of game."></a>
@@ -104,7 +104,7 @@
 
     <h2>What it reads</h2>
     <p>Playledger runs on your PC and keeps your data there, with no account and nothing to sign up for. It reads the files Steam keeps on your computer. It also asks Steam's public store and news services about your games, so Steam sees those requests. It talks to no other service, it can't change anything in Steam, and it can't log in to your account.</p>
-    <p>If you use other stores, it also reads what the Epic launcher and GOG Galaxy keep on your PC, and a file you export from Playnite, which can also bring in Xbox, Battle.net, Ubisoft and others. It never signs in to them, and it looks each title up on Steam to match it. Those games join your recommendations, and their hours stay out of your Steam time. This part has only been tested on sample files, not a real Epic, GOG or Playnite library.</p>
+    <p>If you use other stores, it also reads what the Epic launcher and GOG Galaxy keep on your PC, and a file you export from Playnite. Either can also bring in Xbox, Battle.net, Ubisoft and others: GOG Galaxy for stores you've linked inside it, Playnite for its library add-ons. It never signs in to them, and it looks each title up on Steam to match it. Those games join your recommendations, and their hours stay out of your Steam time. This part has only been tested on sample files, not a real Epic, GOG or Playnite library.</p>
     <p>A free <a href="https://steamcommunity.com/dev/apikey">Steam Web API key</a> is optional. It adds achievements and any games missing from those local files.</p>
 
     <h2>Start it</h2>
@@ -115,20 +115,25 @@
     </ol>
 
     <h2>Why Windows warns you</h2>
-    <p>This program isn't code-signed, so Windows may show "Windows protected your PC". If you trust where you got the link, choose "More info", then "Run anyway". To confirm your copy is the published one, run <code>certutil -hashfile playledger-0.3.0-windows-x64.zip SHA256</code> and compare the result with this:</p>
-    <p class="pl-check" data-sha="windows"><code>2c73ef4884d1f13b221e1f950b3d03d8fdc94f2fa5e541a5629053be4fa7e400</code></p>
+    <p>This program isn't code-signed, so Windows may show "Windows protected your PC". If you trust where you got the link, choose "More info", then "Run anyway". To confirm your copy is the published one, run <code>certutil -hashfile playledger-0.4.0-windows-x64.zip SHA256</code> and compare the result with this:</p>
+    <p class="pl-check" data-sha="windows"><code>994b52943e97f5f2979069cdac68a6f3146dac61cbce0d3af9312cee6e3599aa</code></p>
 
     <h2>Mac and Linux</h2>
-    <p><a href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/playledger-v0.3.0/playledger-0.3.0-mac-linux.tar.gz">The Mac and Linux download</a> (<span data-size="node">0.4 MB</span>) runs on your own copy of <a href="https://nodejs.org/">Node.js</a>, version 22.13 or newer. Unpack it somewhere permanent and run <code>node playledger.cjs</code> in that folder.</p>
+    <p><a href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/playledger-v0.4.0/playledger-0.4.0-mac-linux.tar.gz">The Mac and Linux download</a> (<span data-size="node">0.4 MB</span>) runs on your own copy of <a href="https://nodejs.org/">Node.js</a>, version 22.13 or newer. Unpack it somewhere permanent and run <code>node playledger.cjs</code> in that folder.</p>
     <p>It hasn't been tried on a Mac yet. On Linux it has only been tried in a container with sample Steam files, not with Steam itself. On both, Playledger can't see which game is running, so your hours update after you stop playing and Steam saves them, with no live sessions. Starting it at sign-in is up to you, and the README shows the command.</p>
     <p>To confirm your copy, run <code>sha256sum</code> on Linux or <code>shasum -a 256</code> on a Mac, and compare the result with this:</p>
-    <p class="pl-check" data-sha="node"><code>0cd13f598104dc7e7ea2bd8c6c69102d3040219f124024a7f1c6a162ee224396</code></p>
+    <p class="pl-check" data-sha="node"><code>cf3b0f0033745069a5dc596eff284a31bf526f3b7ec6d0b80898a0c91042ff21</code></p>
 
     <h2 id="releases">Release history</h2>
     <p>The buttons at the top of this page always download the newest version. To update, download it and replace the old program. Your data stays where it is.</p>
     <!-- release-history:start -->
 <article class="pl-release">
-  <h3>Version 0.3.0 <span class="pl-latest">Latest</span></h3>
+  <h3>Version 0.4.0 <span class="pl-latest">Latest</span></h3>
+  <p class="pl-date">November 5, 2026</p>
+  <ul><li>What to play next opens on games you already own. Wishlist, On Steam and All are one click away.</li><li>GOG Galaxy brings in the other stores you've linked in it, such as Xbox or EA, each under its own name. A game on two stores counts its larger hours, never both.</li><li>Fixed: GOG Galaxy could count games you never bought or added, and add-ons, as games you own.</li></ul>
+</article>
+<article class="pl-release">
+  <h3>Version 0.3.0</h3>
   <p class="pl-date">November 5, 2026</p>
   <ul><li>Click anywhere on a row of hours, including its bar, to open that type of game.</li><li>A new Stores page says whether GOG Galaxy, Epic and Playnite are connected, and walks through connecting each one.</li><li>Playnite libraries can come in through the Playnite Library Exporter extension's file. Games Playnite got from Steam are left out, since Playledger reads Steam directly.</li><li>A release history inside the app, and the sidebar shows which version you're on.</li></ul>
 </article>
