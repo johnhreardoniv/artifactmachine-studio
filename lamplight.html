@@ -66,10 +66,10 @@
     <p class="pl-tagline">What to play tonight, from the games you already own.</p>
     <p>See where your hours go, what to play next, which games you've forgotten, and what's new for the games you own.</p>
     <div class="pl-actions">
-      <a class="btn primary" href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/lamplight-v0.7.0/lamplight-0.7.0-windows-x64.zip">Download for Windows (<span data-size="windows">35 MB</span>)</a>
+      <a class="btn primary" href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/lamplight-v0.8.0/lamplight-0.8.0-windows-x64.zip">Download for Windows (<span data-size="windows">35 MB</span>)</a>
       <a class="btn" href="/lamplight-demo.html">Try it with sample data</a>
     </div>
-    <div class="pl-current"><p data-current>Version 0.7.0, released November 6, 2026.</p> <a href="#releases">See what changed</a></div>
+    <div class="pl-current"><p data-current>Version 0.8.0, released November 6, 2026.</p> <a href="#releases">See what changed</a></div>
   </section>
 
   <a class="pl-shot" href="/lamplight-demo.html"><img src="/assets/lamplight-tonight.png" width="1360" height="850" alt="Lamplight's Tonight page, with made-up games: a game to pick up again, one to try next, lifetime hours, and hours by type of game."></a>
@@ -120,21 +120,26 @@
     </ol>
 
     <h2>Why Windows warns you</h2>
-    <p>This program isn't code-signed, so Windows may show "Windows protected your PC". If you trust where you got the link, choose "More info", then "Run anyway". To confirm your copy is the published one, run <code>certutil -hashfile lamplight-0.7.0-windows-x64.zip SHA256</code> and compare the result with this:</p>
-    <p class="pl-check" data-sha="windows"><code>06174894d3bd7bd76ccefde799a103916851dc2faa38b2d90f2a4f31fce16b5d</code></p>
+    <p>This program isn't code-signed, so Windows may show "Windows protected your PC". If you trust where you got the link, choose "More info", then "Run anyway". To confirm your copy is the published one, run <code>certutil -hashfile lamplight-0.8.0-windows-x64.zip SHA256</code> and compare the result with this:</p>
+    <p class="pl-check" data-sha="windows"><code>35e17b36533c2ad6a566e97a92ba532326b983adec9c9f23fcf59539d81f8339</code></p>
 
     <h2>Mac and Linux</h2>
-    <p><a href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/lamplight-v0.7.0/lamplight-0.7.0-mac-linux.tar.gz">The Mac and Linux download</a> (<span data-size="node">0.4 MB</span>) runs on your own copy of <a href="https://nodejs.org/">Node.js</a>, version 22.13 or newer. Unpack it somewhere permanent and run <code>node lamplight.cjs</code> in that folder.</p>
+    <p><a href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/lamplight-v0.8.0/lamplight-0.8.0-mac-linux.tar.gz">The Mac and Linux download</a> (<span data-size="node">0.4 MB</span>) runs on your own copy of <a href="https://nodejs.org/">Node.js</a>, version 22.13 or newer. Unpack it somewhere permanent and run <code>node lamplight.cjs</code> in that folder.</p>
     <p>It hasn't been tried on a Mac yet. On Linux it has only been tried in a container with sample Steam files, not with Steam itself. On both, Lamplight can't see which game is running, so your hours update after you stop playing and Steam saves them, with no live sessions. Starting it at sign-in is up to you, and the README shows the command.</p>
     <p>To confirm your copy, run <code>sha256sum</code> on Linux or <code>shasum -a 256</code> on a Mac, and compare the result with this:</p>
-    <p class="pl-check" data-sha="node"><code>dec8c77fcd0ea659fe06af83de636f6647e121a6cc3353c5902cf38a3c1425f1</code></p>
+    <p class="pl-check" data-sha="node"><code>774db0230fe277cb8b36bbbaeb49c7df65497a1761256c1f83f6918b1f0eb817</code></p>
 
     <h2 id="releases">Release history</h2>
     <p>The buttons at the top of this page always download the newest version. To update, download it and replace the old program. Your data stays where it is.</p>
     <p>Lamplight was called Playledger until version 0.6.0. If you had Playledger, end it in Task Manager, then start Lamplight: it moves your games, hours and settings over by itself, and takes over autostart if you had it on.</p>
     <!-- release-history:start -->
 <article class="pl-release">
-  <h3>Version 0.7.0 <span class="pl-latest">Latest</span></h3>
+  <h3>Version 0.8.0 <span class="pl-latest">Latest</span></h3>
+  <p class="pl-date">November 6, 2026</p>
+  <ul><li>Invites come as links. A friend clicks one and their Lamplight opens with the code filled in; they still press Add themselves. Copy code only is there for anyone who'd rather paste.</li><li>A friend who doesn't have Lamplight yet gets a download button beside Open on the invite page, and the page keeps the code while they install it.</li><li>Make as many invites as you like, one per friend. Waiting ones are listed with when each stops working, and Cancel invite stops a code at once.</li><li>Setting up Friends now leads with joining from a friend's invite. The access-code form, only needed by whoever runs the relay, is folded away and marked Relay owner.</li></ul>
+</article>
+<article class="pl-release">
+  <h3>Version 0.7.0</h3>
   <p class="pl-date">November 6, 2026</p>
   <ul><li>Friends: pair with a friend who runs Lamplight to see what you both play, what to play together, and what they love that you haven't tried. Each pairing is just the two of you; friends of yours don't see each other.</li><li>Your card is sealed on your PC before it goes to the relay, so the relay can't read your games, your hours or your name.</li><li>An invite code works once and stops working after 7 days if nobody uses it. A friend who lost access can be sent a new one.</li><li>Friends is off until you set it up. Starting it needs an invite from a friend, or an access code from whoever runs the relay.</li></ul>
 </article>
