@@ -66,10 +66,10 @@
     <p class="pl-tagline">What to play tonight, from the games you already own.</p>
     <p>See where your hours go, what to play next, which games you've forgotten, and what's new for the games you own.</p>
     <div class="pl-actions">
-      <a class="btn primary" href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/lamplight-v0.6.0/lamplight-0.6.0-windows-x64.zip">Download for Windows (<span data-size="windows">35 MB</span>)</a>
+      <a class="btn primary" href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/lamplight-v0.7.0/lamplight-0.7.0-windows-x64.zip">Download for Windows (<span data-size="windows">35 MB</span>)</a>
       <a class="btn" href="/lamplight-demo.html">Try it with sample data</a>
     </div>
-    <div class="pl-current"><p data-current>Version 0.6.0, released November 6, 2026.</p> <a href="#releases">See what changed</a></div>
+    <div class="pl-current"><p data-current>Version 0.7.0, released November 6, 2026.</p> <a href="#releases">See what changed</a></div>
   </section>
 
   <a class="pl-shot" href="/lamplight-demo.html"><img src="/assets/lamplight-tonight.png" width="1360" height="850" alt="Lamplight's Tonight page, with made-up games: a game to pick up again, one to try next, lifetime hours, and hours by type of game."></a>
@@ -103,10 +103,12 @@
       <li><strong>Revisit</strong> finds the games you put serious hours into and stopped, and the ones you barely tried.</li>
       <li><strong>News and Releases</strong> follow the games you own and the ones you're waiting for.</li>
       <li><strong>Connections</strong> connects Steam, GOG Galaxy, Epic and Playnite from one page, with numbered setup steps for each.</li>
+      <li><strong>Friends</strong> pairs you with a friend who runs Lamplight, to see what you both play and what to play together. Each pairing is just the two of you. Off until you set it up.</li>
     </ul>
 
     <h2>What it reads</h2>
-    <p>Lamplight runs on your PC and keeps your data there, with no account and nothing to sign up for. It reads the files Steam keeps on your computer. It also asks Steam's public store and news services about your games, so Steam sees those requests. It talks to no other service, it can't change anything in Steam, and it can't log in to your account.</p>
+    <p>Lamplight runs on your PC and keeps your data there, with no account and nothing to sign up for. It reads the files Steam keeps on your computer. It also asks Steam's public store and news services about your games, so Steam sees those requests. It can't change anything in Steam, and it can't log in to your account.</p>
+    <p>The one other service is the Friends relay, and only once you set Friends up. Your games, hours and name are sealed on your PC before they go there, so the relay holds bytes it can't read. Invite codes work once and expire after 7 days unused.</p>
     <p>If you use other stores, it also reads what the Epic launcher and GOG Galaxy keep on your PC, and a file you export from Playnite. Either can also bring in Xbox, Battle.net, Ubisoft and others: GOG Galaxy for stores you've linked inside it, Playnite for its library add-ons. It never signs in to them, and it looks each title up on Steam to match it. Those games join your recommendations, and their hours stay out of your Steam time. GOG Galaxy's file has been read on one real PC; the Epic launcher's files and Playnite's export only on sample files.</p>
     <p>A free <a href="https://steamcommunity.com/dev/apikey">Steam Web API key</a> is optional. It adds achievements and any games missing from those local files.</p>
 
@@ -118,21 +120,26 @@
     </ol>
 
     <h2>Why Windows warns you</h2>
-    <p>This program isn't code-signed, so Windows may show "Windows protected your PC". If you trust where you got the link, choose "More info", then "Run anyway". To confirm your copy is the published one, run <code>certutil -hashfile lamplight-0.6.0-windows-x64.zip SHA256</code> and compare the result with this:</p>
-    <p class="pl-check" data-sha="windows"><code>83316e415e15d7d10b76928b8022a11ae67577d3f2f3ed2ee4fecdde0a1813e9</code></p>
+    <p>This program isn't code-signed, so Windows may show "Windows protected your PC". If you trust where you got the link, choose "More info", then "Run anyway". To confirm your copy is the published one, run <code>certutil -hashfile lamplight-0.7.0-windows-x64.zip SHA256</code> and compare the result with this:</p>
+    <p class="pl-check" data-sha="windows"><code>06174894d3bd7bd76ccefde799a103916851dc2faa38b2d90f2a4f31fce16b5d</code></p>
 
     <h2>Mac and Linux</h2>
-    <p><a href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/lamplight-v0.6.0/lamplight-0.6.0-mac-linux.tar.gz">The Mac and Linux download</a> (<span data-size="node">0.4 MB</span>) runs on your own copy of <a href="https://nodejs.org/">Node.js</a>, version 22.13 or newer. Unpack it somewhere permanent and run <code>node lamplight.cjs</code> in that folder.</p>
+    <p><a href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/lamplight-v0.7.0/lamplight-0.7.0-mac-linux.tar.gz">The Mac and Linux download</a> (<span data-size="node">0.4 MB</span>) runs on your own copy of <a href="https://nodejs.org/">Node.js</a>, version 22.13 or newer. Unpack it somewhere permanent and run <code>node lamplight.cjs</code> in that folder.</p>
     <p>It hasn't been tried on a Mac yet. On Linux it has only been tried in a container with sample Steam files, not with Steam itself. On both, Lamplight can't see which game is running, so your hours update after you stop playing and Steam saves them, with no live sessions. Starting it at sign-in is up to you, and the README shows the command.</p>
     <p>To confirm your copy, run <code>sha256sum</code> on Linux or <code>shasum -a 256</code> on a Mac, and compare the result with this:</p>
-    <p class="pl-check" data-sha="node"><code>67d7e905df69cb35eba90cd8f28658c9999c9edc48eeba1227b09ad2ff0b4f35</code></p>
+    <p class="pl-check" data-sha="node"><code>dec8c77fcd0ea659fe06af83de636f6647e121a6cc3353c5902cf38a3c1425f1</code></p>
 
     <h2 id="releases">Release history</h2>
     <p>The buttons at the top of this page always download the newest version. To update, download it and replace the old program. Your data stays where it is.</p>
     <p>Lamplight was called Playledger until version 0.6.0. If you had Playledger, end it in Task Manager, then start Lamplight: it moves your games, hours and settings over by itself, and takes over autostart if you had it on.</p>
     <!-- release-history:start -->
 <article class="pl-release">
-  <h3>Version 0.6.0 <span class="pl-latest">Latest</span></h3>
+  <h3>Version 0.7.0 <span class="pl-latest">Latest</span></h3>
+  <p class="pl-date">November 6, 2026</p>
+  <ul><li>Friends: pair with a friend who runs Lamplight to see what you both play, what to play together, and what they love that you haven't tried. Each pairing is just the two of you; friends of yours don't see each other.</li><li>Your card is sealed on your PC before it goes to the relay, so the relay can't read your games, your hours or your name.</li><li>An invite code works once and stops working after 7 days if nobody uses it. A friend who lost access can be sent a new one.</li><li>Friends is off until you set it up. Starting it needs an invite from a friend, or an access code from whoever runs the relay.</li></ul>
+</article>
+<article class="pl-release">
+  <h3>Version 0.6.0</h3>
   <p class="pl-date">November 6, 2026</p>
   <ul><li>Playledger is now Lamplight, with a new mark: a lamp's shade over its light.</li><li>The version and its release history moved from the sidebar to the end of Settings.</li><li>Your games, hours and settings move over by themselves the first time Lamplight starts. If autostart was on, it now starts Lamplight. End the old Playledger in Task Manager first, or it keeps your data where it was.</li></ul>
 </article>
