@@ -66,10 +66,10 @@
     <p class="pl-tagline">What to play tonight, from the games you already own.</p>
     <p>See where your hours go, what to play next, which games you've forgotten, and what's new for the games you own.</p>
     <div class="pl-actions">
-      <a class="btn primary" href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/lamplight-v0.10.0/lamplight-0.10.0-windows-x64.zip">Download for Windows (<span data-size="windows">35 MB</span>)</a>
+      <a class="btn primary" href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/lamplight-v0.11.0/lamplight-0.11.0-windows-x64.zip">Download for Windows (<span data-size="windows">35 MB</span>)</a>
       <a class="btn" href="/lamplight-demo.html">Try it with sample data</a>
     </div>
-    <div class="pl-current"><p data-current>Version 0.10.0, released November 6, 2026.</p> <a href="#releases">See what changed</a></div>
+    <div class="pl-current"><p data-current>Version 0.11.0, released November 9, 2026.</p> <a href="#releases">See what changed</a></div>
   </section>
 
   <a class="pl-shot" href="/lamplight-demo.html"><img src="/assets/lamplight-tonight.png" width="1360" height="850" alt="Lamplight's Tonight page, with made-up games: a game to pick up again, one to try next, lifetime hours, and hours by type of game."></a>
@@ -120,21 +120,26 @@
     </ol>
 
     <h2>Why Windows warns you</h2>
-    <p>This program isn't code-signed, so Windows may show "Windows protected your PC". If you trust where you got the link, choose "More info", then "Run anyway". To confirm your copy is the published one, run <code>certutil -hashfile lamplight-0.10.0-windows-x64.zip SHA256</code> and compare the result with this:</p>
-    <p class="pl-check" data-sha="windows"><code>9324ca1d3055d3da29ec3886668b04ad59e5996e5ec07f3c7c88a14a362fe75d</code></p>
+    <p>This program isn't code-signed, so Windows may show "Windows protected your PC". If you trust where you got the link, choose "More info", then "Run anyway". To confirm your copy is the published one, run <code>certutil -hashfile lamplight-0.11.0-windows-x64.zip SHA256</code> and compare the result with this:</p>
+    <p class="pl-check" data-sha="windows"><code>7f171bf5285df2ba7a99170897c23cfee5dc9bfefefe45f3fe8d5dc7f19fff08</code></p>
 
     <h2>Mac and Linux</h2>
-    <p><a href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/lamplight-v0.10.0/lamplight-0.10.0-mac-linux.tar.gz">The Mac and Linux download</a> (<span data-size="node">0.4 MB</span>) runs on your own copy of <a href="https://nodejs.org/">Node.js</a>, version 22.13 or newer. Unpack it somewhere permanent and run <code>node lamplight.cjs</code> in that folder.</p>
+    <p><a href="https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/lamplight-v0.11.0/lamplight-0.11.0-mac-linux.tar.gz">The Mac and Linux download</a> (<span data-size="node">0.4 MB</span>) runs on your own copy of <a href="https://nodejs.org/">Node.js</a>, version 22.13 or newer. Unpack it somewhere permanent and run <code>node lamplight.cjs</code> in that folder.</p>
     <p>It hasn't been tried on a Mac yet. On Linux it has only been tried in a container with sample Steam files, not with Steam itself. On both, Lamplight can't see which game is running, so your hours update after you stop playing and Steam saves them, with no live sessions. Starting it at sign-in is up to you, and the README shows the command.</p>
     <p>To confirm your copy, run <code>sha256sum</code> on Linux or <code>shasum -a 256</code> on a Mac, and compare the result with this:</p>
-    <p class="pl-check" data-sha="node"><code>37e5ca35e8cd6c3ab417499aa1b9fe953fe7018bd1897fd042002240acf5c985</code></p>
+    <p class="pl-check" data-sha="node"><code>59def6c4e7d00f5edc36c9d5e22c90514587ab4529e06b70cabad757bcb0d8f7</code></p>
 
     <h2 id="releases">Release history</h2>
     <p>The buttons at the top of this page always download the newest version. To update, download it and replace the old program. Your data stays where it is.</p>
     <p>Lamplight was called Playledger until version 0.6.0. If you had Playledger, end it in Task Manager, then start Lamplight: it moves your games, hours and settings over by itself, and takes over autostart if you had it on.</p>
     <!-- release-history:start -->
 <article class="pl-release">
-  <h3>Version 0.10.0 <span class="pl-latest">Latest</span></h3>
+  <h3>Version 0.11.0 <span class="pl-latest">Latest</span></h3>
+  <p class="pl-date">November 9, 2026</p>
+  <ul><li>Install Lamplight from inside it: it moves into your Programs folder, adds a Start menu entry and shows up in Installed apps. No admin rights. Uninstall from Installed apps without a console window, and your data stays.</li><li>Check for updates when you ask, or once a day if you turn that on (off until you do). An update is only used after its download matches the published hash.</li><li>Opened from the Start menu, Lamplight runs in its own window and stops about 15 minutes after the last window closes, so nothing runs in the background when you're not using it.</li><li>Phone view: turn it on from Add friends and open your own games, hours and backlog on your phone. It is sealed under a key only your link holds, so the relay can't read it.</li><li>Settings has tabs: Connections, Sync, Colours, Content and About. Connections moved here from the sidebar, and old links still land on the right tab.</li><li>Colour schemes in Settings: Artifact Machine stays the default, with Steam, PlayStation, Xbox, Nintendo, GOG, Epic Games, itch.io, EA and Ubisoft looks, each checked for readable contrast.</li><li>Friends opens on comparing: everyone together, then a tab per friend. Invites and your card move to Add friends.</li><li>Group rules on Friends: a rotation, a note on where you left off, vetoes by tag or game, filters for games nobody has to buy or short ones, and a weeknight reminder.</li><li>The Library shows one row per game across Steam, GOG and Epic, with the stores it's on. Playtime is the most any store reports, never the sum.</li><li>Pick one for me by mood (anything, short, with others, alone), and Next up shows the weights behind each score. Time by type of game moved into Insights, with a year in review.</li><li>A pasted Steam key saves itself, after Steam confirms it works. Matching to Steam offers Steam's closest titles as one-click buttons.</li><li>The stores re-read soon after Galaxy, Epic or a Playnite export changes, and Lamplight finds the Playnite export file itself.</li><li>Tonight shows how far setup has got until every store is connected.</li><li>Fixed: folders with accented letters in their names (like José) broke the Start menu and uninstall scripts.</li><li>The sidebar logo lost its square and is a little bigger.</li><li>Friends now uses lamplight-relay.artifactmachine.studio. Setups made earlier keep working on the old address.</li><li>No Lamplight yet for a friend? lamplight.artifactmachine.studio shows a Steam library on one page after signing in through Steam.</li></ul>
+</article>
+<article class="pl-release">
+  <h3>Version 0.10.0</h3>
   <p class="pl-date">November 6, 2026</p>
   <ul><li>Play as a group: tick up to 7 friends and see what you all own, what someone would need (or can join through one copy over Remote Play Together), free-to-play games that suit the group, games on two or more of your wishlists, and a grid of who owns what. Steam doesn't publish how many players a game takes, so check the store page before anyone buys.</li><li>Copy message puts "Want to play X tonight?" and the store link on your clipboard, ready to paste into a chat. Lamplight never sends it.</li><li>Game pages list the friends who own the game, with their hours, recent hours, and whether they liked it or are up for co-op.</li><li>Mark a game Up for co-op on its page, and it goes on your Friends card.</li><li>What to play next gives a small lift to a game a friend played a lot or liked, never enough to rank it on its own, and always says so: "Loved by: Sam, from Friends".</li><li>What friends are into lately, on the Friends page. Your card now carries your hours from the last two weeks, so friends can see what you've been playing lately.</li><li>Put my wishlist on my card shares your wishlist with friends, so a group can see what you all want. It is off until you turn it on.</li><li>New colours, after artifactmachine.studio: near-black, fine rules, one mint for links and the main button, amber for warnings.</li><li>For AI clients: a play_group tool over MCP.</li></ul>
 </article>

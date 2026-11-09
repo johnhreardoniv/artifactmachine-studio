@@ -1,0 +1,9 @@
+{
+  "version": "0.11.0",
+  "date": "2026-11-09",
+  "windows": {
+    "url": "https://github.com/johnhreardoniv/artifactmachine-studio/releases/download/lamplight-v0.11.0/lamplight-0.11.0-windows-x64.exe",
+    "sha256": "a6a4db6ab83d8901c33d6692bbc761407d79081530e9944a86eaca3e2bcec29d",
+    "bytes": 98317312
+  }
+}
