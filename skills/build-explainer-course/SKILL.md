@@ -1,11 +1,11 @@
 ---
 name: build-explainer-course
-description: Research, write, and build a practical explainer or lesson-based course with exercises, quizzes when useful, and cited media. Use when the user wants to teach a topic through an interactive page or learning sequence.
+description: Build or update an interactive explainer or course website with lessons, quizzes, media, and publishing checks. Use when the main task is implementing a web learning experience.
 ---
 
 # Build an explainer course
 
-Create a page or course that helps a specified learner do something new. Match the user's requested format and audience. A short explainer may need no quiz; a multi-lesson course usually benefits from practice and feedback.
+Build a web page or course that helps a specified learner do something new. Match the user's requested format and audience. A short explainer may need no quiz; a multi-lesson course usually benefits from practice and feedback.
 
 ## Shape the learning journey
 
