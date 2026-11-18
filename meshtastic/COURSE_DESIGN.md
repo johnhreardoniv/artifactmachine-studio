@@ -16,6 +16,7 @@ The three courses have different jobs: **understand and configure**, **operate a
 - Images should explain a real component, placement, or path, with attribution near the image. An original diagram is often more useful than a decorative photo. Video is optional and should not carry a step that the text omits.
 - A learner needs a way to tell success from appearance. A sender status, discovered node, or predicted coverage map does not prove that the intended recipient received a message.
 - The course should work without an account or external video service. Local quiz progress and static HTML keep the basic learning path usable offline. A click-to-load video pattern avoids loading external media before the learner asks for it.
+- A course landing page should expose the whole lesson map before a learner starts. Each title links to the lesson; local progress adds helpful completion marks without hiding the links. When the landing page takes over an old course URL, keep old lesson bookmarks and browser progress working.
 
 ## Build and review criteria for future explainers
 

@@ -11,6 +11,7 @@ Create a page or course that helps a specified learner do something new. Match t
 
 1. Establish the learner's starting knowledge, actual equipment or context, intended outcome, and constraints from the conversation and available project materials. Do not infer an exact product variant from a product family name.
 2. Name the capability gained at the end. For a sequence, give each course a distinct job and let its output feed the next course. Avoid repeated beginner material under a new title.
+   For a multi-course site, make the complete lesson map visible with direct links; saved progress may enhance it, but should not be required to find a lesson.
 3. For each lesson, choose one decision or skill, explain it in plain language, demonstrate it, then ask the learner to try it. The action should produce observable evidence where practical.
 4. Mark examples, predictions, and untested steps as such. Define what would prove success. A status indicator or model output is not necessarily proof of the intended outcome.
 
@@ -32,5 +33,6 @@ Create a page or course that helps a specified learner do something new. Match t
 - Follow the existing project's design, accessibility, and publishing conventions. Make navigation, lesson state, quiz feedback, and progress understandable with keyboard and screen reader use.
 - Check desktop and narrow layouts, all internal links, source links, images and credits, quiz scoring, and saved progress. Confirm the core lesson still works if external media is unavailable.
 - After publication, load the live URL and confirm the intended pages and assets, not just a successful push.
+- When introducing a course landing page to an existing site, preserve old lesson links and saved progress so returning learners reach the same content.
 
 Keep a short project-specific note about what worked, what was inferred, what remains untested, and what should change in the next iteration. Do not turn one topic's quirks into universal skill rules.
